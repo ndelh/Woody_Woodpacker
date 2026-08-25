@@ -18,7 +18,8 @@ Ini = ./init
 SRC := main.c \
 		$(Ut)/utils.c \
 		$(Ut)/print.c \
-		$(Ini)/init_core.c \
+		$(Ini)/open_fetch_map.c \
+		$(Ini)/check_prerequisite.c
 
 CC := cc
 

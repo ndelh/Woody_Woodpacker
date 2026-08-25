@@ -14,14 +14,19 @@
 
 void	woody_core(char *s, t_intel *intel)
 {
-	init_core(s, intel);
+	retrieve_ogn_map(s, intel);
+	if (!check_prerequisite(intel))
+	{
+		ft_putendl_fd("check_successfull", 1);
+	}
+	munmap(intel->ogn_begin, intel->ogn_size);
 }
 
 int	main(int ac, char **argv)
 {
 	t_intel		intel;
 	
-	if (ac < 3)
+	if (ac != 2)
 	{
 		write(1, "no\n", 3);
 		return (1);

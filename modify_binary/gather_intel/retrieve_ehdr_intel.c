@@ -52,4 +52,6 @@ void	gather_ehdr(t_intel *intel)
 {
 	fetch_basics(intel);
 	check_basics(intel);
+	iterate_phdr(intel, NULL);
+	iterate_shdr(intel, NULL);
 }

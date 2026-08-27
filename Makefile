@@ -29,6 +29,7 @@ SRC := main.c \
 		$(Ut)/boundary_check.c \
 		$(Ut)/debug_print.c \
 		$(Ut)/retrieve_longest_padding.c \
+		$(Ut)/iterate.c \
 		$(Ini)/open_fetch_map.c \
 		$(Ini)/check_prerequisite.c \
 		$(Mod)/modify_core.c  \

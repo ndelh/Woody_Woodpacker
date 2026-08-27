@@ -72,11 +72,7 @@ typedef struct s_elf_ops
 		uint64_t	(*get_pfilesz)(const void *cursor);
 		uint64_t	(*get_pmemsz)(const void *cursor);
 		uint64_t	(*get_pflags)(const void *cursor);
-		uint64_t	(*get_palign)(const void *cursor);
-
-
-
-
+		uint64_t	(*get_palign)(const void *cursor);	
 }	t_elf_ops;
 
 //extern const t_elf_ops	ops_32;
@@ -95,6 +91,9 @@ extern const t_elf_ops		ops_64;
 	//boundary check
 		bool	is_offset_oob(t_intel *intel, uint64_t offset);
 		bool	is_struct_oob(t_intel *intel, uint64_t offset, uint64_t struct_nb, uint64_t struct_size);
+	//iter throught section
+		void	iterate_phdr(t_intel *intel, void(*func)(t_intel *, void *));
+		void	iterate_shdr(t_intel *intel, void(*func)(t_intel *intel, void *));
 	//binary intel related utils
 		void	retrieve_lpad(t_lpad *lpad, t_intel *intel);
 

@@ -27,6 +27,7 @@
 
 typedef struct s_elf_navigator
 {
+	uint64_t	entry;
 	uint64_t	phdr_offset;
 	uint64_t	phdr_num;
 	uint64_t	phdr_size;
@@ -61,6 +62,7 @@ typedef struct s_elf_ops
 	uint64_t	(*get_phdr_size)(const void *ogn_map);
 	uint64_t	(*get_shdr_offset)(const void *ogn_map);
 	uint64_t	(*get_shdr_nb)(const void *ogn_map);
+	uint64_t	(*get_shdr_size)(const void *ogn_map);
 	uint64_t	(*get_shstrndx)(const void *ogn_map);
 
 }	t_elf_ops;
@@ -79,9 +81,10 @@ extern const t_elf_ops		ops_64;
 		//printf wrapper
 			void	print_int(char *s, int i);
 	//boundary check
-	bool	is_offset_in_range(t_intel *intel, uint64_t offset);
+		bool	is_offset_oob(t_intel *intel, uint64_t offset);
+		bool	is_struct_oob(t_intel *intel, uint64_t offset, uint64_t struct_nb, uint64_t struct_size);
 	//binary intel related utils
-	void	retrieve_lpad(t_lpad *lpad, t_intel *intel);
+		void	retrieve_lpad(t_lpad *lpad, t_intel *intel);
 
 
 //init
@@ -92,5 +95,14 @@ extern const t_elf_ops		ops_64;
 
 //core
 void	modify_core(t_intel *intel);
+	//intel retrieve
+		void	gather_ehdr(t_intel *intel);
+
+//debug
+	void	print_edhr_intel(t_intel *intel);
+
+//end
+void	error_end(char *msg, int code, t_intel *intel);
+
 
 #endif 

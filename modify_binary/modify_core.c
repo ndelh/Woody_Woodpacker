@@ -18,7 +18,6 @@ void	modify_core(t_intel *intel)
 
     ft_bzero(&longest_padding, sizeof(t_lpad));
 	printf("modify sucessfully entered for: %s \n", intel->binary_name);
-    retrieve_lpad(&longest_padding, intel);
-    print_int("longest padding space size", longest_padding.len);
-    print_int("longest padding offset", longest_padding.offset);
+    gather_ehdr(intel);
+    print_edhr_intel(intel);
 }

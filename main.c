@@ -12,6 +12,13 @@
 
 #include "woody_woodpacker.h"
 
+void	error_end(char *msg, int code, t_intel *intel)
+{
+	ft_perror(msg);
+	if (intel->ogn_begin)
+		munmap(intel->ogn_begin, intel->ogn_size);
+	exit (code);
+}
 
 void	woody_core(char *s, t_intel *intel)
 {

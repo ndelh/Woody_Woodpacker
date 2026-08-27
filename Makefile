@@ -15,6 +15,7 @@ NAME := woody_woodpacker
 Ut = ./utilities
 Ini = ./init
 Mod = ./modify_binary
+Gather = ./$(Mod)/gather_intel
 64_F = ./64_factory
 
 SRC := main.c \
@@ -24,10 +25,12 @@ SRC := main.c \
 		$(Ut)/utils.c \
 		$(Ut)/print.c \
 		$(Ut)/boundary_check.c \
+		$(Ut)/debug_print.c \
 		$(Ut)/retrieve_longest_padding.c \
 		$(Ini)/open_fetch_map.c \
 		$(Ini)/check_prerequisite.c \
 		$(Mod)/modify_core.c  \
+		$(Gather)/retrieve_ehdr_intel.c
 
 CC := cc
 

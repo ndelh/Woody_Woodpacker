@@ -36,6 +36,8 @@ int	is_elf(t_intel *intel)
 		ft_perror("file is not type 32 or 64");
 		return(1);
 	}
+	if (ident[EI_CLASS] == ELFCLASS64)
+		intel->elf_caster = &ops_64;
 	return (0);
 }
 

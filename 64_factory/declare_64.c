@@ -19,6 +19,7 @@ const	t_elf_ops   ops_64 = {
     .get_phdr_nb = get_phdr_nb_64,
     .get_phdr_size = get_phdr_size_64,
     .get_shdr_offset = get_shdr_offset_64,
-    .get_shdr_nb = get_shdr_size_64,
+    .get_shdr_nb = get_shdr_nb_64,
+    .get_shdr_size = get_shdr_size_64,
     .get_shstrndx = get_shstrndx_64
 };

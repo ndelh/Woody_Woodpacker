@@ -21,6 +21,7 @@
     uint64_t	get_phdr_nb_64(const void *ogn_map);
     uint64_t    get_phdr_size_64(const void *ogn_map);
     uint64_t	get_shdr_offset_64(const void *ogn_map);
+    uint64_t    get_shdr_nb_64(const void *ogn_map);
     uint64_t    get_shdr_size_64(const void *ogn_map);
     uint64_t    get_shstrndx_64(const void  *ogn_map);
 

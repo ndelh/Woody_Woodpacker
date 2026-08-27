@@ -21,6 +21,8 @@ Gather = ./$(Mod)/gather_intel
 SRC := main.c \
 		$(64_F)/main_header_utils1.c \
 		$(64_F)/main_header_utils2.c \
+		$(64_F)/phdr_utils1.c \
+		$(64_F)/phdr_utils2.c \
 		$(64_F)/declare_64.c \
 		$(Ut)/utils.c \
 		$(Ut)/print.c \

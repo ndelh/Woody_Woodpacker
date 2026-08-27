@@ -33,7 +33,7 @@ void	print_edhr_intel(t_intel *intel)
 	i = 0;
 	nav = &intel->bin_data;
 	cr(1);
-	printf("%s %lx", ehdr_tab[i++], nav->entry);
+	printf("%s 0x%lx", ehdr_tab[i++], nav->entry);
 	printf(", %s %lu\n", ehdr_tab[i++], nav->entry);
 	printf("%s %lu\n", ehdr_tab[i++], nav->phdr_offset);
 	printf("%s %lu\n", ehdr_tab[i++], nav->phdr_num);
@@ -44,3 +44,5 @@ void	print_edhr_intel(t_intel *intel)
 	printf("%s %lu\n", ehdr_tab[i++], nav->shstrndx);
 	cr(1);
 }
+
+void	print_phdr_intel(t_intel *intel);

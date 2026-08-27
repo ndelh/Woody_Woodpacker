@@ -56,14 +56,26 @@ typedef struct s_lpad
 typedef struct s_elf_ops
 {
 	// basic getter
-	uint64_t	(*get_entry)(const void *ogn_map);
-	uint64_t	(*get_phdr_offset)(const void *ogn_map);
-	uint64_t	(*get_phdr_nb)(const void *ogn_map);
-	uint64_t	(*get_phdr_size)(const void *ogn_map);
-	uint64_t	(*get_shdr_offset)(const void *ogn_map);
-	uint64_t	(*get_shdr_nb)(const void *ogn_map);
-	uint64_t	(*get_shdr_size)(const void *ogn_map);
-	uint64_t	(*get_shstrndx)(const void *ogn_map);
+		uint64_t	(*get_entry)(const void *ogn_map);
+		uint64_t	(*get_phdr_offset)(const void *ogn_map);
+		uint64_t	(*get_phdr_nb)(const void *ogn_map);
+		uint64_t	(*get_phdr_size)(const void *ogn_map);
+		uint64_t	(*get_shdr_offset)(const void *ogn_map);
+		uint64_t	(*get_shdr_nb)(const void *ogn_map);
+		uint64_t	(*get_shdr_size)(const void *ogn_map);
+		uint64_t	(*get_shstrndx)(const void *ogn_map);
+		//will do some sort, for the moment we just fetch all data in phdr
+		uint64_t	(*get_ptype)(const void *cursor);
+		uint64_t	(*get_poffsset)(const void *cursor);
+		uint64_t	(*get_pvaddr)(const void *cursor);
+		uint64_t	(*get_paddr)(const void *cursor);
+		uint64_t	(*get_pfilesz)(const void *cursor);
+		uint64_t	(*get_pmemsz)(const void *cursor);
+		uint64_t	(*get_pflags)(const void *cursor);
+		uint64_t	(*get_palign)(const void *cursor);
+
+
+
 
 }	t_elf_ops;
 

@@ -25,7 +25,6 @@ void	compute_map_size(int ogn_fd, t_intel *intel)
 	lseek(ogn_fd, begin, SEEK_SET);
 }
 
-//to do add a proper ft end to treat lseek fail and mmap fail
 
 void	mmap_binary(int fd, t_intel *intel)
 {
@@ -36,6 +35,7 @@ void	mmap_binary(int fd, t_intel *intel)
 		ft_perror("mmap failed");
 		exit(1); // need to to add proper end to this too
 	}
+	//need to check if mmap protect the overflow of ogn_begin + ogn_size otherwise add check here
 }
 
 void	retrieve_ogn_map(char *s, t_intel *intel)

@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_header_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/20 15:07:27 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/08/20 16:00:12 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/08/27 09:11:35 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/08/27 09:22:37 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "woody_woodpacker.h"
+#include "elf_64.h"
 
-
-void	woody_core(char *s, t_intel *intel)
+uint64_t	get_phdr_size_64(const void *ogn_map)
 {
-	retrieve_ogn_map(s, intel);
-	if (check_prerequisite(intel))
-		modify_core(intel);
-	munmap(intel->ogn_begin, intel->ogn_size);
+	return (((const Elf64_Ehdr *)ogn_map)->e_phentsize);
 }
 
-int	main(int ac, char **argv)
+uint64_t	get_shdr_size_64(const void *ogn_map)
 {
-	t_intel		intel;
-	
-	if (ac != 2)
-	{
-		write(1, "no\n", 3);
-		return (1);
-	}
-	ft_bzero(&intel, sizeof(struct s_intel));
-	intel.binary_name = argv[1];
-	woody_core(argv[1], &intel);
+	return (((const Elf64_Ehdr *)ogn_map)->e_shentsize);
+}
+
+uint64_t	get_shstrndx_64(const void *ogn_map)
+{
+	return (((const Elf64_Ehdr *)ogn_map)->e_shstrndx);
 }

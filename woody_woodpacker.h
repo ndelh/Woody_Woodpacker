@@ -24,13 +24,26 @@
 # include <elf.h>
 # include <stdbool.h>
 
+
+typedef struct s_elf_navigator
+{
+	uint64_t	phdr_offset;
+	uint64_t	phdr_num;
+	uint64_t	phdr_size;
+	uint64_t	shdr_offset;
+	uint64_t	shdr_num;
+	uint64_t	shdr_size;
+	uint64_t	shstrndx;
+}	t_elf_navigator;
+
+
 typedef struct	s_intel
 {
-	int		woody_fd;
-	uint64_t	ogn_size;
-	void		*ogn_begin;
-	bool		is_64;
-
+	uint64_t				ogn_size;
+	void					*ogn_begin;
+	char					*binary_name;
+	const struct s_elf_ops	*elf_caster;
+	t_elf_navigator			bin_data;
 }	t_intel;
 
 typedef struct s_lpad
@@ -39,6 +52,21 @@ typedef struct s_lpad
 	int offset;
 }	t_lpad;
 
+typedef struct s_elf_ops
+{
+	// basic getter
+	uint64_t	(*get_entry)(const void *ogn_map);
+	uint64_t	(*get_phdr_offset)(const void *ogn_map);
+	uint64_t	(*get_phdr_nb)(const void *ogn_map);
+	uint64_t	(*get_phdr_size)(const void *ogn_map);
+	uint64_t	(*get_shdr_offset)(const void *ogn_map);
+	uint64_t	(*get_shdr_nb)(const void *ogn_map);
+	uint64_t	(*get_shstrndx)(const void *ogn_map);
+
+}	t_elf_ops;
+
+//extern const t_elf_ops	ops_32;
+extern const t_elf_ops		ops_64;
 
 //utilitaries
 	//pure utils
@@ -50,6 +78,10 @@ typedef struct s_lpad
 	void	cr(int fd);
 		//printf wrapper
 			void	print_int(char *s, int i);
+	//boundary check
+	bool	is_offset_in_range(t_intel *intel, uint64_t offset);
+	//binary intel related utils
+	void	retrieve_lpad(t_lpad *lpad, t_intel *intel);
 
 
 //init
@@ -58,5 +90,7 @@ typedef struct s_lpad
 	//is_file_valid
 	int	check_prerequisite(t_intel *intel);
 
+//core
+void	modify_core(t_intel *intel);
 
 #endif 

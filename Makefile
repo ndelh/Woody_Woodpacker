@@ -14,12 +14,20 @@ NAME := woody_woodpacker
 
 Ut = ./utilities
 Ini = ./init
+Mod = ./modify_binary
+64_F = ./64_factory
 
 SRC := main.c \
+		$(64_F)/main_header_utils1.c \
+		$(64_F)/main_header_utils2.c \
+		$(64_F)/declare_64.c \
 		$(Ut)/utils.c \
 		$(Ut)/print.c \
+		$(Ut)/boundary_check.c \
+		$(Ut)/retrieve_longest_padding.c \
 		$(Ini)/open_fetch_map.c \
-		$(Ini)/check_prerequisite.c
+		$(Ini)/check_prerequisite.c \
+		$(Mod)/modify_core.c  \
 
 CC := cc
 

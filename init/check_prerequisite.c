@@ -12,6 +12,8 @@
 
 #include "../woody_woodpacker.h"
 
+
+
 int	is_elf(t_intel *intel)
 {
 	Elf64_Ehdr	*cursor;
@@ -34,8 +36,6 @@ int	is_elf(t_intel *intel)
 		ft_perror("file is not type 32 or 64");
 		return(1);
 	}
-	if (ident[EI_CLASS] == ELFCLASS64)
-		intel->is_64 = 1;
 	return (0);
 }
 
@@ -44,11 +44,6 @@ int	check_edge_case(t_intel *intel)
 	Elf64_Ehdr	*cursor;
 	unsigned char		*ident;
 
-	if (intel->is_64 && intel->ogn_size < sizeof(Elf64_Ehdr))
-	{
-		ft_perror("file to short to be an elf64 file");
-		return(1);
-	}
 	cursor = (Elf64_Ehdr *)intel->ogn_begin;
 	ident = cursor->e_ident;
 	if (ident[EI_DATA] != ELFDATA2LSB)

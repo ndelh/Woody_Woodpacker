@@ -25,6 +25,7 @@ void	ft_putendl_fd(char *s, int fd)
 
 void	print_int(char *s, int i)
 {
-	ft_putendl_fd(s, 1);
+	if (s)
+		write(1, s, ft_strlen(s));
 	printf(": %d\n", i);
 }

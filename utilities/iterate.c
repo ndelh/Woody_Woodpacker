@@ -12,7 +12,6 @@
 
 #include "../woody_woodpacker.h"
 
-
 void	iterate_phdr(t_intel *intel, void(*func)(t_intel *, void *))
 {
 	unsigned char	*cursor;

@@ -111,6 +111,7 @@ void	modify_core(t_intel *intel);
 
 //debug
 	void	print_edhr_intel(t_intel *intel);
+	void	print_phdr_intel(t_intel *intel, void *cursor);
 
 //end
 void	error_end(char *msg, int code, t_intel *intel);

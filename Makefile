@@ -33,6 +33,7 @@ SRC := main.c \
 		$(Ut)/retrieve_longest_padding.c \
 		$(Ut)/iterate.c \
 		$(Ut)/shdr_wrapped_utils.c \
+		$(Ut)/stub_wrapped_utilies.c \
 		$(Ini)/open_fetch_map.c \
 		$(Ini)/check_prerequisite.c \
 		$(Mod)/modify_core.c  \

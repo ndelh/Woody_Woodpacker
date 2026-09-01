@@ -43,5 +43,4 @@ const	t_elf_ops   ops_64 = {
     .get_shinfo = get_sh_info_64,
     .get_shaddralign = get_sh_addralign_64,
     .get_shentsize = get_sh_entsize_64,
-
 };

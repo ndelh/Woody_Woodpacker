@@ -51,19 +51,18 @@ int		ft_memcmp(const void *v1, const void *v2, size_t n)
 	return (0);
 }
 
-char	*ft_strjoin(char *a, char *b)
+void	ft_memcpy(void *dest, const void *src, size_t n)
 {
-		int len;
-		char *s;
-		char *cursor;
+	const unsigned char	*s1;
+	unsigned char		*d2;
 
-		len = ft_strlen(a) + ft_strlen(b);
-		s = malloc(sizeof(char) * len + 1);
-		cursor = s;
-		while (*a)
-			*(cursor++) = *(a++);
-		while (*b)
-			*(cursor++) = *(b++);
-		*cursor = 0;
-		return s;
+	s1 = (unsigned char *)src;
+	d2 = (unsigned char *)dest;
+
+	while (n--)
+	{
+		*d2 = *s1;
+		++s1;
+		++d2;
+	}
 }

@@ -56,3 +56,21 @@ unsigned char	*retrieve_shdr_name(t_intel *intel, void *cursor)
 		return (NULL);
 	return (nav->strtab_begin + name_offset);
 }
+
+void	retrieve_txt_shdr(t_intel *intel, void *cursor)
+{
+		t_stub_loader	*stub_loader;
+		const t_elf_ops		*elf_caster;
+		unsigned char	*content_begin;
+
+		if (ft_memcmp(retrieve_shdr_name(intel, cursor), ".text", 6))
+			return ;
+		elf_caster = intel->elf_caster;
+		stub_loader = &intel->stub_loader;
+		stub_loader->shdr_header_inject = cursor;
+		printf("calculated .text offset %lx", elf_caster->get_shoffset(cursor));
+		stub_loader->content_size = elf_caster->get_shsize(cursor);
+		content_begin = (unsigned char *)intel->ogn_begin;
+		content_begin += elf_caster->get_shoffset(cursor);
+		stub_loader->content_begin = content_begin;
+}

@@ -15,12 +15,17 @@
 # define STUB64 "stub/stub64.o"
 # define STUB32 "stub/stub32.o"
 
+// void	find_place_holder(t_stub_loader *stub_loader)
+// {
+// 	unsigned char *s()
+// }
 
-void	gather_stub_payload(t_intel *intel, void *cursor)
+void	gather_stub_payload(t_intel *intel, t_intel *stub)
 {
-
-	if (!ft_memcmp(retrieve_shdr_name(intel, cursor), ".text", ft_strlen(".text")))
-		printf("found\n");
+	iterate_shdr(stub, retrieve_txt_shdr);
+	printf("size: %lx\n", stub->stub_loader.content_size);
+	retrieve_placeholder(stub);
+	(void)intel;
 }
 
 void	gather_stub_intel(t_intel *intel, t_intel *stub)
@@ -39,6 +44,5 @@ void	gather_stub_intel(t_intel *intel, t_intel *stub)
 	ft_putendl_fd("stub intel", 1);
 	gather_ehdr(stub);
 	print_edhr_intel(stub);
-	// iterate_phdr(stub, print_phdr_intel);
-	iterate_shdr(stub, gather_stub_payload);
+	gather_stub_payload(intel, stub);
 }

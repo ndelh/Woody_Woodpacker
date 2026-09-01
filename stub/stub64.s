@@ -33,7 +33,7 @@ mov rdi, 1
 mov rsi, rsp
 mov rdx, 14
 syscall 
-add rsp, 16 ;restoring pile after using it for hardocing "...WOODY...\n"
+add rsp, 16 ;restoring pile after using it for hardcoding "...WOODY...\n"
 
 restore_pile:
 pop r15

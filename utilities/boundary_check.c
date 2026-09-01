@@ -52,3 +52,13 @@ bool	is_struct_oob(t_intel *intel, uint64_t offset, uint64_t struct_nb, uint64_t
 	total_struct_size += offset;
 	return (intel->ogn_size < total_struct_size);
 }
+
+bool	is_strtab_invalid(unsigned char *s, size_t len)
+{
+	if (*s || !len)
+		return (1);
+	s += len;
+	if (*s)
+		return (1);
+	return (0);
+}

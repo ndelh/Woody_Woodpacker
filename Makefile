@@ -21,6 +21,8 @@ Gather = ./$(Mod)/gather_intel
 SRC := main.c \
 		$(64_F)/main_header_utils1.c \
 		$(64_F)/main_header_utils2.c \
+		$(64_F)/shdr_utils1.c \
+		$(64_F)/shdr_utils2.c \
 		$(64_F)/phdr_utils1.c \
 		$(64_F)/phdr_utils2.c \
 		$(64_F)/declare_64.c \
@@ -33,7 +35,8 @@ SRC := main.c \
 		$(Ini)/open_fetch_map.c \
 		$(Ini)/check_prerequisite.c \
 		$(Mod)/modify_core.c  \
-		$(Gather)/retrieve_ehdr_intel.c
+		$(Gather)/retrieve_ehdr_intel.c \
+		$(Gather)/retrieve_stub.c
 
 CC := cc
 

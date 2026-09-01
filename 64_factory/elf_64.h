@@ -16,20 +16,33 @@
 # include <elf.h>
 
 //getter
-    uint64_t	get_entry_64(const void *ogn_map);
-    uint64_t	get_phdr_offset_64(const void *ogn_map);
-    uint64_t	get_phdr_nb_64(const void *ogn_map);
-    uint64_t    get_phdr_size_64(const void *ogn_map);
-    uint64_t	get_shdr_offset_64(const void *ogn_map);
-    uint64_t    get_shdr_nb_64(const void *ogn_map);
-    uint64_t    get_shdr_size_64(const void *ogn_map);
-    uint64_t    get_shstrndx_64(const void  *ogn_map);
-    uint64_t    get_ptype_64(const void *cursor);
-    uint64_t    get_poffset_64(const void *cursor);
-    uint64_t    get_pvaddr_64(const void *cursor);
-    uint64_t    get_paddr_64(const void *cursor);
-    uint64_t    get_pfilesz_64(const void *cursor);
-    uint64_t    get_pmemsz_64(const void *cursor);
-    uint64_t    get_pflags_64(const void *cursor);
-    uint64_t    get_palign_64(const void *cursor);
+    //main header
+        uint64_t	get_entry_64(const void *ogn_map);
+        uint64_t	get_phdr_offset_64(const void *ogn_map);
+        uint64_t	get_phdr_nb_64(const void *ogn_map);
+        uint64_t    get_phdr_size_64(const void *ogn_map);
+        uint64_t	get_shdr_offset_64(const void *ogn_map);
+        uint64_t    get_shdr_nb_64(const void *ogn_map);
+        uint64_t    get_shdr_size_64(const void *ogn_map);
+    //program header
+        uint64_t    get_shstrndx_64(const void  *ogn_map);
+        uint64_t    get_ptype_64(const void *cursor);
+        uint64_t    get_poffset_64(const void *cursor);
+        uint64_t    get_pvaddr_64(const void *cursor);
+        uint64_t    get_paddr_64(const void *cursor);
+        uint64_t    get_pfilesz_64(const void *cursor);
+        uint64_t    get_pmemsz_64(const void *cursor);
+        uint64_t    get_pflags_64(const void *cursor);
+        uint64_t    get_palign_64(const void *cursor);
+    //section header
+        uint64_t	get_sh_name_64(const void *cursor);
+        uint64_t	get_sh_type_64(const void *cursor);
+        uint64_t	get_sh_flags_64(const void *cursor);
+        uint64_t	get_sh_addr_64(const void *cursor);
+        uint64_t	get_sh_offset_64(const void *cursor);
+        uint64_t	get_sh_size_64(const void *cursor);
+        uint64_t	get_sh_link_64(const void *cursor);
+        uint64_t	get_sh_info_64(const void *cursor);
+        uint64_t	get_sh_addralign_64(const void *cursor);
+        uint64_t	get_sh_entsize_64(const void *cursor);
 #endif

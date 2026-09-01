@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   modify_core.c                                      :+:      :+:    :+:   */
+/*   retrieve_stub_content.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/26 18:27:45 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/08/26 18:28:00 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/08/31 17:47:22 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/08/31 18:35:43 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../woody_woodpacker.h"
 
-void	modify_core(t_intel *intel)
-{
-    t_intel stub;
 
-	printf("intel for: %s \n", intel->binary_name);
-    gather_ehdr(intel);
-    print_edhr_intel(intel);
-    ft_bzero(&stub, sizeof(t_intel));
-    gather_stub_intel(intel, &stub);
+void	retrieve_stub_content(t_intel *stub, void *cursor)
+{
+	t_elf_ops	*elf_caster;
+
+	elf_caster = &stub->elf_caster;
+	
 }

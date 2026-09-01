@@ -37,6 +37,12 @@ typedef struct s_elf_navigator
 	uint64_t	shstrndx;
 }	t_elf_navigator;
 
+typedef struct	s_stub_loader
+{
+	void		*to_inject;
+	uint64_t	*injection_size;
+}	t_stub_loader;
+
 
 typedef struct	s_intel
 {
@@ -72,7 +78,18 @@ typedef struct s_elf_ops
 		uint64_t	(*get_pfilesz)(const void *cursor);
 		uint64_t	(*get_pmemsz)(const void *cursor);
 		uint64_t	(*get_pflags)(const void *cursor);
-		uint64_t	(*get_palign)(const void *cursor);	
+		uint64_t	(*get_palign)(const void *cursor);
+		//section header getter
+		uint64_t	(*get_shname)(const void *cursor);
+		uint64_t	(*get_shtype)(const void *cursor);
+		uint64_t	(*get_shflags)(const void *cursor);
+		uint64_t	(*get_shaddr)(const void *cursor);
+		uint64_t	(*get_shoffset)(const void *cursor);
+		uint64_t	(*get_shsize)(const void *cursor);
+		uint64_t	(*get_shlink)(const void *cursor);
+		uint64_t	(*get_shinfo)(const void *cursor);
+		uint64_t	(*get_shaddralign)(const void *cursor);
+		uint64_t	(*get_shentsize)(const void *cursor);
 }	t_elf_ops;
 
 //extern const t_elf_ops	ops_32;
@@ -89,6 +106,7 @@ extern const t_elf_ops		ops_64;
 		//printf wrapper
 			void	print_int(char *s, int i);
 	//boundary check
+		bool	is_strtab_invalid(unsigned char * s, size_t len);
 		bool	is_offset_oob(t_intel *intel, uint64_t offset);
 		bool	is_struct_oob(t_intel *intel, uint64_t offset, uint64_t struct_nb, uint64_t struct_size);
 	//iter throught section
@@ -108,6 +126,7 @@ extern const t_elf_ops		ops_64;
 void	modify_core(t_intel *intel);
 	//intel retrieve
 		void	gather_ehdr(t_intel *intel);
+		void	gather_stub_intel(t_intel *intel, t_intel *stub);
 
 //debug
 	void	print_edhr_intel(t_intel *intel);
@@ -115,6 +134,5 @@ void	modify_core(t_intel *intel);
 
 //end
 void	error_end(char *msg, int code, t_intel *intel);
-
 
 #endif 

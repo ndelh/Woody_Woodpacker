@@ -35,8 +35,6 @@ void	count_loop(char **cursor, char *end, char *begin, t_lpad *lpad)
 		lpad->len = current_len;
 		lpad->offset = reminder-begin;
 	}
-
-
 }
 
 void	find_bigest(t_lpad *lpad, char *cursor, char *end, char *begin)

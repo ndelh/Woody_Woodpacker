@@ -15,7 +15,7 @@
 void	error_end(char *msg, int code, t_intel *intel)
 {
 	ft_perror(msg);
-	if (intel->ogn_begin)
+	if (intel->ogn_begin && intel->ogn_begin != MAP_FAILED)
 		munmap(intel->ogn_begin, intel->ogn_size);
 	exit (code);
 }

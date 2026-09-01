@@ -20,5 +20,6 @@ void	modify_core(t_intel *intel)
     gather_ehdr(intel);
     print_edhr_intel(intel);
     ft_bzero(&stub, sizeof(t_intel));
+    //stub.binary_name = STUBNAME;
     gather_stub_intel(intel, &stub);
 }

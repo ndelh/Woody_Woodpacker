@@ -14,6 +14,7 @@
 # define WOODY_WOODPACKER_H
 
 # define ft_perror(x) ft_putendl_fd(x, 2)
+# define STUBNAME "stub"
 
 # include <sys/mman.h>
 # include <unistd.h>
@@ -23,7 +24,6 @@
 # include <stdio.h>
 # include <elf.h>
 # include <stdbool.h>
-
 
 typedef struct s_elf_navigator
 {
@@ -35,6 +35,8 @@ typedef struct s_elf_navigator
 	uint64_t	shdr_num;
 	uint64_t	shdr_size;
 	uint64_t	shstrndx;
+	unsigned char	*strtab_begin;
+	uint64_t		strtab_len;
 }	t_elf_navigator;
 
 typedef struct	s_stub_loader
@@ -99,7 +101,7 @@ extern const t_elf_ops		ops_64;
 	//pure utils
 	int		ft_strlen(char *s);
 	void	ft_bzero(void *s, size_t n);
-	int	ft_memcmp(const void *s1, const void *s2, size_t n);
+	int		ft_memcmp(const void *v1, const void *v2, size_t n);
 	//print_utils
 	void	ft_putendl_fd(char *s, int fd);
 	void	cr(int fd);
@@ -113,8 +115,8 @@ extern const t_elf_ops		ops_64;
 		void	iterate_phdr(t_intel *intel, void(*func)(t_intel *, void *));
 		void	iterate_shdr(t_intel *intel, void(*func)(t_intel *intel, void *));
 	//binary intel related utils
-		void	retrieve_lpad(t_lpad *lpad, t_intel *intel);
-
+		void			retrieve_lpad(t_lpad *lpad, t_intel *intel);
+		unsigned char	*retrieve_shdr_name(t_intel *intel, void *cursor);
 
 //init
 	//map_init
@@ -127,10 +129,12 @@ void	modify_core(t_intel *intel);
 	//intel retrieve
 		void	gather_ehdr(t_intel *intel);
 		void	gather_stub_intel(t_intel *intel, t_intel *stub);
+		bool	retrieve_strtab(t_intel *intel);
 
 //debug
 	void	print_edhr_intel(t_intel *intel);
 	void	print_phdr_intel(t_intel *intel, void *cursor);
+	void	print_strtab(t_intel *intel);
 
 //end
 void	error_end(char *msg, int code, t_intel *intel);

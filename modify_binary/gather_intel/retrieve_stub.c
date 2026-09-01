@@ -15,6 +15,14 @@
 # define STUB64 "stub/stub64.o"
 # define STUB32 "stub/stub32.o"
 
+
+void	gather_stub_payload(t_intel *intel, void *cursor)
+{
+
+	if (!ft_memcmp(retrieve_shdr_name(intel, cursor), ".text", ft_strlen(".text")))
+		printf("found\n");
+}
+
 void	gather_stub_intel(t_intel *intel, t_intel *stub)
 {
 	if (intel->elf_caster == &ops_64)
@@ -31,5 +39,6 @@ void	gather_stub_intel(t_intel *intel, t_intel *stub)
 	ft_putendl_fd("stub intel", 1);
 	gather_ehdr(stub);
 	print_edhr_intel(stub);
-	iterate_phdr(stub, print_phdr_intel);
+	// iterate_phdr(stub, print_phdr_intel);
+	iterate_shdr(stub, gather_stub_payload);
 }

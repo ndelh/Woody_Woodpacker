@@ -99,3 +99,27 @@ void	print_phdr_intel(t_intel *intel, void *cursor)
 	printf("%s %lu\n", phdr_tab[j++], caster->get_palign(cursor));
 	cr(1);
 }
+
+void	print_strtab(t_intel *intel)
+{
+	t_elf_navigator	*nav;
+	uint64_t		len;
+	unsigned char	*cursor;
+
+	nav = &intel->bin_data;
+	len = nav->strtab_len;
+	printf("printlen %lu\n", len);
+	cursor = nav->strtab_begin;
+	cr(1);
+	printf("strtab of: %s\n", intel->binary_name);
+	while (len)
+	{
+		if (*cursor)
+			write(1, cursor, 1);
+		else
+			write(1, "\n", 1);
+		++cursor;
+		--len;
+	}
+	cr(1);
+}

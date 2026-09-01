@@ -34,22 +34,21 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-int		ft_memcmp(const void *s1, const void *s2, size_t n)
+int		ft_memcmp(const void *v1, const void *v2, size_t n)
 {
-	const unsigned char	*a;
-	const unsigned char	*b;
-
-	a = (const unsigned char *)s1;
-	b = (const unsigned char *)s2;
-
+	unsigned char	*s1;
+	unsigned char	*s2;
+	
+	s1 = (unsigned char *)v1;
+	s2 = (unsigned char *)v2;
 	while (n--)
 	{
-		if  (*a != *b)
-			return (*a - *b);
-		++a;
-		++b;
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		++s2;
+		++s1;
 	}
-	return 0;
+	return (0);
 }
 
 char	*ft_strjoin(char *a, char *b)

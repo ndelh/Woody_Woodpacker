@@ -52,6 +52,5 @@ void	gather_ehdr(t_intel *intel)
 {
 	fetch_basics(intel);
 	check_basics(intel);
-	iterate_phdr(intel, print_phdr_intel);
-	iterate_shdr(intel, NULL);
+	retrieve_strtab(intel);
 }

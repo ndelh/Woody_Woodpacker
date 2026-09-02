@@ -21,11 +21,11 @@ bool	count_placeholder(unsigned char *cursor, uint64_t len, uint64_t compare)
 {
 		uint64_t remaining;
 		
-		if (len < 8)
+		remaining = PLACEHOLDERNB - 1;
+		if (len < 8 && remaining)
 			return (false);
 		len -= 8;
 		cursor += 8;
-		remaining = PLACEHOLDERNB - 1;
 		while (len >= 8)
 		{
 			ft_memcpy(&compare, cursor, 8);

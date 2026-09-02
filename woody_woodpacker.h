@@ -17,6 +17,8 @@
 # define STUBNAME "stub"
 # define PLACEHOLDERNB	5
 #define PLACEHOLDER 0x1122334455667788ULL
+
+	# include <sys/syscall.h>
 # include <sys/mman.h>
 # include <unistd.h>
 # include <stdint.h>
@@ -129,7 +131,10 @@ extern const t_elf_ops		ops_64;
 	//binary intel related utils
 		void			retrieve_lpad(t_lpad *lpad, t_intel *intel);
 		unsigned char	*retrieve_shdr_name(t_intel *intel, void *cursor);
+		uint64_t     	extension_space(t_intel *intel);
 		bool			retrieve_placeholder(t_intel *intel);
+	//data acquisition for merging binaires
+		void			fetch_modify_need(t_intel *intel, t_intel *stub);
 //init
 
 	//map_init
@@ -146,6 +151,10 @@ void	modify_core(t_intel *intel);
 		void	gather_stub_intel(t_intel *intel, t_intel *stub);
 		void	retrieve_txt_shdr(t_intel *intel, void *cursor);
 		bool	retrieve_strtab(t_intel *intel);
+	
+	//modifier
+		void	shdr_destruct(t_intel *intel, void *cursor);
+		void	reproduce(t_intel *intel);
 
 //debug
 	void	print_edhr_intel(t_intel *intel);

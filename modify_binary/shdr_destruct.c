@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   modify_core.c                                      :+:      :+:    :+:   */
+/*   shdr_destruct.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/26 18:27:45 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/08/26 18:28:00 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/02 18:16:46 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/02 18:26:20 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../woody_woodpacker.h"
 
-void	modify_core(t_intel *intel)
+void	shdr_destruct(t_intel *intel, void *cursor)
 {
-    t_intel stub;
+	unsigned char	*content_cursor;
+	uint64_t	content_size;
+	uint64_t	content_offset;
 
-	printf("intel for: %s \n", intel->binary_name);
-    gather_ehdr(intel);
-    print_edhr_intel(intel);
-    ft_bzero(&stub, sizeof(t_intel));
-    stub.binary_name = STUBNAME;
-    gather_stub_intel(intel, &stub);
-    fetch_modify_need(intel, &stub);
-    reproduce(intel);
+	content_cursor = intel->ogn_begin;
+	content_offset = intel->elf_caster->get_shoffset(cursor);
+	content_size = intel->elf_caster->get_shentsize(cursor);
+	content_cursor += content_offset;
+	ft_bzero(content_cursor, content_size);
+	ft_bzero(cursor, intel->bin_data.phdr_size);
 }

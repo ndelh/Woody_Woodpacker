@@ -43,4 +43,15 @@ const	t_elf_ops   ops_64 = {
     .get_shinfo = get_sh_info_64,
     .get_shaddralign = get_sh_addralign_64,
     .get_shentsize = get_sh_entsize_64,
+    //ehdr setter
+    .set_entry = set_entry_64,
+    .set_phdr_offset = set_phdr_offset_64,
+    .set_phdr_nb = set_phdr_nb_64,
+    .set_phdr_size = set_phdr_size_64,
+    .set_shdr_offset = set_shdr_offset_64,
+    .set_shdr_nb = set_shdr_nb_64,
+    .set_shdr_size = set_shdr_size_64,
+    .set_shstrndx = set_shstrndx_64,
+    //modifier
+    .write_stub_phdr = write_stub_phdr_64,
 };

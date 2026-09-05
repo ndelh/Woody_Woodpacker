@@ -25,6 +25,8 @@ SRC := main.c \
 		$(64_F)/shdr_utils2.c \
 		$(64_F)/phdr_utils1.c \
 		$(64_F)/phdr_utils2.c \
+		$(64_F)/main_header_setter.c \
+		$(64_F)/write_stub_phdr.c \
 		$(64_F)/declare_64.c \
 		$(Ut)/utils.c \
 		$(Ut)/print.c \
@@ -39,6 +41,7 @@ SRC := main.c \
 		$(Ini)/check_prerequisite.c \
 		$(Mod)/modify_core.c  \
 		$(Mod)/reproduce.c \
+		$(Mod)/shdr_destruct.c \
 		$(Gather)/retrieve_ehdr_intel.c \
 		$(Gather)/retrieve_stub.c \
 		$(Gather)/fetch_modify_need.c

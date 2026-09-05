@@ -22,6 +22,6 @@ void	shdr_destruct(t_intel *intel, void *cursor)
 	content_offset = intel->elf_caster->get_shoffset(cursor);
 	content_size = intel->elf_caster->get_shentsize(cursor);
 	content_cursor += content_offset;
-	ft_bzero(content_cursor, content_size);
+	//ft_bzero(content_cursor, content_size); //clean must be cleaner because some array are shared between shdr and phdr
 	ft_bzero(cursor, intel->bin_data.phdr_size);
 }

@@ -16,9 +16,10 @@
 # define ft_perror(x) ft_putendl_fd(x, 2)
 # define STUBNAME "stub"
 # define PLACEHOLDERNB	5
+# define PAGESIZE 4096
 #define PLACEHOLDER 0x1122334455667788ULL
 
-	# include <sys/syscall.h>
+# include <sys/syscall.h>
 # include <sys/mman.h>
 # include <unistd.h>
 # include <stdint.h>
@@ -48,6 +49,8 @@ typedef struct	s_stub_loader
 	void		*content_begin;
 	void		*placeholder_begin;
 	uint64_t	content_size;
+	uint64_t		av_addr;
+	uint64_t		stub_content_offset;
 }	t_stub_loader;
 
 
@@ -99,6 +102,18 @@ typedef struct s_elf_ops
 		uint64_t	(*get_shinfo)(const void *cursor);
 		uint64_t	(*get_shaddralign)(const void *cursor);
 		uint64_t	(*get_shentsize)(const void *cursor);
+	//ehdr_setter
+		void		(*set_entry)(void *ogn_map, uint64_t new_value);
+		void		(*set_phdr_offset)(void *ogn_map, uint64_t new_value);
+		void		(*set_phdr_nb)(void *ogn_map, uint64_t new_value);
+		void		(*set_phdr_size)(void *ogn_map, uint64_t new_value);
+		void		(*set_shdr_offset)(void *ogn_map, uint64_t new_value);
+		void		(*set_shdr_nb)(void *ogn_map, uint64_t new_value);
+		void		(*set_shdr_size)(void *ogn_map, uint64_t new_value);
+		void		(*set_shstrndx)(void *ogn_map, uint64_t new_value);
+	//modifier
+		void		(*write_stub_phdr)(t_intel *intel, void *cursor);
+
 }	t_elf_ops;
 
 //extern const t_elf_ops	ops_32;
@@ -135,6 +150,9 @@ extern const t_elf_ops		ops_64;
 		bool			retrieve_placeholder(t_intel *intel);
 	//data acquisition for merging binaires
 		void			fetch_modify_need(t_intel *intel, t_intel *stub);
+		void    		align_available_adress(t_intel *intel);
+		void			retrieve_available_adrr(t_intel *intel, void *cursor);
+
 //init
 
 	//map_init

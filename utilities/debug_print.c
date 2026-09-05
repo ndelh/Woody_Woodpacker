@@ -90,11 +90,11 @@ void	print_phdr_intel(t_intel *intel, void *cursor)
 	printf("for program header number: %i\n", i++);
 	caster = intel->elf_caster;
 	print_phdr_type(caster->get_ptype(cursor));
-	printf("%s %lx\n", phdr_tab[j++], caster->get_poffsset(cursor));
-	printf("%s %lx\n", phdr_tab[j++], caster->get_pvaddr(cursor));
-	printf("%s %lx\n", phdr_tab[j++], caster->get_paddr(cursor));
-	printf("%s %lx\n", phdr_tab[j++], caster->get_pfilesz(cursor));
-	printf("%s %lx\n", phdr_tab[j++], caster->get_pmemsz(cursor));
+	printf("%s %lu\n", phdr_tab[j++], caster->get_poffsset(cursor));
+	printf("%s %lu\n", phdr_tab[j++], caster->get_pvaddr(cursor));
+	printf("%s %lu\n", phdr_tab[j++], caster->get_paddr(cursor));
+	printf("%s %lu\n", phdr_tab[j++], caster->get_pfilesz(cursor));
+	printf("%s %lu\n", phdr_tab[j++], caster->get_pmemsz(cursor));
 	printf("%s %lu\n", phdr_tab[j++], caster->get_pflags(cursor));
 	printf("%s %lu\n", phdr_tab[j++], caster->get_palign(cursor));
 	cr(1);

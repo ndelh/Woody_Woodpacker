@@ -24,8 +24,10 @@ void	gather_stub_payload(t_intel *intel, t_intel *stub)
 {
 	iterate_shdr(stub, retrieve_txt_shdr);
 	printf("size: %lx\n", stub->stub_loader.content_size);
-	retrieve_placeholder(stub);
-	(void)intel;
+	retrieve_placeholder(stub); //fetch pointer on first stub payload
+	iterate_phdr(intel, retrieve_available_adrr); //fetch first available vadrr value;
+	align_available_adress(intel); // align vadrr 
+	printf("vaddr for stub not hex: %lu , hex: 0x%lx", intel->stub_loader.av_addr, intel->stub_loader.av_addr);
 }
 
 void	gather_stub_intel(t_intel *intel, t_intel *stub)

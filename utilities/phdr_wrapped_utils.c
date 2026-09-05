@@ -42,3 +42,23 @@ uint64_t     extension_space(t_intel *intel)
     count = count_loop_extension(cursor, phdr_size, eof);
     return (count);
 }
+
+void    retrieve_available_adrr(t_intel *intel, void *cursor)
+{
+    uint64_t    next_av_addr;
+
+    if (intel->elf_caster->get_ptype(cursor) != PT_LOAD)
+        return ;
+    next_av_addr = intel->elf_caster->get_pvaddr(cursor) + intel->elf_caster->get_pmemsz(cursor);
+    if (next_av_addr > intel->stub_loader.av_addr)
+        intel->stub_loader.av_addr = next_av_addr;
+}
+
+void    align_available_adress(t_intel *intel)
+{
+    uint64_t    adress_align;
+
+    adress_align = intel->stub_loader.av_addr;
+    adress_align = (adress_align + 0xFFF) & ~0xFFFULL;
+    intel->stub_loader.av_addr = adress_align;
+}

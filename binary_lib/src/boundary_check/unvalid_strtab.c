@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   unvalid_strtab.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/04 16:10:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/04 16:15:53 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/05 13:47:44 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/05 13:48:04 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-int	ft_strlen(char *s)
+bool	is_strtab_unvalid(unsigned char *s, size_t len)
 {
-	char	*cursor;
-	
-	if (!s)
-		return (0);
-	cursor = s;
-	while (*cursor)
-		++cursor;
-	return (cursor - s);
+	if (*s || !len)
+		return (1);
+	s += len;
+	if (*s)
+		return (1);
+	return (0);
 }

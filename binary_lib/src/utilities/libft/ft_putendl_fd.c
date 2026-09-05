@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/04 16:10:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/04 16:15:53 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/05 14:53:54 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/05 14:55:30 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-int	ft_strlen(char *s)
+void	ft_putendl_fd(char *s, int fd)
 {
-	char	*cursor;
-	
-	if (!s)
-		return (0);
-	cursor = s;
-	while (*cursor)
-		++cursor;
-	return (cursor - s);
+	write(fd, s, ft_strlen(s));
 }

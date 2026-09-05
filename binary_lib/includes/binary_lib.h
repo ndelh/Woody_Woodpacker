@@ -23,6 +23,54 @@
 # include <elf.h>
 # include <stdbool.h>
 
+# include "../src/64_factory/elf_64.h"
+
+typedef struct s_elf_ops
+{
+	// basic getter
+		uint64_t	(*get_entry)(const void *ogn_map);
+		uint64_t	(*get_phdr_offset)(const void *ogn_map);
+		uint64_t	(*get_phdr_nb)(const void *ogn_map);
+		uint64_t	(*get_phdr_size)(const void *ogn_map);
+		uint64_t	(*get_shdr_offset)(const void *ogn_map);
+		uint64_t	(*get_shdr_nb)(const void *ogn_map);
+		uint64_t	(*get_shdr_size)(const void *ogn_map);
+		uint64_t	(*get_shstrndx)(const void *ogn_map);
+	//will do some sort, for the moment we just fetch all data in phdr
+		uint64_t	(*get_ptype)(const void *cursor);
+		uint64_t	(*get_poffsset)(const void *cursor);
+		uint64_t	(*get_pvaddr)(const void *cursor);
+		uint64_t	(*get_paddr)(const void *cursor);
+		uint64_t	(*get_pfilesz)(const void *cursor);
+		uint64_t	(*get_pmemsz)(const void *cursor);
+		uint64_t	(*get_pflags)(const void *cursor);
+		uint64_t	(*get_palign)(const void *cursor);
+	//section header getter
+		uint64_t	(*get_shname)(const void *cursor);
+		uint64_t	(*get_shtype)(const void *cursor);
+		uint64_t	(*get_shflags)(const void *cursor);
+		uint64_t	(*get_shaddr)(const void *cursor);
+		uint64_t	(*get_shoffset)(const void *cursor);
+		uint64_t	(*get_shsize)(const void *cursor);
+		uint64_t	(*get_shlink)(const void *cursor);
+		uint64_t	(*get_shinfo)(const void *cursor);
+		uint64_t	(*get_shaddralign)(const void *cursor);
+		uint64_t	(*get_shentsize)(const void *cursor);
+	//ehdr_setter
+		void		(*set_entry)(void *ogn_map, uint64_t new_value);
+		void		(*set_phdr_offset)(void *ogn_map, uint64_t new_value);
+		void		(*set_phdr_nb)(void *ogn_map, uint64_t new_value);
+		void		(*set_phdr_size)(void *ogn_map, uint64_t new_value);
+		void		(*set_shdr_offset)(void *ogn_map, uint64_t new_value);
+		void		(*set_shdr_nb)(void *ogn_map, uint64_t new_value);
+		void		(*set_shdr_size)(void *ogn_map, uint64_t new_value);
+		void		(*set_shstrndx)(void *ogn_map, uint64_t new_value);
+		
+}	t_elf_ops;
+
+extern const t_elf_ops	ops_64;
+//extern const t_elf_ops ops_32;
+
 typedef struct	s_stub_injector
 {
 	void		*shdr_header_inject;
@@ -33,23 +81,52 @@ typedef struct	s_stub_injector
 	uint64_t		stub_content_offset;
 }	t_stub_injector;
 
-typedef struct	s_bin_intel
+typedef struct	s_bin_file
 {
-	unsigned char	*path;
-	void		*map;
-	uint64_t	map_size;
+	char			*path;
+	int				fd;
+	void			*map;
+	uint64_t		map_size;
 
-}	t_bin_intel;
+}	t_bin_file;
 
-typedef struct  t_bin_lib
+typedef struct  s_bin_data
 {
-	t_bin_intel     *core;
-	t_bin_intel     *stub;
-	//t_elf_ops	*elf_caster;
-    t_stub_injector   *stub_injector;
-}   s_bin_lib;
+	t_bin_file			*core;
+	t_bin_file			*stub;
+	t_elf_ops			*elf_caster;
+    t_stub_injector		*stub_injector;
+}   t_bin_data;
+
 
 //test
 void    test(void);
+
+
+//boundary_check
+bool	is_struct_oob(t_bin_file *intel, uint64_t offset, uint64_t struct_nb, uint64_t struct_size);
+bool	is_strtab_unvalid(unsigned char *s, size_t len);
+
+
+//libft
+
+int		ft_strlen(char *s);
+int		ft_memcmp(const void *s1, const void *s2, size_t n);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_memcpy(void *dest, const void *src, size_t n);
+void	ft_bzero(void *s1, size_t n);
+void	cr(int fd);
+
+# define ft_perror(s) ft_putendl_fd(s, 2)
+# define CR_DEFAULT cr(STDIN_FILENO)
+
+//opener
+
+void		compute_map_size(t_bin_data *data);
+void	open_map(t_bin_data *data);
+
+//end
+void	ft_end(t_bin_data *data, int error_code);
+# define DEFAULT_ERROR(x) ft_end(x, 1)
 
 # endif

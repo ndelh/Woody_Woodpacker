@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   cr.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/04 16:10:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/04 16:15:53 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/05 15:51:33 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/05 15:53:42 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-int	ft_strlen(char *s)
+void	cr(int fd)
 {
-	char	*cursor;
-	
-	if (!s)
-		return (0);
-	cursor = s;
-	while (*cursor)
-		++cursor;
-	return (cursor - s);
+	write(fd, "\n", 1);
 }

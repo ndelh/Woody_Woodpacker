@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_end.c                                           :+:      :+:    :+:   */
+/*   universal_getter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/05 15:18:50 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/05 17:34:30 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/05 18:46:36 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/05 19:01:17 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-void	close_map(t_bin_file *file)
+bool	is_not_elf(const void *map)
 {
-	if (file)
-	{
-		if (file->map != MAP_FAILED)
-			munmap(file->map, file->map_size);
-		if (file->fd != -1)
-			close(file->fd);
-	}
+	return (ft_memcmp(map, ELFMAG, SELFMAG));
 }
 
-void	ft_end(t_bin_data *data, int error_code)
+uint64_t	get_byte_type(const void *map)
 {
-	close_map(data->core);
-	close_map(data->stub);
-	exit(error_code);
+	unsigned char	*s;
+
+	s = (unsigned char *)map;
+	return (s[EI_CLASS]);
 }
 
-void	ft_end_msg(t_bin_data *data, int error_code, char *msg)
+bool	is_b_endian(const void *map)
 {
-	close_map(data->core);
-	close_map(data->stub);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(error_code);
+	unsigned char	*s;
+	
+	s = (unsigned char *)map;
+	return (s[EI_DATA] != ELFDATA2LSB);
+}
+
+bool	is_version_unvalid(const void *map)
+{
+	unsigned char	*s;
+
+	s = (unsigned char *)map;
+	return (s[EI_VERSION] != EV_CURRENT);
 }

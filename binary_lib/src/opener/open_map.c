@@ -29,7 +29,7 @@ void	map_data(t_bin_data *data)
 		perror("binary mmap failed:");
 		DEFAULT_ERROR(data);
 	}
-	if (!data->stub)
+	if (!(data->stub))
 		return ;
 	data->stub->map = mmap(NULL, data->stub->map_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, data->stub->fd, 0);
 	if (data->stub->map == MAP_FAILED)

@@ -180,6 +180,6 @@ void	modify_core(t_intel *intel);
 	void	print_strtab(t_intel *intel);
 
 //end
-void	error_end(char *msg, int code, t_intel *intel);
+void	DEFAULT_ERROR(char *msg, int code, t_intel *intel);
 
 #endif 

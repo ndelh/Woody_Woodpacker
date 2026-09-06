@@ -38,7 +38,7 @@ void	gather_stub_intel(t_intel *intel, t_intel *stub)
 		if (!check_prerequisite(stub))
 		{
 			munmap(stub->ogn_begin, stub->ogn_size);
-			error_end("suspicious stub", 1, intel);
+			DEFAULT_ERROR("suspicious stub", 1, intel);
 		}
 	}
 	else

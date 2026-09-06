@@ -41,11 +41,11 @@ void	check_basics(t_intel *intel)
 	limit = intel->ogn_size;
 
 	if (is_struct_oob(intel, nav->phdr_offset, nav->phdr_num, nav->phdr_size))
-		error_end("dubious phdr section", 1, intel);
+		DEFAULT_ERROR("dubious phdr section", 1, intel);
 	if (is_struct_oob(intel, nav->shdr_offset, nav->shdr_num, nav->shdr_size))
-		error_end("dubious shdr section", 1, intel);
+		DEFAULT_ERROR("dubious shdr section", 1, intel);
 	if (nav->shstrndx && nav->shstrndx >= nav->shdr_num)
-		error_end("fallacious shstrndx", 1, intel);
+		DEFAULT_ERROR("fallacious shstrndx", 1, intel);
 }
 
 void	gather_ehdr(t_intel *intel)

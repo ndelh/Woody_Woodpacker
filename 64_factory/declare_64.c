@@ -52,6 +52,4 @@ const	t_elf_ops   ops_64 = {
     .set_shdr_nb = set_shdr_nb_64,
     .set_shdr_size = set_shdr_size_64,
     .set_shstrndx = set_shstrndx_64,
-    //modifier
-    .write_stub_phdr = write_stub_phdr_64,
 };

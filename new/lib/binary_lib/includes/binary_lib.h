@@ -111,6 +111,9 @@ typedef struct  s_bin_data
 	int					stoppage;
 	t_bin_file				*core;
 	t_bin_file				*stub;
+	void					*map_copy;
+	int						copy_fd;
+	uint64_t				copy_size;
 	const t_elf_ops			*elf_caster;
     t_stub_injector			*stub_injector;
 }   t_bin_data;
@@ -130,6 +133,7 @@ void	shstrndx_validity(t_bin_file *file, t_bin_data *data);
 //libft
 
 int		ft_strlen(char *s);
+int		ft_strcmp(char *s1, char *s2);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_memcpy(void *dest, const void *src, size_t n);
@@ -160,6 +164,11 @@ void	print_both_ehdr(t_bin_data *data);
 
 void		compute_map_size(t_bin_data *data, t_bin_file *file);
 void		open_map(t_bin_data *data);
+void		open_basic_cpy(t_bin_data *data, char *s);
+void		open_extend(t_bin_data *data, char *s);
+
+//copy
+void		simple_cpy(t_bin_data *data);
 
 //parser
 void		parse_first_header(t_bin_data *data, t_bin_file *file);
@@ -171,24 +180,26 @@ void		first_parse(t_bin_data *data);
 void		gather_ehdr_content(t_bin_data *data);
 
 //iterate
-void	iterate_shdr(t_bin_file *file, t_bin_data *data, void(*func)(t_bin_file *file, t_bin_data *data, void *));
-void	iterate_phdr(t_bin_file *file, t_bin_data *data, void(*func)(t_bin_file *file, t_bin_data *data, void *));
+void	iterate_shdr(t_bin_file *file, t_bin_data *data, void *aux_data, void(*func)(t_bin_file *file, t_bin_data *data, void *, void*));
+void	iterate_phdr(t_bin_file *file, t_bin_data *data, void *aux_data, void(*func)(t_bin_file *file, t_bin_data *data, void *, void*));
 
 //phdr_utils
-void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *cursor);
+void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor);
 
 //shdr_utils
 	//parse
-		void	shdr_range_check(t_bin_file *file, t_bin_data *data, void *cursor);
+		void	shdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor);
 	//strip
 		void	strip_shdr(t_bin_file *file, t_bin_data *data);
-		void	destroy_current_shdr(t_bin_file *file, t_bin_data *data, void *cursor);
+		void	destroy_current_shdr(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor);
+	//find
+		char	*get_name(void *cursor, t_bin_file *file);
+		void    *find_shdr_by_name(t_bin_file *file, t_bin_data *data, char *name);
 
 //end
-void	ft_end(t_bin_data *data, int error_code);
-void	ft_end_msg(t_bin_data *data, int error_code, char *msg);
 void	close_map(t_bin_file *file);
 void	free_data(t_bin_data *data);
+
 # define DEFAULT_ERROR(x) ft_end(x, 1)
 
 # endif

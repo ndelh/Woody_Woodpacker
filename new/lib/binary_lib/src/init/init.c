@@ -66,6 +66,8 @@ t_bin_data  *init(char *core_file, char *stub)
     if (!data)
         return (NULL);
     ft_bzero(data, sizeof(t_bin_data));
+    data->copy_fd = -1;
+    data->map_copy = MAP_FAILED;
     load_file_struct(core_file, stub, data);
     data->stub_injector = alloc_wrapper(sizeof(t_stub_injector), data, NULL);
     return (data);

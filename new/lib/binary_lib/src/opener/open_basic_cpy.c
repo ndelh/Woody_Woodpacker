@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phdr_value_range_check.c                           :+:      :+:    :+:   */
+/*   open_basic_cpy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/05 20:58:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/05 21:05:32 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/06 22:56:05 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/06 23:14:29 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor)
-{
-    const t_elf_ops   *elf_caster;
 
-    (void)aux_data;
-    elf_caster = file->elf_caster;
-    if (is_struct_oob(file, elf_caster->get_poffsset(cursor), elf_caster->get_pfilesz(cursor), 1))
-        register_error(data, "invalid range in phdr", file);
+void	open_basic_cpy(t_bin_data *data, char *s)
+{
+	if (data->stoppage)
+		return ;
+	data->copy_size = data->core->map_size;
+	open_extend(data, s);
 }

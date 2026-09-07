@@ -21,6 +21,7 @@ Shdr_ut = $(Ut)shdr_utils/
 Phdr_ut = $(Ut)phdr_utils/
 Bound_check = $(Src)boundary_check/
 Opener = $(Src)/opener/
+Copy = $(Src)copy/
 Parse = $(Src)parse/
 Iterate = $(Ut)iterate/
 Gather = $(Src)gather/
@@ -38,12 +39,16 @@ SRC := $(Libft)ft_strlen.c \
 	$(Libft)ft_putstr_fd.c \
 	$(Libft)ft_putchar_fd.c \
 	$(Libft)cr.c \
+	$(Libft)ft_strcmp.c \
 	$(Libft)positive_pnumber.c \
 	$(Print)print_strtab.c \
 	$(Print)print_ehdr.c \
 	$(Init)init.c \
 	$(U_getter)first_ehdr_intel.c \
 	$(Opener)open_map.c \
+	$(Opener)open_basic_cpy.c \
+	$(Opener)open_extend.c \
+	$(Copy)simple_copy.c \
 	$(Bound_check)oob_check.c \
 	$(Bound_check)unvalid_strtab.c \
 	$(Bound_check)shstrindex_validity.c \
@@ -55,14 +60,15 @@ SRC := $(Libft)ft_strlen.c \
 	$(Phdr_ut)phdr_range_check.c \
 	$(Shdr_ut)shdr_range_check.c \
 	$(Shdr_ut)strip_shdr.c \
+	$(Shdr_ut)get_name.c \
+	$(Shdr_ut)find_shdr_by_name.c \
 	$(Error)register_error.c \
 	$(64_F)declare_64.c \
 	$(64_Getter)ehdr_getter_64.c \
 	$(64_Getter)phdr_getter_64.c \
 	$(64_Getter)shdr_getter_64.c \
 	$(64_Setter)ehdr_setter_64.c \
-	$(End)ft_free.c \
-	$(End)close_map.c
+	$(End)ft_free.c 
 
 OBJDIR = obj
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)

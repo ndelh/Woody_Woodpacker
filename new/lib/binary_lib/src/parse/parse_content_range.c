@@ -30,8 +30,8 @@ void    ehdr_range_checker(t_bin_data *data, t_bin_file *file)
     main_range_check(file, data);
     if (data->stoppage)
         return ;
-    iterate_shdr(data->core, data, shdr_range_check);
-    iterate_phdr(data->core, data, phdr_range_check);
+    iterate_shdr(file, data, NULL, shdr_range_check);
+    iterate_phdr(file, data, NULL, phdr_range_check);
 
 }
 

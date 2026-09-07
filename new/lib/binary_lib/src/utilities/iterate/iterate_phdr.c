@@ -12,7 +12,7 @@
 
 #include "binary_lib.h"
 
-void	iterate_phdr(t_bin_file *file, t_bin_data *data, void(*func)(t_bin_file *file, t_bin_data *data, void *))
+void	iterate_phdr(t_bin_file *file, t_bin_data *data, void *aux_data, void(*func)(t_bin_file *file, t_bin_data *data, void *, void *))
 {
 	unsigned char	*cursor;
 	t_file_intel	*intel;
@@ -29,7 +29,7 @@ void	iterate_phdr(t_bin_file *file, t_bin_data *data, void(*func)(t_bin_file *fi
 	while (phdr_nb--)
 	{
 		if (func)
-			func(file, data, cursor);
+			func(file, data, aux_data, cursor);
 		cursor += phdr_size;
 	}
 }

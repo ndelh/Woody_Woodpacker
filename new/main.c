@@ -6,7 +6,7 @@
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 11:13:04 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/06 21:42:56 by ndelhota         ###   ########.fr       */
+/*   Updated: 2026/09/07 04:18:59 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,22 @@ void	parse_gather(t_bin_data *data)
 		return ;
 	gather_ehdr_content(data);
 	parse_ehdr_content_range(data);
-	print_both_ehdr(data);
+	//print_both_ehdr(data);
+}
+
+void	modify(t_bin_data *data)
+{
+	strip_shdr(data->core, data); 
 }
 
 void	woody_core(t_bin_data *data)
 {
-	if (!(data->stoppage))
-		open_map(data);
-	if (!(data->stoppage))
-		parse_gather(data);
+	open_map(data);
+	parse_gather(data);
+	open_basic_cpy(data, "Woody");
+	find_shdr_by_name(data->core, data, ".text");
+	modify(data);
+	simple_cpy(data);
 	free_data(data);
 }
 

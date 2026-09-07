@@ -12,10 +12,11 @@
 
 #include "binary_lib.h"
 
-void	shdr_range_check(t_bin_file *file, t_bin_data *data, void *cursor)
+void	shdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor)
 {
     const t_elf_ops   *elf_caster;
 
+    (void)aux_data;
     elf_caster = file->elf_caster;
     if (is_struct_oob(file, elf_caster->get_shoffset(cursor) , elf_caster->get_shentsize(cursor), 1))
         register_error(data, "invalid shdr content range", file);

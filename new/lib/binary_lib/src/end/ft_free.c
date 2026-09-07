@@ -12,6 +12,25 @@
 
 #include "binary_lib.h"
 
+void	close_add(t_bin_data *data)
+{
+	if (data->copy_fd != -1)
+		close(data->copy_fd);
+	if (data->map_copy != MAP_FAILED)
+		munmap(data->map_copy, data->copy_size);
+}
+
+void	close_map(t_bin_file *file)
+{
+	if (file)
+	{
+		if (file->map != MAP_FAILED)
+			munmap(file->map, file->map_size);
+		if (file->fd != -1)
+			close(file->fd);
+	}
+}
+
 void	free_intel(t_bin_file *file)
 {
 	if (file->intel)
@@ -23,6 +42,7 @@ void	free_data(t_bin_data *data)
 {
 	if (!data)
 		return ;
+	close_add(data);
 	if (data->core)
 	{
 		close_map(data->core);

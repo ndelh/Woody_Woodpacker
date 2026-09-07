@@ -55,6 +55,8 @@ void	process_whole_opening(t_bin_data *data, t_bin_file *file)
 
 void	open_map(t_bin_data *data)
 {
+	if (data->stoppage)
+		return ;
 	process_whole_opening(data, data->core);
 	if (data->stub)
 		process_whole_opening(data, data->stub);

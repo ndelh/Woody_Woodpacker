@@ -12,7 +12,7 @@
 
 #include "binary_lib.h"
 
-void	iterate_shdr(t_bin_file *file, t_bin_data *data, void(*func)(t_bin_file *file, t_bin_data *data, void *))
+void	iterate_shdr(t_bin_file *file, t_bin_data *data, void *aux_data, void(*func)(t_bin_file *file, t_bin_data *data, void *, void *))
 {
 	unsigned char	*cursor;
 	t_file_intel	*intel;
@@ -29,7 +29,7 @@ void	iterate_shdr(t_bin_file *file, t_bin_data *data, void(*func)(t_bin_file *fi
 	while (shdr_nb--)
 	{
 		if (func)
-			func(file, data, cursor);
+			func(file, data, aux_data, cursor);
 		cursor += shdr_size;
 	}
 }

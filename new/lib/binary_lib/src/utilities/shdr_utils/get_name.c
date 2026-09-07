@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phdr_value_range_check.c                           :+:      :+:    :+:   */
+/*   get_name.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/05 20:58:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/05 21:05:32 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/07 03:33:33 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/07 03:38:16 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor)
+char	*get_name(void *cursor, t_bin_file *file)
 {
-    const t_elf_ops   *elf_caster;
+	t_file_intel	*intel;
+	uint64_t	string_offset;
 
-    (void)aux_data;
-    elf_caster = file->elf_caster;
-    if (is_struct_oob(file, elf_caster->get_poffsset(cursor), elf_caster->get_pfilesz(cursor), 1))
-        register_error(data, "invalid range in phdr", file);
+	intel = file->intel;
+	string_offset = file->elf_caster->get_shname(cursor);
+	return (intel->strtab + string_offset);
 }

@@ -23,7 +23,6 @@ bool	oob_strtab(t_bin_file *file, t_file_intel *intel)
 	cursor += intel->shstrtab_index * intel->shdr_size;
 	strtab_offset = file->elf_caster->get_shoffset(cursor);
 	strtab_size = file->elf_caster->get_shsize(cursor);
-	printf( "offset: %lu, size: %lu\n", strtab_offset, strtab_size);
 	if (is_struct_oob(file, strtab_offset, 1, strtab_size))
 		return (true);
 	cursor = (unsigned char *)file->map + strtab_offset;

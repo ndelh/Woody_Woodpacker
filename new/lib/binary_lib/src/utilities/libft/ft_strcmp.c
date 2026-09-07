@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phdr_value_range_check.c                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/05 20:58:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/05 21:05:32 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/07 03:45:16 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/07 03:48:46 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor)
+int	ft_strcmp(char *s1, char *s2)
 {
-    const t_elf_ops   *elf_caster;
-
-    (void)aux_data;
-    elf_caster = file->elf_caster;
-    if (is_struct_oob(file, elf_caster->get_poffsset(cursor), elf_caster->get_pfilesz(cursor), 1))
-        register_error(data, "invalid range in phdr", file);
+	while (*s1)
+	{
+		if (*s1 != *s2)
+			break ;
+		++s1;
+		++s2;
+	}
+	return (*s1 - *s2);
 }

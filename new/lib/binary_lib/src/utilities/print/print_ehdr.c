@@ -29,7 +29,10 @@ void	print_ehdr(t_bin_file *file)
 	printf("shdr nummber: 0x%lu\n", intel->shdr_num);
 	printf("Section header string table index: %lu\n", intel->shstrtab_index);
 	printf("strtab size: %lu\n", intel->strtab_size);
-	cr(STDIN_FILENO);
+	CR_DEFAULT;
+	if (intel->strtab)
+		print_strtab((unsigned char *)intel->strtab, intel->strtab_size);
+	CR_DEFAULT;
 }
 
 void	print_both_ehdr(t_bin_data *data)

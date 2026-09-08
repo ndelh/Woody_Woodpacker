@@ -26,7 +26,7 @@ void	print_ehdr(t_bin_file *file)
 	printf("size of program header: %lu\n", intel->phdr_size);
 	printf("size of section %lu\n", intel->shdr_size);
 	printf("phdr number: %lu\n", intel->phdr_num);
-	printf("shdr nummber: 0x%lu\n", intel->shdr_num);
+	printf("shdr number: %lu\n", intel->shdr_num);
 	printf("Section header string table index: %lu\n", intel->shstrtab_index);
 	printf("strtab size: %lu\n", intel->strtab_size);
 	CR_DEFAULT;

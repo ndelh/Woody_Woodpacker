@@ -25,6 +25,9 @@
 
 # include "../src/64_factory/elf_64.h"
 
+# define CANARY_NB 5
+# define CANARY_VALUE 0x1122334455667788ULL
+
 typedef struct s_elf_ops
 {
 	// basic getter
@@ -73,12 +76,11 @@ extern const t_elf_ops	ops_64;
 
 typedef struct	s_stub_injector
 {
-	void		*shdr_header_inject;
-	void		*content_begin;
-	void		*placeholder_begin;
+	void		*content_begin; //beginning of the binary content to transfer 
 	uint64_t	content_size;
+	void		*current_placeholder; //pointer on current first placeholder available
 	uint64_t		av_addr;
-	uint64_t		stub_content_offset;
+	uint64_t		av_core_offset;
 }	t_stub_injector;
 
 typedef struct s_file_intel
@@ -185,6 +187,9 @@ void	iterate_phdr(t_bin_file *file, t_bin_data *data, void *aux_data, void(*func
 
 //phdr_utils
 void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor);
+//find
+	uint64_t   retrieve_farthest_physical(t_bin_file *file, t_bin_data *data);
+
 
 //shdr_utils
 	//parse
@@ -199,6 +204,19 @@ void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *
 //end
 void	close_map(t_bin_file *file);
 void	free_data(t_bin_data *data);
+
+//stub
+	//freestanding stub
+	void	gather_fs_stub_data(t_bin_data *data);
+	void	fs_find_canaries(t_bin_data *data, void *cursor, uint64_t size, t_stub_injector *injector);
+
+
+//full fonctions, can be launched as autonomous prog or wrapper
+//autonomous
+int		minimal_check(char *s);
+//wrapper
+void	resize_after_strip(t_bin_file *file, t_bin_data *data, int fd);
+
 
 # define DEFAULT_ERROR(x) ft_end(x, 1)
 

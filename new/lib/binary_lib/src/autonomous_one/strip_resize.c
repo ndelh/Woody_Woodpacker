@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   woody_woodpacker.h                                 :+:      :+:    :+:   */
+/*   strip_resize.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/06 11:11:11 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/07 05:29:55 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/08 09:05:53 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/08 09:12:01 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WOODY_WOODPACKER_H
-# define WOODY_WOODPACKER_H
+#include "binary_lib.h"
 
-# define STUB64 "../stub/stub64.o"
-# include "../lib/binary_lib/includes/binary_lib.h"
+void	resize_after_strip(t_bin_file *file, t_bin_data *data, int fd)
+{
+	uint64_t	new_size;
 
-#endif 
+	strip_shdr(file, data);
+	new_size = retrieve_farthest_physical(file, data) + 1;
+	//syscall(SYS_ftruncate, fd, new_size);
+	(void)fd;
+	file->map_size = new_size;
+	printf("new_size %lu", new_size);
+}

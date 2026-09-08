@@ -6,7 +6,7 @@
 #    By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 17:08:53 by ndelhota          #+#    #+#              #
-#    Updated: 2026/09/06 21:49:13 by ndelhota         ###   ########.fr        #
+#    Updated: 2026/09/08 10:06:27 by ndelhota         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC := main.c \
 
 CC := cc
 
-CFLAGS := -Wall -Werror -Wextra -g -Iincludes
+CFLAGS := -Wall -Werror -Wextra -g -Iincludes -fsanitize=address
 
 OBJDIR = obj
 OBJ = $(SRC:.c=.o)
@@ -48,6 +48,7 @@ clean :
 
 fclean : clean 
 	@rm -f $(NAME)
+	@if [ -f Woody ]; then rm Woody; fi
 
 re : fclean
 	@make -C lib/binary_lib fclean;

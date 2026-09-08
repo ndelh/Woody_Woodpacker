@@ -25,10 +25,13 @@ Copy = $(Src)copy/
 Parse = $(Src)parse/
 Iterate = $(Ut)iterate/
 Gather = $(Src)gather/
+Stub = $(Src)stub/
+Fs_stub = $(Stub)freestanding_stub/
 End = $(Src)end/
 64_F = $(Src)64_factory/
 64_Getter = $(64_F)getter/
 64_Setter = $(64_F)setter/
+Autonomous = $(Src)autonomous_one/
 
 
 SRC := $(Libft)ft_strlen.c \
@@ -58,6 +61,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(Iterate)iterate_phdr.c \
 	$(Iterate)iterate_shdr.c \
 	$(Phdr_ut)phdr_range_check.c \
+	$(Phdr_ut)retrieve_farthest_physical.c \
 	$(Shdr_ut)shdr_range_check.c \
 	$(Shdr_ut)strip_shdr.c \
 	$(Shdr_ut)get_name.c \
@@ -68,7 +72,11 @@ SRC := $(Libft)ft_strlen.c \
 	$(64_Getter)phdr_getter_64.c \
 	$(64_Getter)shdr_getter_64.c \
 	$(64_Setter)ehdr_setter_64.c \
-	$(End)ft_free.c 
+	$(Fs_stub)gather_fs_stub_data.c \
+	$(Fs_stub)fs_canaries.c \
+	$(End)ft_free.c \
+	$(Autonomous)minimal_check.c \
+	$(Autonomous)strip_resize.c \
 
 OBJDIR = obj
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)

@@ -226,6 +226,8 @@ void	close_map(t_bin_file *file);
 void	free_data(t_bin_data *data);
 
 //stub
+void    craft_stub_phdr(t_bin_data *data, void *phdr);
+
 	//freestanding stub
 	void	gather_fs_stub_data(t_bin_data *data);
 	void	fs_find_canaries(t_bin_data *data, void *cursor, uint64_t size, t_stub_injector *injector);

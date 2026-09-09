@@ -34,6 +34,5 @@ void	fs_basic_stub_copy(t_bin_data *data)
 	if (!pt_note_hdr)
 		return ;
 	strip_shdr(data->core, data);
-	compute_theorical_size_basic_stub_cpy(data);
-	
+	compute_theorical_size_basic_stub_cpy(data);	
 }

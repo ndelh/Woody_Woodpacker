@@ -83,6 +83,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(64_Setter)phdr_setter_64.c \
 	$(Fs_stub)gather_fs_stub_data.c \
 	$(Fs_stub)fs_canaries.c \
+	$(Fs_stub)craft_stub_phdr.c \
 	$(End)ft_free.c \
 	$(Autonomous)minimal_check.c \
 	$(Autonomous)strip_resize.c \

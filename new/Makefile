@@ -6,7 +6,7 @@
 #    By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 17:08:53 by ndelhota          #+#    #+#              #
-#    Updated: 2026/09/08 10:06:27 by ndelhota         ###   ########.fr        #
+#    Updated: 2026/09/09 04:43:14 by ndelhota         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC := main.c \
 
 CC := cc
 
-CFLAGS := -Wall -Werror -Wextra -g -Iincludes -fsanitize=address
+CFLAGS := -Wall -Werror -Wextra -g -Iincludes #-fsanitize=address
 
 OBJDIR = obj
 OBJ = $(SRC:.c=.o)

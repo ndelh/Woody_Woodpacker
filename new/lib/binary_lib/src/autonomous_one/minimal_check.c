@@ -32,7 +32,7 @@ int	open_mininal_map(int fd, void **map, uint64_t size)
 	return (1);
 }
 
-int	minimal_check(char *s)
+int	autonomous_get_Elf_Class(char *s)
 {
 	int			fd;
 	uint64_t	to_ret;

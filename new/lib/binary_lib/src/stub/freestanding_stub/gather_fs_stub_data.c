@@ -34,10 +34,15 @@ void	fs_stub_part(t_bin_data *data, t_bin_file *stub)
 	fs_find_canaries(data, injector->content_begin, injector->content_size, data->stub_injector);
 }
 
-// void	fs_core_part(t_bin_data *data, t_bin_file *core)
-// {
-		
-// }
+void	fs_core_part(t_bin_data *data, t_bin_file *core)
+{
+	uint64_t	next_available_faddr;
+
+	data->stub_injector->av_addr = get_next_available_vaddr(core, data);
+	next_available_faddr = retrieve_farthest_physical(core, data) + 1;
+	next_available_faddr = find_next_aligned_value(next_available_faddr, PAGESIZE);
+	data->stub_injector->av_core_offset = next_available_faddr;
+}
 
 void	gather_fs_stub_data(t_bin_data *data)
 {
@@ -45,5 +50,5 @@ void	gather_fs_stub_data(t_bin_data *data)
 	if (data->stoppage)
 		return ;
 	fs_stub_part(data, data->stub);
-	//fs_core_part(data, data->core);
+	fs_core_part(data, data->core);
 }

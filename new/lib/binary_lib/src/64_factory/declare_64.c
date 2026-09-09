@@ -51,4 +51,13 @@ const	t_elf_ops   ops_64 = {
     .set_shdr_nb = set_shdr_nb_64,
     .set_shdr_size = set_shdr_size_64,
     .set_shstrndx = set_shstrndx_64,
+    //phdr setter
+    .set_ptype = set_ptype_64,
+    .set_poffset = set_poffset_64,
+    .set_pvaddr = set_pvaddr_64,
+    .set_ppaddr = set_ppaddr_64,
+    .set_pfilesz = set_pfilesz_64,
+    .set_pmemsz = set_pmemsz_64,
+    .set_pflags = set_pflags_64,
+    .set_palign = set_palign_64,
 };

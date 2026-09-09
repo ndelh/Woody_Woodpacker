@@ -6,7 +6,7 @@
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 11:13:04 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/07 04:18:59 by ndelhota         ###   ########.fr       */
+/*   Updated: 2026/09/09 07:09:19 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,12 @@ void	parse_gather(t_bin_data *data)
 	//print_both_ehdr(data);
 }
 
-void	modify(t_bin_data *data)
-{
-	strip_shdr(data->core, data); 
-}
 
 void	woody_core(t_bin_data *data)
 {
 	open_map(data);
 	parse_gather(data);
-	open_basic_cpy(data, "Woody");
-	find_shdr_by_name(data->core, data, ".text");
-	modify(data);
-	simple_cpy(data);
+	stripped_copy(data, "Woody");
 	free_data(data);
 }
 
@@ -42,11 +35,17 @@ int	main(int ac, char **argv)
 {
 	t_bin_data	*data;
 
-	if (ac != 3)
+	if (ac != 2)
 	{
 		ft_putendl_fd("invalid argument number", 2);
 		exit(1);
 	}
-	data = init(argv[1], argv[2]);
+	if (autonomous_get_Elf_Class(argv[1]) == ELFCLASS64)
+		data = init(argv[1], STUB64);
+	else
+	{
+		ft_perror("unusable file");
+		return (1);
+	}
 	woody_core(data);
 }

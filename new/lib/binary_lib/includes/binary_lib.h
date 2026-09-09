@@ -25,6 +25,7 @@
 
 # include "../src/64_factory/elf_64.h"
 
+# define PAGESIZE 4096
 # define CANARY_NB 5
 # define CANARY_VALUE 0x1122334455667788ULL
 
@@ -68,7 +69,16 @@ typedef struct s_elf_ops
 		void		(*set_shdr_nb)(void *ogn_map, uint64_t new_value);
 		void		(*set_shdr_size)(void *ogn_map, uint64_t new_value);
 		void		(*set_shstrndx)(void *ogn_map, uint64_t new_value);
-		
+	//phdr_setter
+		void    (*set_ptype)(void *cursor, uint64_t new_value);
+        void    (*set_poffset)(void *cursor, uint64_t new_value);
+        void    (*set_pvaddr)(void *cursor, uint64_t new_value);
+        void    (*set_ppaddr)(void *cursor, uint64_t new_value);
+        void    (*set_pfilesz)(void *cursor, uint64_t new_value);
+        void    (*set_pmemsz)(void *cursor, uint64_t new_value);
+        void    (*set_pflags)(void *cursor, uint64_t new_value);
+        void    (*set_palign)(void *cursor, uint64_t new_value);
+
 }	t_elf_ops;
 
 extern const t_elf_ops	ops_64;
@@ -162,6 +172,10 @@ void	print_both_ehdr(t_bin_data *data);
 # define ft_perror(s) ft_putendl_fd(s, 2)
 # define CR_DEFAULT cr(STDIN_FILENO)
 
+//math
+int		is_power_2(uint64_t x);
+uint64_t	find_next_aligned_value(uint64_t value, uint64_t align);
+
 //opener
 
 void		compute_map_size(t_bin_data *data, t_bin_file *file);
@@ -170,7 +184,11 @@ void		open_basic_cpy(t_bin_data *data, char *s);
 void		open_extend(t_bin_data *data, char *s);
 
 //copy
-void		simple_cpy(t_bin_data *data);
+void		simple_cpy(t_bin_data *data, char *s);
+void		stripped_copy(t_bin_data *data, char *s);
+	//stub_copy
+		//free_standing stub copy
+		void	fs_basic_stub_copy(t_bin_data *data);
 
 //parser
 void		parse_first_header(t_bin_data *data, t_bin_file *file);
@@ -188,7 +206,9 @@ void	iterate_phdr(t_bin_file *file, t_bin_data *data, void *aux_data, void(*func
 //phdr_utils
 void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *cursor);
 //find
-	uint64_t   retrieve_farthest_physical(t_bin_file *file, t_bin_data *data);
+	uint64_t	retrieve_farthest_physical(t_bin_file *file, t_bin_data *data);
+	uint64_t    get_next_available_vaddr(t_bin_file *file, t_bin_data *data);
+	void		*find_first_phdr_of_type(t_bin_file *file, t_bin_data *data, uint64_t type);
 
 
 //shdr_utils
@@ -213,7 +233,7 @@ void	free_data(t_bin_data *data);
 
 //full fonctions, can be launched as autonomous prog or wrapper
 //autonomous
-int		minimal_check(char *s);
+int		autonomous_get_Elf_Class(char *s);
 //wrapper
 void	resize_after_strip(t_bin_file *file, t_bin_data *data, int fd);
 

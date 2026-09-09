@@ -57,5 +57,14 @@
         void    set_shdr_nb_64(void *ogn_map, uint64_t new_value);
         void    set_shdr_size_64(void *ogn_map, uint64_t new_value);
         void    set_shstrndx_64(void *ogn_map, uint64_t new_value);
+    //program header
+        void    set_ptype_64(void *cursor, uint64_t new_value);
+        void    set_poffset_64(void *cursor, uint64_t new_value);
+        void    set_pvaddr_64(void *cursor, uint64_t new_value);
+        void    set_ppaddr_64(void *cursor, uint64_t new_value);
+        void    set_pfilesz_64(void *cursor, uint64_t new_value);
+        void    set_pmemsz_64(void *cursor, uint64_t new_value);
+        void    set_pflags_64(void *cursor, uint64_t new_value);
+        void    set_palign_64(void *cursor, uint64_t new_value);
     
 #endif

@@ -32,7 +32,7 @@ uint64_t   retrieve_farthest_physical(t_bin_file *file, t_bin_data *data)
     uint64_t farthest;
 
     farthest = 0;
-    to_ret = file->intel->phdr_offset * file->intel->phdr_num * file->intel->phdr_offset - 1;
+    to_ret = file->intel->phdr_offset + (file->intel->phdr_num * file->intel->phdr_offset) - 1;
     iterate_phdr(file, data, &farthest, retrieve_farthest_phdr_physical);
     if (farthest > to_ret)
         to_ret = farthest;

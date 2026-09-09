@@ -6,7 +6,7 @@
 #    By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/09 12:57:07 by ndelhota          #+#    #+#              #
-#    Updated: 2026/09/04 16:36:46 by ndelhota         ###   ########.fr        #
+#    Updated: 2026/09/09 04:20:44 by ndelhota         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,14 @@ Ut = $(Src)utilities/
 Error = $(Ut)error/
 Libft = $(Ut)libft/
 Print = $(Ut)print/
+Math = $(Ut)math/
 U_getter = $(Ut)universal_getter/
 Shdr_ut = $(Ut)shdr_utils/
 Phdr_ut = $(Ut)phdr_utils/
 Bound_check = $(Src)boundary_check/
 Opener = $(Src)/opener/
 Copy = $(Src)copy/
+Copy_Stub = $(Copy)stub_copy/
 Parse = $(Src)parse/
 Iterate = $(Ut)iterate/
 Gather = $(Src)gather/
@@ -46,12 +48,16 @@ SRC := $(Libft)ft_strlen.c \
 	$(Libft)positive_pnumber.c \
 	$(Print)print_strtab.c \
 	$(Print)print_ehdr.c \
+	$(Math)is_power_2.c \
+	$(Math)find_next_align_value.c \
 	$(Init)init.c \
 	$(U_getter)first_ehdr_intel.c \
 	$(Opener)open_map.c \
 	$(Opener)open_basic_cpy.c \
 	$(Opener)open_extend.c \
 	$(Copy)simple_copy.c \
+	$(Copy)stripped_copy.c \
+	$(Copy_Stub)fs_basic_stub_copy.c \
 	$(Bound_check)oob_check.c \
 	$(Bound_check)unvalid_strtab.c \
 	$(Bound_check)shstrindex_validity.c \
@@ -62,6 +68,8 @@ SRC := $(Libft)ft_strlen.c \
 	$(Iterate)iterate_shdr.c \
 	$(Phdr_ut)phdr_range_check.c \
 	$(Phdr_ut)retrieve_farthest_physical.c \
+	$(Phdr_ut)find_first_phdr_of_type.c \
+	$(Phdr_ut)get_max_vaddr.c \
 	$(Shdr_ut)shdr_range_check.c \
 	$(Shdr_ut)strip_shdr.c \
 	$(Shdr_ut)get_name.c \
@@ -72,6 +80,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(64_Getter)phdr_getter_64.c \
 	$(64_Getter)shdr_getter_64.c \
 	$(64_Setter)ehdr_setter_64.c \
+	$(64_Setter)phdr_setter_64.c \
 	$(Fs_stub)gather_fs_stub_data.c \
 	$(Fs_stub)fs_canaries.c \
 	$(End)ft_free.c \

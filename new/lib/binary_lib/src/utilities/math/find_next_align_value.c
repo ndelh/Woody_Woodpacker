@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_basic_cpy.c                                   :+:      :+:    :+:   */
+/*   find_next_align_value.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/06 22:56:05 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/06 23:14:29 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/09 04:12:03 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/09 04:13:04 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-void	open_basic_cpy(t_bin_data *data, char *s)
+uint64_t	find_next_aligned_value(uint64_t value, uint64_t align)
 {
-	if (data->stoppage)
-		return ;
-	if (!data->copy_size)
-		data->copy_size = data->core->map_size;
-	open_extend(data, s);
+    if (!is_power_2(align))
+        return (0);
+    return (value + (align - 1)) & ~(align - 1);
 }

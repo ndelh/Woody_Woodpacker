@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_basic_cpy.c                                   :+:      :+:    :+:   */
+/*   is_power_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/06 22:56:05 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/06 23:14:29 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/09 04:02:27 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/09 04:11:35 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-void	open_basic_cpy(t_bin_data *data, char *s)
+int		is_power_2(uint64_t x)
 {
-	if (data->stoppage)
-		return ;
-	if (!data->copy_size)
-		data->copy_size = data->core->map_size;
-	open_extend(data, s);
+	return ((x & (x - 1)) == 0);
 }

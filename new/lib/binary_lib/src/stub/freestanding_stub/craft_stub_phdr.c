@@ -18,9 +18,11 @@ void    craft_stub_phdr(t_bin_data *data, void *phdr)
 
     elf_caster = data->core->elf_caster;
     elf_caster->set_ptype(phdr, PT_LOAD);
+    elf_caster->set_poffset(phdr, data->stub_injector->av_core_offset);
     elf_caster->set_pvaddr(phdr, data->stub_injector->av_addr);
     elf_caster->set_ppaddr(phdr, data->stub_injector->av_addr);
     elf_caster->set_pfilesz(phdr, data->stub_injector->content_size);
     elf_caster->set_pmemsz(phdr, data->stub_injector->content_size);
+    elf_caster->set_pflags(phdr, PF_X | PF_R);
     elf_caster->set_palign(phdr, PAGESIZE);
 }

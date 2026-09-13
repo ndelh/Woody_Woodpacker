@@ -71,7 +71,8 @@ void	strip_shdr(t_bin_file *file, t_bin_data *data)
 	cursor = (unsigned char *)file->map;
 	elf_caster = file->elf_caster;
 	iterate_shdr(file, data, NULL, destroy_current_shdr);
-	elf_caster->set_shdr_offset(cursor, 0);
-	elf_caster->set_shdr_nb(cursor, 0);
-	elf_caster->set_shstrndx(cursor, 0);
+	elf_caster->set_shdr_offset(cursor, data->copy_size - 1);
+	printf("shdr offset was set to :%lu\n", data->copy_size -1);
+	elf_caster->set_shdr_nb(cursor, 2);
+	elf_caster->set_shstrndx(cursor, 1);
 }

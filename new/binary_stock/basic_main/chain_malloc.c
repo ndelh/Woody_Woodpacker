@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   woody_woodpacker.h                                 :+:      :+:    :+:   */
+/*   chain_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/06 11:11:11 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/07 05:29:55 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/11 03:04:10 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/11 03:05:36 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WOODY_WOODPACKER_H
-# define WOODY_WOODPACKER_H
+#include <stdlib.h>
 
-# define STUB64 "stub64.o"
-# include "../lib/binary_lib/includes/binary_lib.h"
+int	main(void)
+{
+	char	*a;
+	int	i;
 
-#endif 
+	i = 10;
+	while (i--)
+	{
+		a = malloc(4200);
+		free(a);
+	}
+}

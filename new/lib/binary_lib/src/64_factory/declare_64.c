@@ -60,4 +60,15 @@ const	t_elf_ops   ops_64 = {
     .set_pmemsz = set_pmemsz_64,
     .set_pflags = set_pflags_64,
     .set_palign = set_palign_64,
+    //shdr setter
+    .set_sh_name = set_sh_name_64,
+    .set_sh_type = set_sh_type_64,
+    .set_sh_flags = set_sh_flags_64,
+    .set_sh_addr = set_sh_addr_64,
+    .set_sh_offset = set_sh_offset_64,
+    .set_sh_size = set_sh_size_64,
+    .set_sh_link = set_sh_link_64,
+    .set_sh_info = set_sh_info_64,
+    .set_sh_addralign = set_sh_addralign_64,
+    .set_sh_entsize = set_sh_entsize_64,
 };

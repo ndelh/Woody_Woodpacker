@@ -16,6 +16,7 @@ Ut = $(Src)utilities/
 Error = $(Ut)error/
 Libft = $(Ut)libft/
 Print = $(Ut)print/
+Dprint = $(Print)debug/
 Math = $(Ut)math/
 U_getter = $(Ut)universal_getter/
 Shdr_ut = $(Ut)shdr_utils/
@@ -48,6 +49,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(Libft)positive_pnumber.c \
 	$(Print)print_strtab.c \
 	$(Print)print_ehdr.c \
+	$(Dprint)phdr_all_range.c \
 	$(Math)is_power_2.c \
 	$(Math)find_next_align_value.c \
 	$(Init)init.c \
@@ -58,6 +60,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(Copy)simple_copy.c \
 	$(Copy)stripped_copy.c \
 	$(Copy_Stub)fs_basic_stub_copy.c \
+	$(Copy_Stub)fs_caving_stub.c \
 	$(Bound_check)oob_check.c \
 	$(Bound_check)unvalid_strtab.c \
 	$(Bound_check)shstrindex_validity.c \
@@ -70,6 +73,8 @@ SRC := $(Libft)ft_strlen.c \
 	$(Phdr_ut)retrieve_farthest_physical.c \
 	$(Phdr_ut)find_first_phdr_of_type.c \
 	$(Phdr_ut)get_max_vaddr.c \
+	$(Phdr_ut)find_cave.c \
+	$(Phdr_ut)find_bss_size.c \
 	$(Shdr_ut)shdr_range_check.c \
 	$(Shdr_ut)strip_shdr.c \
 	$(Shdr_ut)get_name.c \
@@ -81,6 +86,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(64_Getter)shdr_getter_64.c \
 	$(64_Setter)ehdr_setter_64.c \
 	$(64_Setter)phdr_setter_64.c \
+	$(64_Setter)shdr_setter_64.c \
 	$(Fs_stub)gather_fs_stub_data.c \
 	$(Fs_stub)fs_canaries.c \
 	$(Fs_stub)craft_stub_phdr.c \

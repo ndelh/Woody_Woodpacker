@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   woody_woodpacker.h                                 :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/06 11:11:11 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/07 05:29:55 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/10 22:53:48 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/10 23:00:28 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WOODY_WOODPACKER_H
-# define WOODY_WOODPACKER_H
+#include <stdio.h>
 
-# define STUB64 "stub64.o"
-# include "../lib/binary_lib/includes/binary_lib.h"
+extern void stub_64(void);
 
-#endif 
+int	main(void)
+{
+	printf("test\n");
+	stub_64();
+	printf("after\n");
+}

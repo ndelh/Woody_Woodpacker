@@ -1,11 +1,13 @@
 bits 64
 
-global _start
+global stub_64
 section .text
 
-_start:
+stub_64:
+
 
 save_pile:
+pushfq
 push rax
 push rbx
 push rcx
@@ -21,7 +23,6 @@ push r12
 push r13
 push r14
 push r15
-sub rsp, 8 ;since 15 push is impair we need to restore base align
 
 stub:
 mov rax, 0x0a2e2e2e2e59
@@ -51,12 +52,11 @@ pop rdx
 pop rcx
 pop rbx
 pop rax
-add rsp, 8
+popfq
 
 end:
-mov rax, 60
-xor rdi, rdi
-syscall
+
+   jmp [rel oep_addr]
 
 ; modifiable stub variable
 oep_addr: dq 0x1122334455667788

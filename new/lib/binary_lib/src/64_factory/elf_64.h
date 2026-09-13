@@ -66,5 +66,16 @@
         void    set_pmemsz_64(void *cursor, uint64_t new_value);
         void    set_pflags_64(void *cursor, uint64_t new_value);
         void    set_palign_64(void *cursor, uint64_t new_value);
+    //section header
+        void	set_sh_name_64(void *cursor, uint64_t new_value);
+        void	set_sh_type_64(void *cursor, uint64_t new_value);
+        void	set_sh_flags_64(void *cursor, uint64_t new_value);
+        void	set_sh_addr_64(void *cursor, uint64_t new_value);
+        void	set_sh_offset_64(void *cursor, uint64_t new_value);
+        void	set_sh_size_64(void *cursor, uint64_t new_value);
+        void	set_sh_link_64(void *cursor, uint64_t new_value);
+        void	set_sh_info_64(void *cursor, uint64_t new_value);
+        void	set_sh_addralign_64(void *cursor, uint64_t new_value);
+        void	set_sh_entsize_64(void *cursor, uint64_t new_value);
     
 #endif

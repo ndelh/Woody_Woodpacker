@@ -28,6 +28,12 @@
 # define PAGESIZE 4096
 # define CANARY_NB 5
 # define CANARY_VALUE 0x1122334455667788ULL
+#define COLOR_RESET   "\033[0m"
+#define COLOR_RED     "\033[31m"
+#define COLOR_GREEN   "\033[32m"
+#define COLOR_YELLOW  "\033[33m"
+#define COLOR_BLUE    "\033[34m"
+#define COLOR_BOLD    "\033[1m"
 
 typedef struct s_elf_ops
 {
@@ -78,6 +84,17 @@ typedef struct s_elf_ops
         void    (*set_pmemsz)(void *cursor, uint64_t new_value);
         void    (*set_pflags)(void *cursor, uint64_t new_value);
         void    (*set_palign)(void *cursor, uint64_t new_value);
+	//shdr_setter
+		void	(*set_sh_name)(void *cursor, uint64_t new_value);
+        void	(*set_sh_type)(void *cursor, uint64_t new_value);
+        void	(*set_sh_flags)(void *cursor, uint64_t new_value);
+        void	(*set_sh_addr)(void *cursor, uint64_t new_value);
+        void	(*set_sh_offset)(void *cursor, uint64_t new_value);
+        void	(*set_sh_size)(void *cursor, uint64_t new_value);
+        void	(*set_sh_link)(void *cursor, uint64_t new_value);
+        void	(*set_sh_info)(void *cursor, uint64_t new_value);
+        void	(*set_sh_addralign)(void *cursor, uint64_t new_value);
+        void	(*set_sh_entsize)(void *cursor, uint64_t new_value);
 
 }	t_elf_ops;
 
@@ -168,6 +185,8 @@ uint64_t		get_byte_type(const void *map);
 void	print_strtab(unsigned char *s, uint64_t size);
 void	print_ehdr(t_bin_file *file);
 void	print_both_ehdr(t_bin_data *data);
+	//debug_print
+	void	print_all_phdr_range(t_bin_file *file, t_bin_data *data);
 
 # define ft_perror(s) ft_putendl_fd(s, 2)
 # define CR_DEFAULT cr(STDIN_FILENO)
@@ -188,7 +207,8 @@ void		simple_cpy(t_bin_data *data, char *s);
 void		stripped_copy(t_bin_data *data, char *s);
 	//stub_copy
 		//free_standing stub copy
-		void	fs_basic_stub_copy(t_bin_data *data);
+		void	fs_basic_stub_copy(t_bin_data *data, char *new_doc);
+		void	fs_caving_stub(t_bin_data *data, char *new_doc);
 
 //parser
 void		parse_first_header(t_bin_data *data, t_bin_file *file);
@@ -209,6 +229,8 @@ void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *
 	uint64_t	retrieve_farthest_physical(t_bin_file *file, t_bin_data *data);
 	uint64_t    get_next_available_vaddr(t_bin_file *file, t_bin_data *data);
 	void		*find_first_phdr_of_type(t_bin_file *file, t_bin_data *data, uint64_t type);
+	void		*find_cave(t_bin_file *file, t_bin_data *data);
+	uint64_t	find_bss_size(const t_elf_ops *elf_caster, void *cursor);
 
 
 //shdr_utils

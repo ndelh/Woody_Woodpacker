@@ -33,7 +33,7 @@ void	caving_process(t_bin_data *data, char *s, void *phdr_to_cave)
 	ft_memcpy(cpy_point, data->stub_injector->content_begin, data->stub_injector->content_size);
 }
 
-void    fs_caving_stub(t_bin_data *data, char *s)
+bool    fs_caving_stub(t_bin_data *data, char *s)
 {
 	void	*phdr_to_cave;
 	uint64_t	bss_size;
@@ -41,8 +41,11 @@ void    fs_caving_stub(t_bin_data *data, char *s)
 	(void)s;
 	gather_fs_stub_data(data);	
 	phdr_to_cave = find_cave(data->core, data);
+	if (!phdr_to_cave)
+		return 1;
 	bss_size =  find_bss_size(data->core->elf_caster, phdr_to_cave);
 	data->copy_size = data->core->map_size;
 	caving_process(data, s, phdr_to_cave);
 	ft_memcpy(data->map_copy, data->core->map, data->copy_size);
+	return (0);
 }	

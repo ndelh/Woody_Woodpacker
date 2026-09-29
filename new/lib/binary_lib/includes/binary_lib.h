@@ -208,7 +208,7 @@ void		stripped_copy(t_bin_data *data, char *s);
 	//stub_copy
 		//free_standing stub copy
 		void	fs_basic_stub_copy(t_bin_data *data, char *new_doc);
-		void	fs_caving_stub(t_bin_data *data, char *new_doc);
+		bool	fs_caving_stub(t_bin_data *data, char *new_doc);
 
 //parser
 void		parse_first_header(t_bin_data *data, t_bin_file *file);

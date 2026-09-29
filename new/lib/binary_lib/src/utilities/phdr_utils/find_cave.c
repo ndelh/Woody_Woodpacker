@@ -67,5 +67,7 @@ void    *find_cave(t_bin_file *file, t_bin_data *data)
     ft_bzero(&cave, sizeof(t_cave));
     cave.bss_size = UINT64_MAX;
     iterate_phdr(file, data, &cave, ite_find_cave);
+    if (cave.to_cave == NULL)
+        register_error(data, "unable to use caving technique, remaining place is unsufficient", data->core);
     return (cave.to_cave);
 }

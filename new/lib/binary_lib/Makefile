@@ -13,7 +13,7 @@
 Src = src/
 Init = $(Src)init/
 Ut = $(Src)utilities/
-Error = $(Ut)error/
+Error = $(Ut)error_warning/
 Libft = $(Ut)libft/
 Print = $(Ut)print/
 Dprint = $(Print)debug/
@@ -52,6 +52,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(Dprint)phdr_all_range.c \
 	$(Math)is_power_2.c \
 	$(Math)find_next_align_value.c \
+	$(Math)is_inf.c \
 	$(Init)init.c \
 	$(U_getter)first_ehdr_intel.c \
 	$(Opener)open_map.c \
@@ -80,6 +81,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(Shdr_ut)get_name.c \
 	$(Shdr_ut)find_shdr_by_name.c \
 	$(Error)register_error.c \
+	$(Error)warning.c \
 	$(64_F)declare_64.c \
 	$(64_Getter)ehdr_getter_64.c \
 	$(64_Getter)phdr_getter_64.c \

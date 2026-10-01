@@ -23,9 +23,9 @@ void	iterate_shdr(t_bin_file *file, t_bin_data *data, void *aux_data, void(*func
 	intel = file->intel;
 	cursor = (unsigned char *)file->map;
 	shdr_offset = intel->shdr_offset;
+	cursor += shdr_offset;
 	shdr_nb = intel->shdr_num;
 	shdr_size = intel->shdr_size; 
-	cursor += shdr_offset;
 	while (shdr_nb--)
 	{
 		if (func)

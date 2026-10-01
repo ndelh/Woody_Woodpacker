@@ -37,7 +37,7 @@
 
 typedef struct s_elf_ops
 {
-	// basic getter
+	//ehdr_getter
 		uint64_t	(*get_entry)(const void *ogn_map);
 		uint64_t	(*get_phdr_offset)(const void *ogn_map);
 		uint64_t	(*get_phdr_nb)(const void *ogn_map);
@@ -46,7 +46,7 @@ typedef struct s_elf_ops
 		uint64_t	(*get_shdr_nb)(const void *ogn_map);
 		uint64_t	(*get_shdr_size)(const void *ogn_map);
 		uint64_t	(*get_shstrndx)(const void *ogn_map);
-	//will do some sort, for the moment we just fetch all data in phdr
+	//phdr_getter
 		uint64_t	(*get_ptype)(const void *cursor);
 		uint64_t	(*get_poffsset)(const void *cursor);
 		uint64_t	(*get_pvaddr)(const void *cursor);
@@ -55,7 +55,7 @@ typedef struct s_elf_ops
 		uint64_t	(*get_pmemsz)(const void *cursor);
 		uint64_t	(*get_pflags)(const void *cursor);
 		uint64_t	(*get_palign)(const void *cursor);
-	//section header getter
+	//shdr_getter
 		uint64_t	(*get_shname)(const void *cursor);
 		uint64_t	(*get_shtype)(const void *cursor);
 		uint64_t	(*get_shflags)(const void *cursor);
@@ -172,8 +172,10 @@ void	ft_putstr_fd(char *s, int fd);
 void	cr(int fd);
 void    positive_pnumber(unsigned int i, int fd);
 
-//error
+//error_warning
 void	register_error(t_bin_data *data, char *msg, t_bin_file *file);
+void	warn(char *s);
+void	file_warning(char *s, t_bin_file *file);
 
 //universal getter
 bool			is_not_elf(const void *map);

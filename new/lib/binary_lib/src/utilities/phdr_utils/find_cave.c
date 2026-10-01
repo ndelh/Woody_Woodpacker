@@ -19,31 +19,28 @@ typedef struct s_cave
     bool        exec_possible; //define in we can cave in the original segment with exec write;
 }   t_cave;
 
-uint64_t    count_blank(unsigned char *map, const t_elf_ops *elf_caster, void *cursor)
+uint64_t    count_blank(t_bin_file *file, const t_elf_ops *elf_caster, void *cursor)
 {
     uint64_t        count_blank;
+    uint64_t        bss_size;
     unsigned char   *iterator;
+    unsigned char   *end;
 
-    iterator = map;
+    iterator = (unsigned char *)file->map;
+    end = (unsigned char *)file->map + file->map_size;
     iterator += elf_caster->get_poffsset(cursor) + elf_caster->get_pfilesz(cursor);
     count_blank = 0;
-    while (!(*iterator))
+    while ((iterator != end) && !(*iterator))
     {
         ++count_blank;
         ++iterator;
     }
+    bss_size = find_bss_size(elf_caster, cursor);
+    if (count_blank <= bss_size)
+        return (0);
+    count_blank -= bss_size;
     return count_blank;
 }
-
-// bool    is_cave_valid(t_bin_file *file, t_bin_data *data, void *helper, void *cave_candidate)
-// {
-//     const t_elf_ops *elf_caster;
-//     uint64_t    supposed_memsz_end;
-
-//     elf_caster = file->elf_caster;
-//     supposed_memsz_end = elf_caster->get_pmemsz(cave_candidate) + data->stub->
-
-// }
 
 void    ite_find_cave(t_bin_file *file, t_bin_data *data, void *helper, void *cursor)
 {
@@ -53,7 +50,7 @@ void    ite_find_cave(t_bin_file *file, t_bin_data *data, void *helper, void *cu
     elf_caster = file->elf_caster;
     if (elf_caster->get_ptype(cursor) != PT_LOAD || ((t_cave *)helper)->exec_possible)
         return ;
-    blank_count = count_blank(file->map, elf_caster, cursor);
+    blank_count = count_blank(file, elf_caster, cursor);
     if (blank_count <= data->stub_injector->content_size)
         return ;
     ((t_cave *)helper)->to_cave = cursor;
@@ -69,6 +66,6 @@ void    *find_cave(t_bin_file *file, t_bin_data *data)
     cave.stub_size = data->stub_injector->content_size;
     iterate_phdr(file, data, &cave, ite_find_cave);
     if (cave.to_cave == NULL)
-        register_error(data, "unable to use caving technique, remaining place is unsufficient", data->core);
+        file_warning("unable to use caving technique, remaining place is unsufficient", data->core);
     return (cave.to_cave);
 }

@@ -16,6 +16,7 @@ void	caving_process(t_bin_data *data, char *s, void *phdr_to_cave, uint64_t bss_
 {
 	unsigned char	*cpy_point;
 	uint64_t		oep;
+	uint64_t		new_ep;
 	const t_elf_ops	*elf_caster;
 	uint64_t		*place_holder;
 
@@ -23,13 +24,14 @@ void	caving_process(t_bin_data *data, char *s, void *phdr_to_cave, uint64_t bss_
 	open_extend(data, s);
 	cpy_point = (unsigned char *)data->core->map + elf_caster->get_poffsset(phdr_to_cave) + elf_caster->get_pfilesz(phdr_to_cave) + bss_size;
 	oep = elf_caster->get_entry(data->core->map);
-	elf_caster->set_entry(data->core->map, elf_caster->get_pvaddr(phdr_to_cave) + elf_caster->get_pmemsz(phdr_to_cave) + bss_size); //setting entry to the end of old content
+	new_ep = elf_caster->get_pvaddr(phdr_to_cave) + elf_caster->get_pmemsz(phdr_to_cave) + bss_size;
+	elf_caster->set_entry(data->core->map, new_ep); //setting entry to the end of old content
 	place_holder = (uint64_t *)data->stub_injector->current_placeholder;
 	*place_holder = oep;
 	elf_caster->set_pmemsz(phdr_to_cave, elf_caster->get_pmemsz(phdr_to_cave) + data->stub_injector->content_size); // actualizing pmesz
 	elf_caster->set_pfilesz(phdr_to_cave, elf_caster->get_pfilesz(phdr_to_cave) + data->stub_injector->content_size); //actualiszing pfilesz
-	printf("ancient oep and current placeholder not hex: %lu, hex: %lx\n", oep, *place_holder);
-	printf("current eop not hex: %lu, hex: %lx", elf_caster->get_entry(data->core->map), elf_caster->get_entry(data->core->map));
+	// printf("ancient oep and current placeholder not hex: %lu, hex: %lx\n", oep, *place_holder);
+	// printf("current eop not hex: %lu, hex: %lx", elf_caster->get_entry(data->core->map), elf_caster->get_entry(data->core->map));
 	ft_memcpy(cpy_point, data->stub_injector->content_begin, data->stub_injector->content_size);
 }
 

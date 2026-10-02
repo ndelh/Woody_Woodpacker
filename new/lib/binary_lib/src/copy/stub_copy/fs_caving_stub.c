@@ -18,7 +18,6 @@ void	caving_process(t_bin_data *data, char *s, void *phdr_to_cave, uint64_t bss_
 	uint64_t		oep;
 	uint64_t		new_ep;
 	const t_elf_ops	*elf_caster;
-	uint64_t		*place_holder;
 
 	elf_caster = data->core->elf_caster;
 	open_extend(data, s);
@@ -26,8 +25,7 @@ void	caving_process(t_bin_data *data, char *s, void *phdr_to_cave, uint64_t bss_
 	oep = elf_caster->get_entry(data->core->map);
 	new_ep = elf_caster->get_pvaddr(phdr_to_cave) + elf_caster->get_pmemsz(phdr_to_cave) + bss_size;
 	elf_caster->set_entry(data->core->map, new_ep); //setting entry to the end of old content
-	place_holder = (uint64_t *)data->stub_injector->current_placeholder;
-	*place_holder = oep;
+	compute_ep_offset(data->core, data, oep, new_ep);
 	elf_caster->set_pmemsz(phdr_to_cave, elf_caster->get_pmemsz(phdr_to_cave) + data->stub_injector->content_size); // actualizing pmesz
 	elf_caster->set_pfilesz(phdr_to_cave, elf_caster->get_pfilesz(phdr_to_cave) + data->stub_injector->content_size); //actualiszing pfilesz
 	// printf("ancient oep and current placeholder not hex: %lu, hex: %lx\n", oep, *place_holder);

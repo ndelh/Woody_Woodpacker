@@ -12,10 +12,26 @@
 
 #include "binary_lib.h"
 
+//first placeholder contain the diff between the two entrypoint, second contain the growth direction 
 void	compute_ep_offset(t_bin_file *file, t_bin_data *data, uint64_t oep, uint64_t new_ep)
 {
-	(void)file;
-    (void)data;
-    (void)oep;
-    (void)new_ep;
+    const t_elf_ops	*elf_caster;
+	uint64_t		*place_holder;
+
+    elf_caster = file->elf_caster;
+    place_holder = (uint64_t *)data->stub_injector->current_placeholder;
+	if (is_inf(oep, new_ep))
+    {
+        *place_holder = new_ep - oep;
+        ++place_holder;
+        *place_holder = 0;
+    }
+    else
+    {
+        *place_holder = oep - new_ep;
+        ++place_holder;
+        *place_holder = 1;
+    }
+    ++place_holder;
+    data->stub_injector->current_placeholder = (void *)place_holder;
 }

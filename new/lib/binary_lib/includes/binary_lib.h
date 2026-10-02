@@ -195,6 +195,7 @@ void	print_both_ehdr(t_bin_data *data);
 
 //math
 int		is_power_2(uint64_t x);
+bool	is_inf(uint64_t a, uint64_t b);
 uint64_t	find_next_aligned_value(uint64_t value, uint64_t align);
 
 //opener
@@ -255,7 +256,7 @@ void    craft_stub_phdr(t_bin_data *data, void *phdr);
 	//freestanding stub
 	void	gather_fs_stub_data(t_bin_data *data);
 	void	fs_find_canaries(t_bin_data *data, void *cursor, uint64_t size, t_stub_injector *injector);
-	void	compute_fs_offset(t_bin_file *file, t_bin_data *data, uint64_t oep, uint64_t new_ep);
+	void	compute_ep_offset(t_bin_file *file, t_bin_data *data, uint64_t oep, uint64_t new_ep);
 
 //full fonctions, can be launched as autonomous prog or wrapper
 //autonomous

@@ -60,6 +60,7 @@ end:
 
 ; modifiable stub variable
 oep_addr: dq 0x1122334455667788
+reverse_offset: dq 0x1122334455667788
 key_1: dq 0x1122334455667788
 key_2: dq 0x1122334455667788
 key_3: dq 0x1122334455667788

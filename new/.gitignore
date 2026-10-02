@@ -1,4 +1,5 @@
 *.o
 obj
 Woody
+woody_woodpacker
 obj/*

@@ -12,7 +12,7 @@
 
 #include "binary_lib.h"
 
-void	caving_process(t_bin_data *data, char *s, void *phdr_to_cave)
+void	caving_process(t_bin_data *data, char *s, void *phdr_to_cave, uint64_t bss_size)
 {
 	unsigned char	*cpy_point;
 	uint64_t		oep;
@@ -21,13 +21,13 @@ void	caving_process(t_bin_data *data, char *s, void *phdr_to_cave)
 
 	elf_caster = data->core->elf_caster;
 	open_extend(data, s);
-	cpy_point = (unsigned char *)data->core->map + elf_caster->get_poffsset(phdr_to_cave) + elf_caster->get_pfilesz(phdr_to_cave);
+	cpy_point = (unsigned char *)data->core->map + elf_caster->get_poffsset(phdr_to_cave) + elf_caster->get_pfilesz(phdr_to_cave) + bss_size;
 	oep = elf_caster->get_entry(data->core->map);
-	elf_caster->set_entry(data->core->map, elf_caster->get_pvaddr(phdr_to_cave) + elf_caster->get_pmemsz(phdr_to_cave)); //setting entry to the end of old content
-	elf_caster->set_pmemsz(phdr_to_cave, elf_caster->get_pmemsz(phdr_to_cave) + data->stub_injector->content_size); // actualizing pmesz
-	elf_caster->set_pfilesz(phdr_to_cave, elf_caster->get_pfilesz(phdr_to_cave) + data->stub_injector->content_size); //actualiszing pfilesz
+	elf_caster->set_entry(data->core->map, elf_caster->get_pvaddr(phdr_to_cave) + elf_caster->get_pmemsz(phdr_to_cave) + bss_size); //setting entry to the end of old content
 	place_holder = (uint64_t *)data->stub_injector->current_placeholder;
 	*place_holder = oep;
+	elf_caster->set_pmemsz(phdr_to_cave, elf_caster->get_pmemsz(phdr_to_cave) + data->stub_injector->content_size); // actualizing pmesz
+	elf_caster->set_pfilesz(phdr_to_cave, elf_caster->get_pfilesz(phdr_to_cave) + data->stub_injector->content_size); //actualiszing pfilesz
 	printf("ancient oep and current placeholder not hex: %lu, hex: %lx\n", oep, *place_holder);
 	printf("current eop not hex: %lu, hex: %lx", elf_caster->get_entry(data->core->map), elf_caster->get_entry(data->core->map));
 	ft_memcpy(cpy_point, data->stub_injector->content_begin, data->stub_injector->content_size);
@@ -45,7 +45,7 @@ bool    fs_caving_stub(t_bin_data *data, char *s)
 		return 1;
 	bss_size =  find_bss_size(data->core->elf_caster, phdr_to_cave);
 	data->copy_size = data->core->map_size;
-	caving_process(data, s, phdr_to_cave);
+	caving_process(data, s, phdr_to_cave, bss_size);
 	ft_memcpy(data->map_copy, data->core->map, data->copy_size);
 	return (0);
 }	

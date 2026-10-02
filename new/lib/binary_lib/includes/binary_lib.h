@@ -26,7 +26,7 @@
 # include "../src/64_factory/elf_64.h"
 
 # define PAGESIZE 4096
-# define CANARY_NB 5
+# define CANARY_NB 6
 # define CANARY_VALUE 0x1122334455667788ULL
 #define COLOR_RESET   "\033[0m"
 #define COLOR_RED     "\033[31m"
@@ -255,7 +255,7 @@ void    craft_stub_phdr(t_bin_data *data, void *phdr);
 	//freestanding stub
 	void	gather_fs_stub_data(t_bin_data *data);
 	void	fs_find_canaries(t_bin_data *data, void *cursor, uint64_t size, t_stub_injector *injector);
-
+	void	compute_fs_offset(t_bin_file *file, t_bin_data *data, uint64_t oep, uint64_t new_ep);
 
 //full fonctions, can be launched as autonomous prog or wrapper
 //autonomous

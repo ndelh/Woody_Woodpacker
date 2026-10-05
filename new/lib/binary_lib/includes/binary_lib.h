@@ -26,7 +26,7 @@
 # include "../src/64_factory/elf_64.h"
 
 # define PAGESIZE 4096
-# define CANARY_NB 6
+# define CANARY_NB 14
 # define CANARY_VALUE 0x1122334455667788ULL
 #define COLOR_RESET   "\033[0m"
 #define COLOR_RED     "\033[31m"
@@ -192,6 +192,10 @@ void	print_both_ehdr(t_bin_data *data);
 
 # define ft_perror(s) ft_putendl_fd(s, 2)
 # define CR_DEFAULT cr(STDIN_FILENO)
+
+//cypher 
+void	cypher_pt_load(t_bin_data *data);
+void	s_xor_cypher_s(void *to_cypher, size_t cypher_len, void *key_sum);
 
 //math
 int		is_power_2(uint64_t x);

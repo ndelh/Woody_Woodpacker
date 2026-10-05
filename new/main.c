@@ -6,7 +6,7 @@
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/06 11:13:04 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/13 19:55:43 by ndelhota         ###   ########.fr       */
+/*   Updated: 2026/10/05 07:30:17 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	woody_core(t_bin_data *data)
 {
 	launcher(data, open_map);
 	launcher(data, parse_gather);
-	//fs_basic_stub_copy(data, "Woody");
 	fs_caving_stub(data, "Woody");
 	free_data(data);
 }

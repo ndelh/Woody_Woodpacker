@@ -31,13 +31,15 @@ Gather = $(Src)gather/
 Stub = $(Src)stub/
 Fs_stub = $(Stub)freestanding_stub/
 End = $(Src)end/
+Cypher = $(Src)cypher/
+S_xor = $(Cypher)single_xor/
 64_F = $(Src)64_factory/
 64_Getter = $(64_F)getter/
 64_Setter = $(64_F)setter/
 Autonomous = $(Src)autonomous_one/
 
 
-SRC := $(Libft)ft_strlen.c \
+C_SRC := $(Libft)ft_strlen.c \
 	$(Libft)ft_bzero.c \
 	$(Libft)ft_memcpy.c \
 	$(Libft)ft_memcmp.c \
@@ -82,6 +84,7 @@ SRC := $(Libft)ft_strlen.c \
 	$(Shdr_ut)find_shdr_by_name.c \
 	$(Error)register_error.c \
 	$(Error)warning.c \
+	$(S_xor)single_xor_cypher.c \
 	$(64_F)declare_64.c \
 	$(64_Getter)ehdr_getter_64.c \
 	$(64_Getter)phdr_getter_64.c \
@@ -97,12 +100,19 @@ SRC := $(Libft)ft_strlen.c \
 	$(Autonomous)minimal_check.c \
 	$(Autonomous)strip_resize.c \
 
+ASM_SRC := $(S_xor)s_xor_cypher_s.s
+
 OBJDIR = obj
-OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
+
+C_OBJ := $(C_SRC:%.c=$(OBJDIR)/%.o)
+ASM_OBJ := $(ASM_SRC:%.s=$(OBJDIR)/%.o)
+OBJ = $(C_OBJ) $(ASM_OBJ)
 
 CC := clang
+CFLAGS := -Werror -Wextra -Wall -g -Iincludes
 
-CFLAGS = -Werror -Wextra -Wall -g -Iincludes
+ASM_CC := nasm
+ASM_FLAGS := -f elf64  
 
 NAME = binary_lib.a
 
@@ -114,6 +124,10 @@ $(NAME): $(OBJ)
 $(OBJDIR)/%.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o: %.s
+	mkdir -p $(dir $@)
+	$(ASM_CC) $(ASM_FLAGS) $< -o $@
 
 bonus : $(OBJ) $(BONUSOBJ)
 	ar rcs $(NAME) $?

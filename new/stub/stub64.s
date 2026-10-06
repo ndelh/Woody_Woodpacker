@@ -53,82 +53,28 @@ add r15, [rel offset]
 
 uncypher: 
 
-mprotect1:
-lea rax, [rel mprotect2]
-push rax
-mov rdi, [rel phdr1]
-mov rsi, [rel phdr1_size]
-jmp mprotect_wrapper
+unlock_init:
+lea rbx, [rel phdr_table]
+mov rcx, 3 ; currently this stub allow max 3 prog header
 
-mprotect2:
-lea rax, [rel mprotect3]
-push rax
-mov rdi, [rel phdr2]
-mov rsi, [rel phdr2_size]
-jmp mprotect_wrapper
-
-mprotect3:
-lea rax, [push_key_on_stack]
-push rax
-mov rdi, [rel phdr3]
-mov rsi, [rel phdr3_size]
-jmp mprotect_wrapper
-
-mprotect_wrapper: ;when enterin rdi contain phdr vaddr; rsi initial len
-cmp rdi, r14
-je non_existing_adress ; if this comparison is equal it means that this pt_load doesnt exist becase 112233.. is placeholder value
-add rdi, r15 ;adding base to the address (needed for pie exec)
-mov r8, rdi ; saving base for calculus
-and rdi, -0x1000 ; while result in giving us the previous aligned address
-sub r8, rdi ; compute the first len adjustement, classic end - begin
-add rsi, r8 ;adding len adjustement
-add rsi, 4095; compleating by pagesize - 1
-and rsi, -0x1000; finalize the second len adjustement by discarding everything below 4096
-mov rax, 10
+unlock_loop:
+test rcx, rcx
+jz push_key_on_stack
+push rbx
+push rcx
+mov rdi, [rbx]
+mov rsi, [rbx + 8]
 mov rdx, 7
-syscall 
-ret
+call mprotect_wrapper
+pop rcx
+pop rbx
+add rbx, 24 ; 3 entry 
+dec rcx
+jmp unlock_loop
 
-non_existing_adress:
-pop rax ; removing expected return then going to push key on stack
-
-push_key_on_stack:
-push qword [rel key_4]
-push qword [rel key_3]
-push qword [rel key_2]
-push qword [rel key_1]
-
-uncypher_end:
-add rsp, 32
-
-restaure_protect:
-r_mprotect1:
-lea rax, [rel mprotect2]
-push rax
-mov rdi, [rel phdr1]
-mov rsi, [rel phdr1_size]
-mov rdx, [rel phdr1_flags]
-jmp restaure_protect_wrapper
-
-r_mprotect2:
-lea rax, [rel mprotect3]
-push rax
-mov rdi, [rel phdr2]
-mov rsi, [rel phdr2_size]
-mov rdx, [rel phdr2_flags]
-jmp restaure_protect_wrapper
-
-r_mprotect3:
-lea rax, [load_base_addr]
-push rax
-mov rdi, [rel phdr3]
-mov rsi, [rel phdr3_size]
-mov rdx, [rel phdr3_flags]
-jmp restaure_protect_wrapper
-
-restaure_protect_wrapper: ;almost the same wrapper as mprotect_wrapper but with a loaded flag
-cmp rdi, r14
-je unexisting_restaure
+mprotect_wrapper: ;when enterin rdi contain phdr vaddr; rsi initial len, rdx the flags;
+cmp rdi, [rel place_holder_value]
+je go_next ; if this comparison is equal it means that this pt_load doesnt exist becase 112233.. is placeholder value
 add rdi, r15 ;adding base to the address (needed for pie exec)
 mov r8, rdi ; saving base for calculus
 and rdi, -0x1000 ; while result in giving us the previous aligned address
@@ -138,10 +84,95 @@ add rsi, 4095; compleating by pagesize - 1
 and rsi, -0x1000; finalize the second len adjustement by discarding everything below 4096
 mov rax, 10
 syscall
+
+go_next:
 ret
 
-unexisting_restaure:
-pop rax
+push_key_on_stack:
+push qword [rel key_4]
+push qword [rel key_3]
+push qword [rel key_2]
+push qword [rel key_1]
+
+uncypher_init:
+lea rbx, [phdr_table]
+mov rcx, 3
+
+uncypher_loop:
+test rcx, rcx
+jz remove_key
+mov rdi, [rbx]
+mov rsi, [rbx + 8]
+push rbx
+push rcx
+call uncypher_segment
+pop rcx
+pop rbx
+dec rcx
+add rbx, 24
+jmp uncypher_loop
+
+uncypher_segment: ; rdi contain the non based value, rsi the len to uncypher
+test rdi, [rel place_holder_value]
+jz skip_segment
+
+add rdi, r15
+mov rcx, rsi
+shr rcx, 5 ; cause we want to fast by key_size;
+jz slow_loop ; mean that the remaining size is < 32;
+
+fast_loop: ;rcx is the 32 counter, rdi the pointer
+test rcx, rcx
+jz slow_loop
+mov rax, [rsp + 24] ; +8 since entry because rsp contain ret addr
+xor [rdi], rax
+mov rax, [rsp + 32]
+xor [rdi + 8], rax
+mov rax, [rsp + 40]
+xor [rdi + 16], rax
+mov rax, [rsp + 48]
+xor [rdi + 24], rax
+add rdi, 32
+dec rcx
+jmp fast_loop
+
+slow_loop_init:
+lea rbx, [rsp + 24]
+and rsi, 31
+slow_loop: ;will use rsi as a remaining counter, rbx as a pointer to the key
+test rdi, rdi
+jz skip_segment
+mov al, byte [rbx]
+xor byte [rdi], al
+inc rdi
+inc rbx
+dec rsi
+jmp slow_loop
+
+skip_segment:
+ret
+
+remove_key:
+add rsp, 32
+
+init_lock_loop:
+lea rbx, [rel phdr_table]
+mov rcx, 3 ; 
+
+relock_loop:
+test rcx, rcx
+jz load_base_addr
+push rbx
+push rcx
+mov rdi, [rbx]
+mov rsi, [rbx + 8]
+mov rdx, [rbx + 16]
+call mprotect_wrapper
+pop rcx
+pop rbx
+add rbx, 24 ; 3 entry 
+dec rcx
+jmp relock_loop
 
 load_base_addr:
 mov rax, r15
@@ -174,13 +205,18 @@ key_3: dq 0x1122334455667788
 key_4: dq 0x1122334455667788
 
 phdr_table:
+
 ;segment 1
 phdr1: dq 0x1122334455667788
 phdr1_size: dq 0x1122334455667788
 phdr1_flags: dq 0x1122334455667788
+
+;segment2
 phdr2: dq 0x1122334455667788
 phdr2_size: dq 0x1122334455667788
 phdr2_flags: dq 0x1122334455667788
+
+;segment3
 phdr3: dq 0x1122334455667788
 phdr3_size: dq 0x1122334455667788
 phdr3_flags: dq 0x1122334455667788

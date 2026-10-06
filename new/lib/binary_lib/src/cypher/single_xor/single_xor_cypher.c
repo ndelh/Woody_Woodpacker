@@ -74,7 +74,7 @@ void	cypher_all_pt_load(t_bin_file *file, t_bin_data *data, void *helper, void *
 	content_size = elf_caster->get_pfilesz(cursor);
 	current_perm = elf_caster->get_pflags(cursor);
 	content_load_addr = elf_caster->get_pvaddr(cursor);
-	s_xor_cypher_s(content_begin, content_size, s_cypher->key);
+	//s_xor_cypher_s(content_begin, content_size, s_cypher->key);
 	load_phdr_intel_in_stub(helper, content_load_addr, content_size, current_perm);
 }
 
@@ -87,6 +87,8 @@ void	cypher_pt_load(t_bin_data *data)
 	related_place_holder = (uint64_t *)data->stub_injector->current_placeholder;
 	related_place_holder += PHDR_PLACE_HOLDER_BEGIN;
 	helper.key = generate_key(data);
+	ft_memcpy(related_place_holder, helper.key, 32);
+	related_place_holder += 4;
 	helper.place_holder = related_place_holder;
 	iterate_phdr(data->core, data, &helper, cypher_all_pt_load);
 	free(helper.key);

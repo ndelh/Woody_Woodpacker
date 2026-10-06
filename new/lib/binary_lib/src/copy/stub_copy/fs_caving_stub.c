@@ -42,7 +42,7 @@ bool    fs_caving_stub(t_bin_data *data, char *s)
 		return 1;
 	bss_size =  find_bss_size(data->core->elf_caster, phdr_to_cave);
 	data->copy_size = data->core->map_size;
-	//cypher_pt_load(data);
+	cypher_pt_load(data);
 	caving_process(data, s, phdr_to_cave, bss_size);
 	ft_memcpy(data->map_copy, data->core->map, data->copy_size);
 	return (0);

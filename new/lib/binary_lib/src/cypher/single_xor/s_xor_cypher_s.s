@@ -37,7 +37,6 @@ slow_loop_init:
 mov r10, rdx; storing key in r10
 
 slow_loop:
-
 test rsi, rsi
 jz end
 mov al, byte [r10]

@@ -4,8 +4,9 @@ default rel
 global stub_64
 section .text
 
-;r15 will be used to store base eop value (pie necessary)
+;r15 will be used to store eop value (pie necessary)
 ; r14 will be used to store 0x1122334455667788
+; r13 will be used to store base offset (pie necessary)
 stub_64:
 
 push_init:
@@ -39,17 +40,27 @@ mov rsi, rsp
 mov rdx, 14
 syscall 
 add rsp, 16 ;restoring pile after using it for hardcoding "...WOODY...\n"
-
-base_calculus:
 mov r14, [rel place_holder_value]
-lea r15, [stub_64]
+
+original_eop_calculus:
+lea r15, [rel stub_64]
 cmp qword [rel positive_offset], 1
-je compute_pos_base
+je compute_positive_eop
+
+compute_negative_eop:
 sub r15, [rel offset]
-jmp uncypher
+jmp compute_pos_base
+
+compute_positive_eop:
+add r15, [rel offset]
 
 compute_pos_base:
-add r15, [rel offset]
+xor r13, r13 ; base will be 0 if je trigger
+cmp r15, qword [original_eop] ; comparison between computed eop and original eop
+je uncypher ;if its equal it means that the offset is equal to 0
+mov r13, r15
+sub r13, [rel original_eop]
+
 
 uncypher: 
 
@@ -75,7 +86,7 @@ jmp unlock_loop
 mprotect_wrapper: ;when enterin rdi contain phdr vaddr; rsi initial len, rdx the flags;
 cmp rdi, [rel place_holder_value]
 je go_next ; if this comparison is equal it means that this pt_load doesnt exist becase 112233.. is placeholder value
-add rdi, r15 ;adding base to the address (needed for pie exec)
+add rdi, r13 ;adding base to the address (needed for pie exec)
 mov r8, rdi ; saving base for calculus
 and rdi, -0x1000 ; while result in giving us the previous aligned address
 sub r8, rdi ; compute the first len adjustement, classic end - begin
@@ -83,8 +94,8 @@ add rsi, r8 ;adding len adjustement
 add rsi, 4095; compleating by pagesize - 1
 and rsi, -0x1000; finalize the second len adjustement by discarding everything below 4096
 mov rax, 10
+mov rdx, 7
 syscall
-
 go_next:
 ret
 
@@ -93,64 +104,6 @@ push qword [rel key_4]
 push qword [rel key_3]
 push qword [rel key_2]
 push qword [rel key_1]
-
-uncypher_init:
-lea rbx, [phdr_table]
-mov rcx, 3
-
-uncypher_loop:
-test rcx, rcx
-jz remove_key
-mov rdi, [rbx]
-mov rsi, [rbx + 8]
-push rbx
-push rcx
-call uncypher_segment
-pop rcx
-pop rbx
-dec rcx
-add rbx, 24
-jmp uncypher_loop
-
-uncypher_segment: ; rdi contain the non based value, rsi the len to uncypher
-test rdi, [rel place_holder_value]
-jz skip_segment
-
-add rdi, r15
-mov rcx, rsi
-shr rcx, 5 ; cause we want to fast by key_size;
-jz slow_loop ; mean that the remaining size is < 32;
-
-fast_loop: ;rcx is the 32 counter, rdi the pointer
-test rcx, rcx
-jz slow_loop
-mov rax, [rsp + 24] ; +8 since entry because rsp contain ret addr
-xor [rdi], rax
-mov rax, [rsp + 32]
-xor [rdi + 8], rax
-mov rax, [rsp + 40]
-xor [rdi + 16], rax
-mov rax, [rsp + 48]
-xor [rdi + 24], rax
-add rdi, 32
-dec rcx
-jmp fast_loop
-
-slow_loop_init:
-lea rbx, [rsp + 24]
-and rsi, 31
-slow_loop: ;will use rsi as a remaining counter, rbx as a pointer to the key
-test rdi, rdi
-jz skip_segment
-mov al, byte [rbx]
-xor byte [rdi], al
-inc rdi
-inc rbx
-dec rsi
-jmp slow_loop
-
-skip_segment:
-ret
 
 remove_key:
 add rsp, 32
@@ -199,6 +152,7 @@ ret ; since the summit of the pile contain oep, its equivalent to jmp + ret move
 ; modifiable stub variable
 offset: dq 0x1122334455667788
 positive_offset: dq 0x1122334455667788
+original_eop: dq 0x1122334455667788
 key_1: dq 0x1122334455667788
 key_2: dq 0x1122334455667788
 key_3: dq 0x1122334455667788

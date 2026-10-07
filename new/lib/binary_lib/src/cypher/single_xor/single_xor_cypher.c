@@ -85,7 +85,7 @@ void	cypher_pt_load(t_bin_data *data)
 
 	ft_bzero(&helper, sizeof(t_simple_cypher));
 	related_place_holder = (uint64_t *)data->stub_injector->current_placeholder;
-	related_place_holder += PHDR_PLACE_HOLDER_BEGIN;
+	related_place_holder += KEY_PLACE_HOLDER_BEGIN;
 	helper.key = generate_key(data);
 	ft_memcpy(related_place_holder, helper.key, 32);
 	related_place_holder += 4;

@@ -33,5 +33,5 @@ void	compute_ep_offset(t_bin_file *file, t_bin_data *data, uint64_t oep, uint64_
         *place_holder = 1;
     }
     ++place_holder;
-    data->stub_injector->current_placeholder = (void *)place_holder;
+    *place_holder = oep;
 }

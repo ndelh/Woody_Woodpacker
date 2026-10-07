@@ -26,9 +26,10 @@
 # include "../src/64_factory/elf_64.h"
 
 # define PAGESIZE 4096
-# define CANARY_NB 16
+# define CANARY_NB 17
 # define CANARY_VALUE 0x1122334455667788ULL
-# define PHDR_PLACE_HOLDER_BEGIN 2
+# define KEY_PLACE_HOLDER_BEGIN 3
+# define PHDR_PLACE_HOLDER_BEGIN 7
 #define COLOR_RESET   "\033[0m"
 #define COLOR_RED     "\033[31m"
 #define COLOR_GREEN   "\033[32m"

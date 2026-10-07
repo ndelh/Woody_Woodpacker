@@ -68,13 +68,15 @@ void	cypher_all_pt_load(t_bin_file *file, t_bin_data *data, void *helper, void *
 	if (elf_caster->get_ptype(cursor) != PT_LOAD)
 		return ;
 	content_offset = elf_caster->get_poffsset(cursor);
+	if (!(elf_caster->get_pflags(cursor) & PF_X)) //this is temporarily zill uncypher the other later
+		return ;
 	if (!content_offset)
 		return ;
 	content_begin = (unsigned char *)file->map + content_offset;
 	content_size = elf_caster->get_pfilesz(cursor);
 	current_perm = elf_caster->get_pflags(cursor);
 	content_load_addr = elf_caster->get_pvaddr(cursor);
-	//s_xor_cypher_s(content_begin, content_size, s_cypher->key);
+	s_xor_cypher_s(content_begin, content_size, s_cypher->key);
 	load_phdr_intel_in_stub(helper, content_load_addr, content_size, current_perm);
 }
 

@@ -105,6 +105,65 @@ push qword [rel key_3]
 push qword [rel key_2]
 push qword [rel key_1]
 
+uncypher_init:
+lea rbx, [phdr_table]
+mov rcx, 3
+
+uncypher_loop:
+test rcx, rcx
+jz remove_key
+mov rdi, [rbx]
+mov rsi, [rbx + 8]
+push rbx
+push rcx
+call uncypher_segment
+pop rcx
+pop rbx
+dec rcx
+add rbx, 24
+jmp uncypher_loop
+
+uncypher_segment: ; rdi contain the non based value, rsi the len to uncypher
+cmp rdi, [rel place_holder_value]
+je skip_segment
+
+add rdi, r13 ; adding the base value
+mov rcx, rsi
+shr rcx, 5 ; cause we want to fast by key_size;
+jz slow_loop ; mean that the remaining size is < 32;
+
+fast_loop: ;rcx is the 32 counter, rdi the pointer
+test rcx, rcx
+jz slow_loop_init
+mov rax, [rsp + 24] ; +8 since entry because rsp contain ret addr
+xor [rdi], rax
+mov rax, [rsp + 32]
+xor [rdi + 8], rax
+mov rax, [rsp + 40]
+xor [rdi + 16], rax
+mov rax, [rsp + 48]
+xor [rdi + 24], rax
+add rdi, 32
+dec rcx
+jmp fast_loop
+
+slow_loop_init:
+lea rbx, [rsp + 24]
+and rsi, 31
+slow_loop: ;will use rsi as a remaining counter, rbx as a pointer to the key
+test rsi, rsi
+jz skip_segment
+mov al, byte [rbx]
+xor byte [rdi], al
+inc rdi
+inc rbx
+dec rsi
+jmp slow_loop
+
+skip_segment:
+ret
+
+
 remove_key:
 add rsp, 32
 

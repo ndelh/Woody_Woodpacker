@@ -6,7 +6,7 @@
 #    By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 17:08:53 by ndelhota          #+#    #+#              #
-#    Updated: 2026/06/01 18:47:36 by ndelhota         ###   ########.fr        #
+#    Updated: 2026/09/13 17:59:36 by ndelhota         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,57 +19,43 @@ Gather = ./$(Mod)/gather_intel
 64_F = ./64_factory
 
 SRC := main.c \
-		$(64_F)/main_header_utils1.c \
-		$(64_F)/main_header_utils2.c \
-		$(64_F)/shdr_utils1.c \
-		$(64_F)/shdr_utils2.c \
-		$(64_F)/phdr_utils1.c \
-		$(64_F)/phdr_utils2.c \
-		$(64_F)/main_header_setter.c \
-		$(64_F)/write_stub_phdr.c \
-		$(64_F)/declare_64.c \
-		$(Ut)/utils.c \
-		$(Ut)/print.c \
-		$(Ut)/boundary_check.c \
-		$(Ut)/debug_print.c \
-		$(Ut)/retrieve_longest_padding.c \
-		$(Ut)/iterate.c \
-		$(Ut)/shdr_wrapped_utils.c \
-		$(Ut)/phdr_wrapped_utils.c \
-		$(Ut)/stub_wrapped_utilies.c \
-		$(Ini)/open_fetch_map.c \
-		$(Ini)/check_prerequisite.c \
-		$(Mod)/modify_core.c  \
-		$(Mod)/reproduce.c \
-		$(Mod)/shdr_destruct.c \
-		$(Gather)/retrieve_ehdr_intel.c \
-		$(Gather)/retrieve_stub.c \
-		$(Gather)/fetch_modify_need.c
 
 CC := cc
 
-CFLAGS := -g -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra -g -Iincludes #-fsanitize=address
+
+STUB := nasm -f elf64 stub/stub64.s -o stub64.o
 
 OBJDIR = obj
 OBJ = $(SRC:.c=.o)
 OBJ := $(addprefix $(OBJDIR)/, $(OBJ))
 
+LIB := ./lib/binary_lib/binary_lib.a
 
-all : $(OBJ) $(NAME)
+all : $(LIB) $(OBJ) $(NAME)
 
 $(NAME) : $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
+	@$(STUB)
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c -o $@ $^
 
+$(LIB) :
+	@make -C lib/binary_lib
+
 clean :
 	@rm -rf $(OBJDIR) 
+	@make -C lib/binary_lib clean
 
 fclean : clean 
 	@rm -f $(NAME)
+	@if [ -f Woody ]; then rm Woody; fi
+	@if [ -f stub64.o ]; then rm stub64.o; fi
 
-re : fclean all
+re : fclean
+	@make -C lib/binary_lib fclean;
+	@make all
 
 PHONY : all clean fclean re

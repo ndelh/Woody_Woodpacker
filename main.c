@@ -5,39 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/20 15:07:27 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/08/20 16:00:12 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/06 11:13:04 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/05 07:30:17 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "woody_woodpacker.h"
 
-void	DEFAULT_ERROR(char *msg, int code, t_intel *intel)
+void	ft_end(t_bin_data *data, int exit_code)
 {
-	ft_perror(msg);
-	if (intel->ogn_begin && intel->ogn_begin != MAP_FAILED)
-		munmap(intel->ogn_begin, intel->ogn_size);
-	exit (code);
+	free_data(data);
+	exit(exit_code);	
 }
 
-void	woody_core(char *s, t_intel *intel)
+void	launcher(t_bin_data *data, void(*func)(t_bin_data *data))
 {
-	retrieve_ogn_map(s, intel);
-	if (check_prerequisite(intel))
-		modify_core(intel);
-	munmap(intel->ogn_begin, intel->ogn_size);
+	if (data->stoppage)
+		ft_end(data, 1);
+	func(data);
+}
+
+void	parse_gather(t_bin_data *data)
+{
+	launcher(data, first_parse);
+	gather_ehdr_content(data);
+	parse_ehdr_content_range(data);
+	//print_both_ehdr(data);
+}
+
+
+void	woody_core(t_bin_data *data)
+{
+	launcher(data, open_map);
+	launcher(data, parse_gather);
+	fs_caving_stub(data, "Woody");
+	free_data(data);
 }
 
 int	main(int ac, char **argv)
+
 {
-	t_intel		intel;
-	
+	t_bin_data	*data;
+
 	if (ac != 2)
 	{
-		write(1, "no\n", 3);
+		ft_putendl_fd("invalid argument number", 2);
+		exit(1);
+	}
+	if (autonomous_get_Elf_Class(argv[1]) == ELFCLASS64)
+		data = init(argv[1], STUB64);
+	else
+	{
+		ft_perror("unusable file");
 		return (1);
 	}
-	ft_bzero(&intel, sizeof(struct s_intel));
-	intel.binary_name = argv[1];
-	woody_core(argv[1], &intel);
+	woody_core(data);
 }

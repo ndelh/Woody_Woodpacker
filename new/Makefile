@@ -6,7 +6,7 @@
 #    By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 17:08:53 by ndelhota          #+#    #+#              #
-#    Updated: 2026/09/13 17:59:36 by ndelhota         ###   ########.fr        #
+#    Updated: 2026/10/08 14:46:11 by ndelhota         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC := main.c \
 
 CC := cc
 
-CFLAGS := -Wall -Werror -Wextra -g -Iincludes #-fsanitize=address
+CFLAGS := -Wall -Werror -Wextra -g -Iincludes 
 
 STUB := nasm -f elf64 stub/stub64.s -o stub64.o
 

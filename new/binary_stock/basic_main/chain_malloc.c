@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   chain_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/08 14:42:35 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/10/08 17:38:23 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/11 03:04:10 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/11 03:05:36 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "woody_woodpacker.h"
+#include <stdlib.h>
 
-int	main(int ac, char **argv)
+int	main(void)
 {
-	t_bin_file	*file;
-	if (ac == 1)
-		return 0;
-	//file = get_read_only_file(argv[1]);
-	file = get_modifiable_copy(argv[1], argv[2]);
-	free_file(file);
+	char	*a;
+	int	i;
+
+	i = 10;
+	while (i--)
+	{
+		a = malloc(4200);
+		free(a);
+	}
 }

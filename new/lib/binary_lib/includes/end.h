@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   end.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/08 14:42:35 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/10/08 17:38:23 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/08 16:17:59 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/08 16:19:12 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "woody_woodpacker.h"
+#ifndef END_H
+# define END_H
+# include "struct.h"
 
-int	main(int ac, char **argv)
-{
-	t_bin_file	*file;
-	if (ac == 1)
-		return 0;
-	//file = get_read_only_file(argv[1]);
-	file = get_modifiable_copy(argv[1], argv[2]);
-	free_file(file);
-}
+void	close_map(t_bin_file *file);
+void	free_file(t_bin_file *file);
+
+#endif

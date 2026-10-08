@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   malloc_wrapper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/08 14:42:35 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/10/08 17:38:23 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/08 15:07:24 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/08 15:15:43 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "woody_woodpacker.h"
+#include "binary_lib.h"
 
-int	main(int ac, char **argv)
+void	*malloc_wrapper(uint64_t nb, uint64_t size, char *msg)
 {
-	t_bin_file	*file;
-	if (ac == 1)
-		return 0;
-	//file = get_read_only_file(argv[1]);
-	file = get_modifiable_copy(argv[1], argv[2]);
-	free_file(file);
+	unsigned char	*to_ret;
+	
+	to_ret = malloc(nb * size);
+	if (!to_ret)
+		register_error(msg, NULL);
+	else
+		ft_bzero(to_ret, size * nb);
+	return (to_ret);
 }

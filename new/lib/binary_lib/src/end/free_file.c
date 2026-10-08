@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/08 14:42:35 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/10/08 17:38:23 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/09/06 12:31:14 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/09/06 12:38:04 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "woody_woodpacker.h"
+#include "binary_lib.h"
 
-int	main(int ac, char **argv)
+void	close_map(t_bin_file *file)
 {
-	t_bin_file	*file;
-	if (ac == 1)
-		return 0;
-	//file = get_read_only_file(argv[1]);
-	file = get_modifiable_copy(argv[1], argv[2]);
-	free_file(file);
+	if (file->map != MAP_FAILED)
+		munmap(file->map, file->map_size);
+	if (file->fd != -1)
+			close(file->fd);
+}
+
+void	free_file(t_bin_file *file)
+{
+	if (!file )
+		return ;
+	close_map(file);
+	if (file->intel)
+		free(file->intel);
+	free(file);
 }

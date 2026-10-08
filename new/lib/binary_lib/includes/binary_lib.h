@@ -6,7 +6,7 @@
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/04 15:37:26 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/04 15:59:29 by ndelhota         ###   ########.fr       */
+/*   Updated: 2026/10/08 15:04:50 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <elf.h>
 # include <stdbool.h>
 
+# include "struct.h"
+# include "opener.h"
+# include "end.h"
 # include "../src/64_factory/elf_64.h"
 
 # define PAGESIZE 4096
@@ -37,123 +40,10 @@
 #define COLOR_BLUE    "\033[34m"
 #define COLOR_BOLD    "\033[1m"
 
-typedef struct s_elf_ops
-{
-	//ehdr_getter
-		uint64_t	(*get_entry)(const void *ogn_map);
-		uint64_t	(*get_phdr_offset)(const void *ogn_map);
-		uint64_t	(*get_phdr_nb)(const void *ogn_map);
-		uint64_t	(*get_phdr_size)(const void *ogn_map);
-		uint64_t	(*get_shdr_offset)(const void *ogn_map);
-		uint64_t	(*get_shdr_nb)(const void *ogn_map);
-		uint64_t	(*get_shdr_size)(const void *ogn_map);
-		uint64_t	(*get_shstrndx)(const void *ogn_map);
-	//phdr_getter
-		uint64_t	(*get_ptype)(const void *cursor);
-		uint64_t	(*get_poffsset)(const void *cursor);
-		uint64_t	(*get_pvaddr)(const void *cursor);
-		uint64_t	(*get_paddr)(const void *cursor);
-		uint64_t	(*get_pfilesz)(const void *cursor);
-		uint64_t	(*get_pmemsz)(const void *cursor);
-		uint64_t	(*get_pflags)(const void *cursor);
-		uint64_t	(*get_palign)(const void *cursor);
-	//shdr_getter
-		uint64_t	(*get_shname)(const void *cursor);
-		uint64_t	(*get_shtype)(const void *cursor);
-		uint64_t	(*get_shflags)(const void *cursor);
-		uint64_t	(*get_shaddr)(const void *cursor);
-		uint64_t	(*get_shoffset)(const void *cursor);
-		uint64_t	(*get_shsize)(const void *cursor);
-		uint64_t	(*get_shlink)(const void *cursor);
-		uint64_t	(*get_shinfo)(const void *cursor);
-		uint64_t	(*get_shaddralign)(const void *cursor);
-		uint64_t	(*get_shentsize)(const void *cursor);
-	//ehdr_setter
-		void		(*set_entry)(void *ogn_map, uint64_t new_value);
-		void		(*set_phdr_offset)(void *ogn_map, uint64_t new_value);
-		void		(*set_phdr_nb)(void *ogn_map, uint64_t new_value);
-		void		(*set_phdr_size)(void *ogn_map, uint64_t new_value);
-		void		(*set_shdr_offset)(void *ogn_map, uint64_t new_value);
-		void		(*set_shdr_nb)(void *ogn_map, uint64_t new_value);
-		void		(*set_shdr_size)(void *ogn_map, uint64_t new_value);
-		void		(*set_shstrndx)(void *ogn_map, uint64_t new_value);
-	//phdr_setter
-		void    (*set_ptype)(void *cursor, uint64_t new_value);
-        void    (*set_poffset)(void *cursor, uint64_t new_value);
-        void    (*set_pvaddr)(void *cursor, uint64_t new_value);
-        void    (*set_ppaddr)(void *cursor, uint64_t new_value);
-        void    (*set_pfilesz)(void *cursor, uint64_t new_value);
-        void    (*set_pmemsz)(void *cursor, uint64_t new_value);
-        void    (*set_pflags)(void *cursor, uint64_t new_value);
-        void    (*set_palign)(void *cursor, uint64_t new_value);
-	//shdr_setter
-		void	(*set_sh_name)(void *cursor, uint64_t new_value);
-        void	(*set_sh_type)(void *cursor, uint64_t new_value);
-        void	(*set_sh_flags)(void *cursor, uint64_t new_value);
-        void	(*set_sh_addr)(void *cursor, uint64_t new_value);
-        void	(*set_sh_offset)(void *cursor, uint64_t new_value);
-        void	(*set_sh_size)(void *cursor, uint64_t new_value);
-        void	(*set_sh_link)(void *cursor, uint64_t new_value);
-        void	(*set_sh_info)(void *cursor, uint64_t new_value);
-        void	(*set_sh_addralign)(void *cursor, uint64_t new_value);
-        void	(*set_sh_entsize)(void *cursor, uint64_t new_value);
-
-}	t_elf_ops;
-
-extern const t_elf_ops	ops_64;
-//extern const t_elf_ops ops_32;
-
-typedef struct	s_stub_injector
-{
-	void		*content_begin; //beginning of the binary content to transfer 
-	uint64_t	content_size;
-	void		*current_placeholder; //pointer on current first placeholder available
-	uint64_t		av_addr;
-	uint64_t		av_core_offset;
-}	t_stub_injector;
-
-typedef struct s_file_intel
-{
-	uint64_t	e_entry;
-	uint64_t	phdr_offset;
-	uint64_t	shdr_offset;
-	uint64_t	phdr_size;
-	uint64_t	shdr_size;
-	uint64_t	phdr_num;
-	uint64_t	shdr_num;
-	uint64_t	shstrtab_index;
-	char		*strtab;
-	uint64_t	strtab_size;
-}	t_file_intel;
-
-
-typedef struct	s_bin_file
-{
-	char				*path;
-	int					fd;
-	void				*map;
-	t_file_intel		*intel;
-	const t_elf_ops		*elf_caster;
-	uint64_t			map_size;
-}	t_bin_file;
-
-typedef struct  s_bin_data
-{
-	int					stoppage;
-	t_bin_file				*core;
-	t_bin_file				*stub;
-	void					*map_copy;
-	int						copy_fd;
-	uint64_t				copy_size;
-	const t_elf_ops			*elf_caster;
-    t_stub_injector			*stub_injector;
-}   t_bin_data;
-
-
 //init
 
-t_bin_data	*init(char *core_file, char *stub);
-
+t_bin_file	*get_file(char *s);
+t_bin_file	*get_copy_file(char *s);
 
 //boundary_check
 bool	is_struct_oob(t_bin_file *intel, uint64_t offset, uint64_t struct_nb, uint64_t struct_size);
@@ -172,10 +62,11 @@ void	ft_bzero(void *s1, size_t n);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	cr(int fd);
+void	*malloc_wrapper(uint64_t nb, uint64_t size, char *msg);
 void    positive_pnumber(unsigned int i, int fd);
 
 //error_warning
-void	register_error(t_bin_data *data, char *msg, t_bin_file *file);
+void	register_error(char *msg, t_bin_file *file);
 void	warn(char *s);
 void	file_warning(char *s, t_bin_file *file);
 
@@ -203,13 +94,6 @@ void	s_xor_cypher_s(void *to_cypher, size_t cypher_len, void *key_sum);
 int		is_power_2(uint64_t x);
 bool	is_inf(uint64_t a, uint64_t b);
 uint64_t	find_next_aligned_value(uint64_t value, uint64_t align);
-
-//opener
-
-void		compute_map_size(t_bin_data *data, t_bin_file *file);
-void		open_map(t_bin_data *data);
-void		open_basic_cpy(t_bin_data *data, char *s);
-void		open_extend(t_bin_data *data, char *s);
 
 //copy
 void		simple_cpy(t_bin_data *data, char *s);
@@ -252,9 +136,6 @@ void	phdr_range_check(t_bin_file *file, t_bin_data *data, void *aux_data, void *
 		char	*get_name(void *cursor, t_bin_file *file);
 		void    *find_shdr_by_name(t_bin_file *file, t_bin_data *data, char *name);
 
-//end
-void	close_map(t_bin_file *file);
-void	free_data(t_bin_data *data);
 
 //stub
 void    craft_stub_phdr(t_bin_data *data, void *phdr);

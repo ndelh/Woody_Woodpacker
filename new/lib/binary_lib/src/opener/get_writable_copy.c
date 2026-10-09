@@ -21,7 +21,7 @@ void    process_copy_opening(t_bin_file *og, t_bin_file *copy)
         return ;
     }
     extend_file(copy->fd, og->map_size, 0, copy);
-    open_mmap(copy, PROT_READ | PROT_WRITE, MAP_SHARED);
+    open_mmap_file(copy, PROT_READ | PROT_WRITE, MAP_SHARED);
 }
 
 void    copy_og(t_bin_file *og, t_bin_file *copy)

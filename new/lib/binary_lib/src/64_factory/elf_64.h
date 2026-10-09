@@ -20,6 +20,7 @@
 //getter
     //main header
         uint64_t	get_entry_64(const void *ogn_map);
+        uint64_t    get_ehsize_64(const void *ogn_map);
         uint64_t	get_phdr_offset_64(const void *ogn_map);
         uint64_t	get_phdr_nb_64(const void *ogn_map);
         uint64_t    get_phdr_size_64(const void *ogn_map);

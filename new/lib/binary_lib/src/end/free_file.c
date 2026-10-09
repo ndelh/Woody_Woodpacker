@@ -27,5 +27,7 @@ void	free_file(t_bin_file *file)
 	close_map(file);
 	if (file->intel)
 		free(file->intel);
+	if (file->stub_data)
+		free(file->stub_data);
 	free(file);
 }

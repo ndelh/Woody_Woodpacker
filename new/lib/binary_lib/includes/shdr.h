@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phdr_value_range_check.c                           :+:      :+:    :+:   */
+/*   shdr.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/05 20:58:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/05 21:05:32 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/09 12:16:03 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/09 12:17:00 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "binary_lib.h"
+#ifndef SHDR_H
+# define SHDR_H
 
-void	phdr_range_check(t_bin_file *file, void *aux_data, void *cursor)
-{
-    const t_elf_ops   *elf_caster;
-    
-    (void)aux_data;
-    elf_caster = file->elf_caster;
-    if (is_struct_oob(file, elf_caster->get_poffsset(cursor), elf_caster->get_pfilesz(cursor), 1))
-        register_error("invalid range in phdr", file);
-}
+//name related
+
+char	*get_name(void *cursor, t_bin_file *file);
+void    *find_first_shdr_of_name(t_bin_file *file, char *name);
+
+#endif

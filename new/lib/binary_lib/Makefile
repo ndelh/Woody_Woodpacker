@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 Src = src/
+It = iterable/
 Init = $(Src)init/
 Ut = $(Src)utilities/
 Error = $(Ut)error_warning/
@@ -18,18 +19,20 @@ Libft = $(Ut)libft/
 Print = $(Ut)print/
 Dprint = $(Print)debug/
 Math = $(Ut)math/
+Launcher = $(Ut)launcher/
 U_getter = $(Ut)universal_getter/
-Shdr_ut = $(Ut)shdr_utils/
-Phdr_ut = $(Ut)phdr_utils/
-Bound_check = $(Src)boundary_check/
+Shdr = $(Src)shdr/
+Phdr= $(Src)phdr/
 Opener = $(Src)/opener/
 Copy = $(Src)copy/
 Copy_Stub = $(Copy)stub_copy/
 Parse = $(Src)parse/
-Iterate = $(Ut)iterate/
+Bound_check = $(Parse)boundary_check/
+Iter = $(Src)iter/
 Gather = $(Src)gather/
 Stub = $(Src)stub/
 Fs_stub = $(Stub)freestanding_stub/
+Fs_cave = $(Fs_stub)caving_stub/
 End = $(Src)end/
 Cypher = $(Src)cypher/
 S_xor = $(Cypher)single_xor/
@@ -57,11 +60,44 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(Math)is_power_2.c \
 	$(Math)find_next_align_value.c \
 	$(Math)is_inf.c \
+	$(Launcher)file_launcher.c \
 	$(Error)register_error.c \
+	$(Error)warning.c \
 	$(Opener)get_file.c \
 	$(Opener)get_writable_copy.c \
 	$(Opener)opener_utils.c \
+	$(Parse)parser.c \
+	$(Parse)first_parse.c \
+	$(Parse)first_parse_utils.c \
+	$(Parse)load_ehdr_content.c \
+	$(Parse)parse_ehdr_content.c \
+	$(Parse)$(It)phdr_range_check.c \
+	$(Parse)$(It)shdr_range_check.c \
+	$(Bound_check)oob_check.c \
+	$(Bound_check)shstrindex_validity.c \
+	$(Bound_check)unvalid_strtab.c \
+	$(Iter)iter_phdr.c \
+	$(Iter)iter_shdr.c \
+	$(Shdr)find_first_of_name.c \
+	$(Shdr)get_name.c \
+	$(Phdr)phdr_utils.c \
+	$(Stub)stub_utils.c \
+	$(S_xor)single_xor_cypher.c \
+	$(Fs_stub)freestanding_stubbing.c \
+	$(Fs_stub)gather_freestanding_stub_data.c \
+	$(Fs_cave)caving_stub.c \
+	$(Fs_cave)find_cave.c \
 	$(End)free_file.c \
+	$(Print)print_ehdr.c \
+	$(Ut)gen_random_key.c \
+	$(Ut)full_copy_doc.c \
+	$(64_F)declare_64.c \
+	$(64_Getter)ehdr_getter_64.c \
+	$(64_Getter)phdr_getter_64.c \
+	$(64_Getter)shdr_getter_64.c \
+	$(64_Setter)ehdr_setter_64.c \
+	$(64_Setter)phdr_setter_64.c \
+	$(64_Setter)shdr_setter_64.c \
 
 ASM_SRC := $(S_xor)s_xor_cypher_s.s
 

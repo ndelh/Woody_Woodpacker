@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phdr_value_range_check.c                           :+:      :+:    :+:   */
+/*   phdr_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/05 20:58:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/05 21:05:32 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/09 14:37:31 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/09 14:37:46 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "binary_lib.h"
+#include "phdr.h"
 
-void	phdr_range_check(t_bin_file *file, void *aux_data, void *cursor)
+uint64_t	find_bss_size(const t_elf_ops *elf_caster, void *cursor)
 {
-    const t_elf_ops   *elf_caster;
-    
-    (void)aux_data;
-    elf_caster = file->elf_caster;
-    if (is_struct_oob(file, elf_caster->get_poffsset(cursor), elf_caster->get_pfilesz(cursor), 1))
-        register_error("invalid range in phdr", file);
+	return (elf_caster->get_pmemsz(cursor) - elf_caster->get_pfilesz(cursor));
 }

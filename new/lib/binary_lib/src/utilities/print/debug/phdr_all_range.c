@@ -31,7 +31,7 @@ void	p_all_p_range(void *cursor, const t_elf_ops *elf_caster)
 	CR_DEFAULT;
 }
 
-void	print_all_phdr_range(t_bin_file *file, t_bin_data *data)
+void	print_all_phdr_range(t_bin_file *file)
 {
 	unsigned char	*cursor;
 	uint64_t	iteration;
@@ -43,11 +43,6 @@ void	print_all_phdr_range(t_bin_file *file, t_bin_data *data)
 	{
 		p_all_p_range(cursor, file->elf_caster);
 		cursor += file->intel->phdr_size;
-	}
-	if (data->stub_injector->av_core_offset)
-	{
-		CR_DEFAULT;
-		printf(COLOR_GREEN COLOR_BOLD "data stub content calculated range [%lu-%lu]\n" COLOR_RESET, data->stub_injector->av_core_offset, data->stub_injector->av_core_offset + data->stub_injector->content_size - 1);
 	}
 	CR_DEFAULT;
 }

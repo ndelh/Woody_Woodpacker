@@ -25,10 +25,9 @@ int    open_wrapper(char *s, int flags, int perm)
 	return (fd);
 }
 
-void	open_mmap(t_bin_file *file, int prot, int flag)
+void	open_mmap_file(t_bin_file *file, int prot, int flag)
 {
 	file->map = mmap(NULL, file->map_size, prot, flag, file->fd, 0);
-    printf("copy file size:%lu\n", file->map_size);
 	if (file->map == MAP_FAILED || file->map == NULL)
     {
         perror("mmap failed");

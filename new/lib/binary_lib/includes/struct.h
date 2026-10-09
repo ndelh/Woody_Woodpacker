@@ -13,10 +13,14 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
+#include <stdint.h>
+#include <stdbool.h>
+
 typedef struct s_elf_ops
 {
 	//ehdr_getter
 		uint64_t	(*get_entry)(const void *ogn_map);
+		uint64_t	(*get_ehsize)(const void *ogn_map);
 		uint64_t	(*get_phdr_offset)(const void *ogn_map);
 		uint64_t	(*get_phdr_nb)(const void *ogn_map);
 		uint64_t	(*get_phdr_size)(const void *ogn_map);
@@ -79,18 +83,19 @@ typedef struct s_elf_ops
 extern const t_elf_ops	ops_64;
 //extern const t_elf_ops ops_32;
 
-typedef struct	s_stub_injector
+typedef struct	s_stub_data
 {
 	void		*content_begin; //beginning of the binary content to transfer 
 	uint64_t	content_size;
-	void		*current_placeholder; //pointer on current first placeholder available
+	void		*canaries_begin; //pointer on current first placeholder available
 	uint64_t		av_addr;
 	uint64_t		av_core_offset;
-}	t_stub_injector;
+}	t_stub_data;
 
 typedef struct s_file_intel
 {
 	uint64_t	e_entry;
+	uint64_t	e_ehsize;
 	uint64_t	phdr_offset;
 	uint64_t	shdr_offset;
 	uint64_t	phdr_size;
@@ -108,23 +113,11 @@ typedef struct	s_bin_file
 	char				*path;
 	int					fd;
 	void				*map;
-	const t_elf_ops		*elf_caster;
 	t_file_intel		*intel;
 	uint64_t			map_size;
 	bool				dead;
+	const t_elf_ops		*elf_caster;
+	t_stub_data			*stub_data;
 }	t_bin_file;
-
-typedef struct  s_bin_data
-{
-	int					stoppage;
-	t_bin_file				*core;
-	t_bin_file				*stub;
-	void					*map_copy;
-	int						copy_fd;
-	uint64_t				copy_size;
-	const t_elf_ops			*elf_caster;
-    t_stub_injector			*stub_injector;
-}   t_bin_data;
-
 
 #endif

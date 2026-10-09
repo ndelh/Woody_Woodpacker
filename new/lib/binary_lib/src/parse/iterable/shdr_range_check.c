@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phdr_value_range_check.c                           :+:      :+:    :+:   */
+/*   shdr_range_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/05 20:58:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/05 21:05:32 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/09 08:02:36 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/09 08:02:45 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
 
-void	phdr_range_check(t_bin_file *file, void *aux_data, void *cursor)
+void	shdr_range_check(t_bin_file *file, void *aux_data, void *cursor)
 {
     const t_elf_ops   *elf_caster;
-    
+
     (void)aux_data;
     elf_caster = file->elf_caster;
-    if (is_struct_oob(file, elf_caster->get_poffsset(cursor), elf_caster->get_pfilesz(cursor), 1))
-        register_error("invalid range in phdr", file);
+    if (is_struct_oob(file, elf_caster->get_shoffset(cursor) , elf_caster->get_shentsize(cursor), 1))
+        register_error("invalid shdr content range", file);
+    if (elf_caster->get_shname(cursor) > file->intel->strtab_size)
+        register_error("invalid name index", file);
 }

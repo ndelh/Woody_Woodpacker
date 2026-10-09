@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_shdr_by_name.c                                :+:      :+:    :+:   */
+/*   find_first_of_name.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 03:19:03 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/07 03:22:30 by ndelhota         ###   ########.fr       */
+/*   Updated: 2026/10/09 12:15:32 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef struct  s_find_name
     void    *shdr;
     bool     found;
 }   t_find_name;
-
 
 void	check_name(t_bin_file *file, void *aux_data, void *cursor)
 {
@@ -41,7 +40,7 @@ void    *find_first_shdr_of_name(t_bin_file *file, char *name)
 
     ft_bzero(&to_find, sizeof(t_find_name));
     to_find.name = name;
-    iterate_shdr(file, &to_find, check_name);
+    iter_shdr(file, &to_find, check_name);
     if (!(to_find.shdr))
         register_error("cannot find the asked shdr name", file);
     return (to_find.shdr);

@@ -6,7 +6,7 @@
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/08 14:42:35 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/10/08 17:38:23 by ndelhota         ###   ########.fr       */
+/*   Updated: 2026/10/09 10:57:39 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	main(int ac, char **argv)
 {
-	t_bin_file	*file;
-	if (ac == 1)
+
+	if (ac != 2)
 		return 0;
-	//file = get_read_only_file(argv[1]);
-	file = get_modifiable_copy(argv[1], argv[2]);
-	free_file(file);
+	free_standing_stubbing(argv[1], "Woody", 0);
 }

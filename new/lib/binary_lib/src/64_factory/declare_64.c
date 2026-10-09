@@ -15,6 +15,7 @@
 const	t_elf_ops   ops_64 = {
     //ehdr getter
     .get_entry = get_entry_64,
+    .get_ehsize = get_ehsize_64,
     .get_phdr_offset = get_phdr_offset_64,
     .get_phdr_nb = get_phdr_nb_64,
     .get_phdr_size = get_phdr_size_64,

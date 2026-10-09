@@ -46,12 +46,14 @@ void    ite_find_cave(t_bin_file *file, void *helper, void *cursor)
 {
     const t_elf_ops *elf_caster;
     uint64_t        blank_count;
+    uint64_t        bss_size;
 
     elf_caster = file->elf_caster;
     if (elf_caster->get_ptype(cursor) != PT_LOAD || ((t_cave *)helper)->exec_possible)
         return ;
     blank_count = count_blank(file, elf_caster, cursor);
-    if (blank_count <= ((t_cave *)helper)->stub_size)
+    bss_size = find_bss_size(elf_caster, cursor);
+    if (blank_count <= ((t_cave *)helper)->stub_size + bss_size)
         return ;
     ((t_cave *)helper)->to_cave = cursor;
     if (elf_caster->get_pflags(cursor) == (PF_X | PF_R)) //we want to favor the exec phdr
@@ -64,7 +66,7 @@ void    *find_cave(t_bin_file *file, uint64_t stub_size)
 
     ft_bzero(&cave, sizeof(t_cave));
     cave.stub_size = stub_size;
-    iterate_phdr(file, &cave, ite_find_cave);
+    iter_phdr(file, &cave, ite_find_cave);
     if (cave.to_cave == NULL)
         file_warning("unable to use caving technique, remaining place is unsufficient", file);
     return (cave.to_cave);

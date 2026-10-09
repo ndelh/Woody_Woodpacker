@@ -21,10 +21,11 @@ void	print_ehdr(t_bin_file *file)
 	ft_putstr_fd("printing ehdr value for: " , 1);
 	ft_putendl_fd(file->path, 1);
 	printf("entrypoint adress: 0x%lx not hex: %lu\n", intel->e_entry, intel->e_entry);
+	printf("ehdr size: %lu\n", intel->e_ehsize);
 	printf("start of program header: %lu\n", intel->phdr_offset);
 	printf("start of section header: %lu\n", intel->shdr_offset);
 	printf("size of program header: %lu\n", intel->phdr_size);
-	printf("size of section %lu\n", intel->shdr_size);
+	printf("size of section header %lu\n", intel->shdr_size);
 	printf("phdr number: %lu\n", intel->phdr_num);
 	printf("shdr number: %lu\n", intel->shdr_num);
 	printf("Section header string table index: %lu\n", intel->shstrtab_index);
@@ -33,13 +34,4 @@ void	print_ehdr(t_bin_file *file)
 	if (intel->strtab)
 		print_strtab((unsigned char *)intel->strtab, intel->strtab_size);
 	CR_DEFAULT;
-}
-
-void	print_both_ehdr(t_bin_data *data)
-{
-	ft_putendl_fd("printing all ehdr content", STDIN_FILENO);
-	cr(STDIN_FILENO);
-	print_ehdr(data->core);
-	if (data->stub)
-		print_ehdr(data->stub);
 }

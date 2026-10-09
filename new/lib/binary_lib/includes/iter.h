@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phdr_value_range_check.c                           :+:      :+:    :+:   */
+/*   iter.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/05 20:58:55 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/05 21:05:32 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/09 07:38:11 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/09 07:38:38 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "binary_lib.h"
+#ifndef ITER_H
+# define ITER_H
 
-void	phdr_range_check(t_bin_file *file, void *aux_data, void *cursor)
-{
-    const t_elf_ops   *elf_caster;
-    
-    (void)aux_data;
-    elf_caster = file->elf_caster;
-    if (is_struct_oob(file, elf_caster->get_poffsset(cursor), elf_caster->get_pfilesz(cursor), 1))
-        register_error("invalid range in phdr", file);
-}
+# include "struct.h"
+
+//iter on elf
+
+void	iter_shdr(t_bin_file *file, void *aux_data, void(*func)(t_bin_file *file, void *, void *));
+void	iter_phdr(t_bin_file *file, void *aux_data, void(*func)(t_bin_file *file, void *, void *));
+
+#endif

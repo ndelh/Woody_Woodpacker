@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strip_shdr.c                                       :+:      :+:    :+:   */
+/*   stripping_phdr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/06 22:37:11 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/06 22:42:36 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/10 13:52:39 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/10 13:53:03 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	destroy_current_shdr(t_bin_file *file, void *aux_data, void *cursor)
 	ft_bzero(cursor, file->intel->shdr_size);
 }
 
-void	strip_shdr(t_bin_file *file)
+void	absolute_strip(t_bin_file *file)
 {
 	unsigned char	*cursor;
 	const t_elf_ops		*elf_caster;

@@ -19,4 +19,8 @@
 
 uint64_t	find_bss_size(const t_elf_ops *elf_caster, void *cursor);
 
+//strip related
+uint64_t   retrieve_farthest_needed_point(t_bin_file *file);
+
+
 #endif

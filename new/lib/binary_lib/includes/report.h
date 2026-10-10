@@ -15,7 +15,9 @@
 
 //main_func
 void    report(t_elf_ops *elf_ops, t_bin_file *file, char *s);
+
 //utils
+
 int	open_report(char *s);
 
 #endif

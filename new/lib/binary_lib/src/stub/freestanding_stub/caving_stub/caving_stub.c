@@ -28,10 +28,9 @@ void	caving_process(t_bin_file *target, t_bin_file *stub, void *phdr_to_cave, ui
 	elf_caster->set_pmemsz(phdr_to_cave, elf_caster->get_pmemsz(phdr_to_cave) + stub->stub_data->content_size); // actualizing pmesz
 	elf_caster->set_pfilesz(phdr_to_cave, elf_caster->get_pfilesz(phdr_to_cave) + stub->stub_data->content_size); //actualiszing pfilesz
 	ft_memcpy(cpy_point, stub->stub_data->content_begin, stub->stub_data->content_size);
-	printf("copy done\n");
 }
 
-bool	freestanding_caving_stub(t_bin_file *target, t_bin_file *stub)
+bool	freestanding_caving_stub(t_bin_file *target, t_bin_file *stub, bool cypher)
 {
 	void	*phdr_to_cave;
 	uint64_t	bss_size;
@@ -40,7 +39,8 @@ bool	freestanding_caving_stub(t_bin_file *target, t_bin_file *stub)
 	if (!phdr_to_cave)
 		return 1;
 	bss_size =  find_bss_size(target->elf_caster, phdr_to_cave);
-	cypher_pt_load(target, stub);
+	if (cypher == true)
+		cypher_pt_load(target, stub);
 	caving_process(target, stub, phdr_to_cave, bss_size);
 	return 0;
 }

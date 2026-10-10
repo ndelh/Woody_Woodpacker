@@ -18,4 +18,6 @@
 char	*get_name(void *cursor, t_bin_file *file);
 void    *find_first_shdr_of_name(t_bin_file *file, char *name);
 
+//strip related
+void	absolute_strip(t_bin_file *file);
 #endif

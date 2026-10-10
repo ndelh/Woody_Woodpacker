@@ -20,7 +20,6 @@ void	canary_loop(void *cursor, uint64_t size, uint64_t *canaries_nb)
 	while (size >= 8 && (!ft_memcmp((uint64_t *)cursor, &canary_value, sizeof(uint64_t))))
 	{
 		cursor += 8;
-		printf("canaries adress: %p\n", cursor);
 		--(*canaries_nb);
 		size -= 8;
 	}
@@ -46,8 +45,6 @@ void	fs_find_canaries(t_bin_file *stub, void *cursor, uint64_t size)
 	}
 	if (canaries_nb)
 		register_error("too few canaries in stub", stub);
-	else
-		printf("canary_found\n");
 }
 
 
@@ -72,16 +69,6 @@ void	fetch_stub_data(t_bin_file *stub)
 	data->content_begin = (unsigned char *)stub->map + content_offset;
 	fs_find_canaries(stub, data->content_begin, data->content_size);
 }
-
-// void	fs_core_part(t_bin_data *data, t_bin_file *core)
-// {
-// 	uint64_t	next_available_faddr;
-
-// 	data->stub_injector->av_addr = get_next_available_vaddr(core, data);
-// 	next_available_faddr = retrieve_farthest_physical(core, data) + 1;
-// 	next_available_faddr = find_next_aligned_value(next_available_faddr, PAGESIZE);
-// 	data->stub_injector->av_core_offset = next_available_faddr;
-// }
 
 void	gather_fs_stub_data(t_bin_file *file)
 {

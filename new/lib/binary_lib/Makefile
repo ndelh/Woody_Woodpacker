@@ -81,6 +81,7 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(Shdr)find_first_of_name.c \
 	$(Shdr)get_name.c \
 	$(Phdr)phdr_utils.c \
+	$(Phdr)stripping_phdr.c \
 	$(Stub)stub_utils.c \
 	$(S_xor)single_xor_cypher.c \
 	$(Fs_stub)freestanding_stubbing.c \
@@ -98,6 +99,7 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(64_Setter)ehdr_setter_64.c \
 	$(64_Setter)phdr_setter_64.c \
 	$(64_Setter)shdr_setter_64.c \
+	$(Autonomous)barbarious_strip.c \
 
 ASM_SRC := $(S_xor)s_xor_cypher_s.s
 

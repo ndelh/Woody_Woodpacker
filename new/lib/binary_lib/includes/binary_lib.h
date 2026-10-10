@@ -115,11 +115,6 @@ void		gather_ehdr_content(void *data);
 	uint64_t    get_next_available_vaddr(t_bin_file *file, void *data);
 
 
-//shdr_utils
-	//strip
-		void	strip_shdr(t_bin_file *file, void *data);
-		void	destroy_current_shdr(t_bin_file *file, void *data, void *aux_data, void *cursor);
-
 
 //stub
 void    craft_stub_phdr(void *data, void *phdr);
@@ -129,6 +124,7 @@ void    craft_stub_phdr(void *data, void *phdr);
 //autonomous
 int		autonomous_get_Elf_Class(char *s);
 //wrapper
+void	barbarious_strip(char *s);
 void	resize_after_strip(t_bin_file *file, void *data, int fd);
 
 

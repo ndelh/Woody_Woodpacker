@@ -28,7 +28,6 @@ void	barbarious_strip(char *s)
 	tmp_file->map_size = retrieve_farthest_needed_point(tmp_file);
 	if (tmp_file->dead == 0)
 		full_copy_doc(tmp_file, s);
-	(void)s;
 	syscall(SYS_unlink, tmp_filename, 0);
 	tmp_file->map_size = initial_map_size;
 	free_file(tmp_file);

@@ -60,7 +60,7 @@ void	destroy_current_shdr(t_bin_file *file, void *aux_data, void *cursor)
 	ft_bzero(cursor, file->intel->shdr_size);
 }
 
-void	strip_shdr(t_bin_file *file)
+void	absolute_strip(t_bin_file *file)
 {
 	unsigned char	*cursor;
 	const t_elf_ops		*elf_caster;

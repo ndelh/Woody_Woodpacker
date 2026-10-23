@@ -125,7 +125,7 @@ void    craft_stub_phdr(void *data, void *phdr);
 int		autonomous_get_Elf_Class(char *s);
 //wrapper
 void	barbarious_strip(char *s);
-void	resize_after_strip(t_bin_file *file, void *data, int fd);
+
 
 
 # define DEFAULT_ERROR(x) ft_end(x, 1)

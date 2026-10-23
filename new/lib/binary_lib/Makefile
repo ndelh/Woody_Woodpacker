@@ -80,8 +80,8 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(Iter)iter_shdr.c \
 	$(Shdr)find_first_of_name.c \
 	$(Shdr)get_name.c \
+	$(Shdr)strip_shdr.c \
 	$(Phdr)phdr_utils.c \
-	$(Phdr)stripping_phdr.c \
 	$(Stub)stub_utils.c \
 	$(S_xor)single_xor_cypher.c \
 	$(Fs_stub)freestanding_stubbing.c \
@@ -116,6 +116,11 @@ ASM_CC := nasm
 ASM_FLAGS := -f elf64  
 
 NAME = binary_lib.a
+
+MLX_DIR := lib/minilibx-linux
+
+MLX := $(MLX_DIR)/libmlx.a
+
 
 all : $(NAME)
 

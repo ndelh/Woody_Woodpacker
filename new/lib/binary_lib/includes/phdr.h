@@ -18,9 +18,9 @@
 //utilies
 
 uint64_t	find_bss_size(const t_elf_ops *elf_caster, void *cursor);
+uint64_t    cout_total_pt_load(t_bin_file *file);
 
 //strip related
 uint64_t   retrieve_farthest_needed_point(t_bin_file *file);
-
 
 #endif

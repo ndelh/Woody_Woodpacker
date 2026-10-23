@@ -42,3 +42,21 @@ uint64_t   retrieve_farthest_needed_point(t_bin_file *file)
         to_ret = farthest;
     return (to_ret);
 }
+
+void        count_pt_load(t_bin_file *file, void *aux_data, void *cursor)
+{
+    uint64_t    *count;
+
+    count = (uint64_t *)aux_data;
+    if (file->elf_caster->get_ptype(cursor) == PT_LOAD)
+        ++(*count);
+}
+
+uint64_t    count_total_pt_load(t_bin_file *file)
+{
+    uint64_t    pt_load_nb;
+
+    pt_load_nb = 0;
+    iter_phdr(file, &pt_load_nb, count_pt_load);
+    return (pt_load_nb);
+}

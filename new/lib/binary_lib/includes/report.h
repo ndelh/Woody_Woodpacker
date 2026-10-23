@@ -14,7 +14,7 @@
 # define REPORT_H
 
 //main_func
-void    report(t_elf_ops *elf_ops, t_bin_file *file, char *s);
+void    report(char *filename);
 
 //utils
 

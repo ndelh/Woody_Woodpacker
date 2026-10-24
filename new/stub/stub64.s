@@ -94,7 +94,6 @@ add rsi, r8 ;adding len adjustement
 add rsi, 4095; compleating by pagesize - 1
 and rsi, -0x1000; finalize the second len adjustement by discarding everything below 4096
 mov rax, 10
-mov rdx, 7
 syscall
 go_next:
 ret
@@ -126,7 +125,6 @@ jmp uncypher_loop
 uncypher_segment: ; rdi contain the non based value, rsi the len to uncypher
 cmp rdi, [rel place_holder_value]
 je skip_segment
-
 add rdi, r13 ; adding the base value
 mov rcx, rsi
 shr rcx, 5 ; cause we want to fast by key_size;

@@ -15,6 +15,7 @@
 
 #include "struct.h"
 #include "stdint.h"
+
 //utilies
 
 uint64_t	find_bss_size(const t_elf_ops *elf_caster, void *cursor);

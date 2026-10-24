@@ -6,7 +6,7 @@
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/08 14:42:35 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/10/23 16:22:18 by ndelhota         ###   ########.fr       */
+/*   Updated: 2026/10/24 15:48:53 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ int	main(int ac, char **argv)
 		return 0;
 	free_standing_stubbing(argv[1], "Woody", 1);
 	//barbarious_strip("Woody");
-	report("woody_woodpacker", 1);
+	report("binary_stock/minishell", 1);
 }

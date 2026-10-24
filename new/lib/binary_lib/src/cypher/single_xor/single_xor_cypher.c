@@ -18,6 +18,19 @@ typedef struct s_simple_cypher
 	void	*place_holder;
 }	t_simple_cypher;
 
+uint64_t	convert_elf_perm_to_posix(uint64_t current_perm)
+{
+	uint64_t	converted;
+
+	converted = 0;
+	if (current_perm & PF_X)
+		converted |= PROT_EXEC;
+	if (current_perm != PF_W)
+		converted |= PROT_WRITE;
+	if (current_perm & PF_R)
+		converted |= PROT_READ;
+	return converted;
+}
 
 void	load_phdr_intel_in_stub(void *helper, uint64_t content_load_addr, uint64_t content_size, uint64_t current_perm)
 {
@@ -28,7 +41,7 @@ void	load_phdr_intel_in_stub(void *helper, uint64_t content_load_addr, uint64_t 
 	++place_holder;
 	*place_holder = content_size;
 	++place_holder;
-	*place_holder = current_perm;
+	*place_holder = convert_elf_perm_to_posix(current_perm);
 	++place_holder;
 	((t_simple_cypher *)helper)->place_holder = place_holder;
 }

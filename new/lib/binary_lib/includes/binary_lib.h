@@ -46,6 +46,7 @@
 #define COLOR_YELLOW  "\033[33m"
 #define COLOR_BLUE    "\033[34m"
 #define COLOR_BOLD    "\033[1m"
+#define COLOR_PURPLE  "\033[38;5;129m"
 
 //init
 

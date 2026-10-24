@@ -39,7 +39,9 @@ void	shstrndx_validity(t_bin_file *file)
 	t_file_intel	*intel;
 
 	intel = file->intel;
-	if (intel->shstrtab_index && intel->shstrtab_index >= intel->shdr_num)
+	if (!(intel->shstrtab_index))
+		return ;
+	if (intel->shstrtab_index >= intel->shdr_num)
 	{
 		register_error("dubious shdr index", file);
 		return ;

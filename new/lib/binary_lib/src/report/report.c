@@ -13,8 +13,25 @@
 #include "binary_lib.h"
 #include "report.h"
 
-void	report(char *file_name)
+void	report(char *file_name, uint8_t flags)
 {
+	t_bin_file	*file;
 	if (!file_name)
-		return ;	
+		return ;
+	file = get_read_only_file(file_name);
+	if (!file)
+		return ;
+	parse_all(file);
+	if (file->dead)
+	{
+		register_error("cannot_print due to file error", file);
+		free_file(file);
+		return ;
+	}
+	print_ehdr(file);
+	if (flags & 1)
+		print_all_phdr(file);
+	if (flags & 2)
+		printf("must print shdr");
+	free_file(file);
 }

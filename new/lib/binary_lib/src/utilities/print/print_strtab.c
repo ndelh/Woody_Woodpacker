@@ -14,6 +14,8 @@
 
 void	print_strtab(unsigned char *s, uint64_t size)
 {
+	printf(COLOR_BLUE);
+	printf("strtab:\n");
 	while (size--)
 	{
 		if (*s)
@@ -22,4 +24,5 @@ void	print_strtab(unsigned char *s, uint64_t size)
 			cr(1);
 		++s;
 	}
+	printf(COLOR_RESET);
 }

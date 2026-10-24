@@ -18,8 +18,8 @@ void	print_ehdr(t_bin_file *file)
 
 	intel = file->intel;
 
-	ft_putstr_fd("printing ehdr value for: " , 1);
-	ft_putendl_fd(file->path, 1);
+	printf("printing ehdr for: %s\n\n", file->path);
+	printf(COLOR_GREEN);
 	printf("entrypoint adress: 0x%lx not hex: %lu\n", intel->e_entry, intel->e_entry);
 	printf("ehdr size: %lu\n", intel->e_ehsize);
 	printf("start of program header: %lu\n", intel->phdr_offset);
@@ -31,7 +31,10 @@ void	print_ehdr(t_bin_file *file)
 	printf("Section header string table index: %lu\n", intel->shstrtab_index);
 	printf("strtab size: %lu\n", intel->strtab_size);
 	CR_DEFAULT;
+	printf(COLOR_RESET);
 	if (intel->strtab)
+	{	
 		print_strtab((unsigned char *)intel->strtab, intel->strtab_size);
-	CR_DEFAULT;
+		CR_DEFAULT;
+	}
 }

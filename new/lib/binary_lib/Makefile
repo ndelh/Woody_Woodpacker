@@ -40,6 +40,7 @@ S_xor = $(Cypher)single_xor/
 64_Getter = $(64_F)getter/
 64_Setter = $(64_F)setter/
 Autonomous = $(Src)autonomous_one/
+Report = $(Src)report/
 
 
 C_SRC := $(Libft)ft_strlen.c \
@@ -82,6 +83,7 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(Shdr)get_name.c \
 	$(Shdr)strip_shdr.c \
 	$(Phdr)phdr_utils.c \
+	$(Phdr)print_phdr.c \
 	$(Stub)stub_utils.c \
 	$(S_xor)single_xor_cypher.c \
 	$(Fs_stub)freestanding_stubbing.c \
@@ -100,6 +102,7 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(64_Setter)phdr_setter_64.c \
 	$(64_Setter)shdr_setter_64.c \
 	$(Autonomous)barbarious_strip.c \
+	$(Report)report.c \
 
 ASM_SRC := $(S_xor)s_xor_cypher_s.s
 

@@ -13,8 +13,12 @@
 #ifndef REPORT_H
 # define REPORT_H
 
+# define PHDR_ONLY 1
+# define SHDR_ONLY 2
+# define BOTH_HDR 3
+
 //main_func
-void    report(char *filename);
+void    report(char *filename, uint8_t flags);
 
 //utils
 

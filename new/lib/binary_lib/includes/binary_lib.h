@@ -32,6 +32,7 @@
 # include "shdr.h"
 # include "phdr.h"
 # include "iter.h"
+# include "report.h"
 # include "../src/64_factory/elf_64.h"
 
 # define PAGESIZE 4096

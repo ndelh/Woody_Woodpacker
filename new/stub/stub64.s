@@ -231,4 +231,5 @@ phdr2_flags: dq 0x1122334455667788
 phdr3: dq 0x1122334455667788
 phdr3_size: dq 0x1122334455667788
 phdr3_flags: dq 0x1122334455667788
+;place_holder_exemple
 place_holder_value: dq 0x1122334455667788

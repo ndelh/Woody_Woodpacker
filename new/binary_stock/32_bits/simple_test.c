@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simple_copy.c                                      :+:      :+:    :+:   */
+/*   simple_test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/06 23:32:08 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/06 23:33:54 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/26 11:43:41 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/26 11:45:06 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "binary_lib.h"
+#include <stdio.h>
 
-void	simple_cpy(t_bin_data *data, char *s)
+int	main(void)
 {
-	open_basic_cpy(data, s);
-	if (data->stoppage)
-		return ;
-	ft_memcpy(data->map_copy, data->core->map, data->copy_size);
+	printf("%s\n", "we suceed");
+	return (1);
 }

@@ -39,6 +39,9 @@ S_xor = $(Cypher)single_xor/
 64_F = $(Src)64_factory/
 64_Getter = $(64_F)getter/
 64_Setter = $(64_F)setter/
+32_F = $(Src)32_factory/
+32_Getter = $(32_F)getter/
+32_Setter = $(32_F)setter/
 Autonomous = $(Src)autonomous_one/
 Report = $(Src)report/
 
@@ -101,6 +104,13 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(64_Setter)ehdr_setter_64.c \
 	$(64_Setter)phdr_setter_64.c \
 	$(64_Setter)shdr_setter_64.c \
+	$(32_F)declare_32.c \
+	$(32_Getter)ehdr_getter_32.c \
+	$(32_Getter)phdr_getter_32.c \
+	$(32_Getter)shdr_getter_32.c \
+	$(32_Setter)ehdr_setter_32.c \
+	$(32_Setter)phdr_setter_32.c \
+	$(32_Setter)shdr_setter_32.c \
 	$(Autonomous)barbarious_strip.c \
 	$(Report)report.c \
 

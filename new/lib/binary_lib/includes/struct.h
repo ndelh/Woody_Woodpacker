@@ -67,7 +67,7 @@ typedef struct s_elf_ops
         	void    (*set_pflags)(void *cursor, uint64_t new_value);
         	void    (*set_palign)(void *cursor, uint64_t new_value);
 	//shdr_setter
-		void	(*set_sh_name)(void *cursor, uint64_t new_value);
+			void	(*set_sh_name)(void *cursor, uint64_t new_value);
         	void	(*set_sh_type)(void *cursor, uint64_t new_value);
         	void	(*set_sh_flags)(void *cursor, uint64_t new_value);
         	void	(*set_sh_addr)(void *cursor, uint64_t new_value);
@@ -76,18 +76,18 @@ typedef struct s_elf_ops
         	void	(*set_sh_link)(void *cursor, uint64_t new_value);
         	void	(*set_sh_info)(void *cursor, uint64_t new_value);
         	void	(*set_sh_addralign)(void *cursor, uint64_t new_value);
-		void	(*set_sh_entsize)(void *cursor, uint64_t new_value);
+			void	(*set_sh_entsize)(void *cursor, uint64_t new_value);
 
 }	t_elf_ops;
 
 extern const t_elf_ops	ops_64;
-//extern const t_elf_ops ops_32;
+extern const t_elf_ops ops_32;
 
 typedef struct	s_stub_data
 {
 	void		*content_begin; //beginning of the binary content to transfer 
 	uint64_t	content_size;
-	void		*canaries_begin; //pointer on current first placeholder available
+	void		*canaries_begin; //pointer on the "data" section of stub
 	uint64_t		av_addr;
 	uint64_t		av_core_offset;
 }	t_stub_data;

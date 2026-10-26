@@ -16,7 +16,7 @@ void	canary_loop(void *cursor, uint64_t size, uint64_t *canaries_nb)
 {
 	uint64_t	canary_value;
 	
-	canary_value = CANARY_VALUE;
+	canary_value = CANARY_VALUE_64;
 	while (size >= 8 && (!ft_memcmp((uint64_t *)cursor, &canary_value, sizeof(uint64_t))))
 	{
 		cursor += 8;
@@ -30,7 +30,7 @@ void	fs_find_canaries(t_bin_file *stub, void *cursor, uint64_t size)
 	uint64_t		canaries_nb;
 	uint64_t		canary_value;
 	
-	canary_value = CANARY_VALUE;
+	canary_value = CANARY_VALUE_64;
 	canaries_nb = CANARY_NB;
 	while (size >= 8)
 	{	
@@ -45,6 +45,7 @@ void	fs_find_canaries(t_bin_file *stub, void *cursor, uint64_t size)
 	}
 	if (canaries_nb)
 		register_error("too few canaries in stub", stub);
+	printf("canaries: %lu\n", canaries_nb);
 }
 
 

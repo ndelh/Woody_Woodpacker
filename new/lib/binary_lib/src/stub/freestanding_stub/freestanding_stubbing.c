@@ -17,33 +17,23 @@ t_bin_file *get_stub(uint64_t flags)
 	t_bin_file	*file;
 
 	if (flags == ELFCLASS64)
-		file = get_writable_unshared_file("stub64.o");
+		file = get_writable_unshared_file(STUB64);
 	else
-		return  NULL;
+		file = get_writable_unshared_file(STUB32);
 	file_launcher(file, parse_all);
 	return (file);
 }
 
-void	process_stub(t_bin_file *tmp_file)
+void	process_stub_64(t_bin_file *tmp_file, bool cypher)
 {
 	t_bin_file	*stub;
 
+	if (tmp_file->dead)
+		return ;
 	stub = get_stub(get_byte_type(tmp_file->map));
 	file_launcher(stub, gather_fs_stub_data);
 	tmp_file->dead = stub->dead;
-	freestanding_caving_stub(tmp_file, stub, 0);
-	if (stub)
-		free_file(stub);
-}
-
-void	process_cypher_stub(t_bin_file *tmp_file)
-{
-	t_bin_file	*stub;
-
-	stub = get_stub(get_byte_type(tmp_file->map));
-	file_launcher(stub, gather_fs_stub_data);
-	tmp_file->dead = stub->dead;
-	freestanding_caving_stub(tmp_file, stub, 1);
+	freestanding_caving_stub(tmp_file, stub, cypher);
 	if (stub)
 		free_file(stub);
 }
@@ -58,10 +48,10 @@ void	free_standing_stubbing(char *og_filename, char *new_filename, bool cypher)
 		return ;
 	tmp_file = get_modifiable_copy(og_filename, tmp_filename);
 	file_launcher(tmp_file, parse_all);
-	if (cypher == false)
-		file_launcher(tmp_file, process_stub);
-	else
-		file_launcher(tmp_file, process_cypher_stub);
+	if (get_byte_type(tmp_file->map) == ELFCLASS32)
+		printf("need to do a 32 routine");
+	else 
+		process_stub_64(tmp_file, cypher);
 	if (tmp_file->dead == 0)
 		full_copy_doc(tmp_file, new_filename);
 	syscall(SYS_unlink, tmp_filename, 0);

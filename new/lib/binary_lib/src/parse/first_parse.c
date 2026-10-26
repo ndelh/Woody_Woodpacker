@@ -45,6 +45,8 @@ void	check_type(t_bin_file *file)
 	}
 	if (byte_type == ELFCLASS64)
 		file->elf_caster = &ops_64;
+	else if (byte_type == ELFCLASS32)
+		file->elf_caster = &ops_32;
 }
 
 void	first_parse(t_bin_file *file)

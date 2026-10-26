@@ -34,12 +34,16 @@
 # include "iter.h"
 # include "report.h"
 # include "../src/64_factory/elf_64.h"
+# include "../src/32_factory/elf_32.h"
 
 # define PAGESIZE 4096
 # define CANARY_NB 17
-# define CANARY_VALUE 0x1122334455667788ULL
+# define CANARY_VALUE_64 0x1122334455667788ULL
+# define CANARY_VALUE_32 UINT32_C(0x11223344)
 # define KEY_PLACE_HOLDER_BEGIN 3
 # define PHDR_PLACE_HOLDER_BEGIN 7
+# define STUB64 "stub64.o"
+# define STUB32 "stub32.o"
 #define COLOR_RESET   "\033[0m"
 #define COLOR_RED     "\033[31m"
 #define COLOR_GREEN   "\033[32m"
@@ -50,8 +54,6 @@
 
 //init
 
-t_bin_file	*get_file(char *s);
-t_bin_file	*get_copy_file(char *s);
 
 //launcher
 
@@ -81,7 +83,6 @@ uint64_t		get_byte_type(const void *map);
 //print 
 void	print_strtab(unsigned char *s, uint64_t size);
 void	print_ehdr(t_bin_file *file);
-void	print_both_ehdr(void *data);
 	//debug_print
 	void	print_all_phdr_range(t_bin_file *file);
 
@@ -97,30 +98,6 @@ int		is_power_2(uint64_t x);
 bool	is_inf(uint64_t a, uint64_t b);
 uint64_t	find_next_aligned_value(uint64_t value, uint64_t align);
 
-//copy
-void		simple_cpy(void *data, char *s);
-void		stripped_copy(void *data, char *s);
-	//stub_copy
-		//free_standing stub copy
-		void	fs_basic_stub_copy(void *data, char *new_doc);
-		bool	fs_caving_stub(void *data, char *new_doc);
-
-
-//gather
-void		gather_ehdr_content(void *data);
-
-
-//phdr_utils
-
-//find
-	uint64_t	retrieve_farthest_physical(t_bin_file *file, void *data);
-	uint64_t    get_next_available_vaddr(t_bin_file *file, void *data);
-
-
-
-//stub
-void    craft_stub_phdr(void *data, void *phdr);
-
 
 //full fonctions, can be launched as autonomous prog or wrapper
 //autonomous
@@ -128,8 +105,5 @@ int		autonomous_get_Elf_Class(char *s);
 //wrapper
 void	barbarious_strip(char *s);
 
-
-
-# define DEFAULT_ERROR(x) ft_end(x, 1)
 
 # endif

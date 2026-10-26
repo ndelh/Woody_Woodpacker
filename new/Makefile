@@ -6,7 +6,7 @@
 #    By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 17:08:53 by ndelhota          #+#    #+#              #
-#    Updated: 2026/10/09 16:53:51 by ndelhota         ###   ########.fr        #
+#    Updated: 2026/10/26 11:51:30 by ndelhota         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ CC := cc
 
 CFLAGS := -Wall -Werror -Wextra -g -Iincludes 
 
-STUB := nasm -f elf64 stub/stub64.s -o stub64.o
+STUB := nasm -f elf64 stub/stub64.s -o stub64.o ; nasm -f elf32 stub/stub32.s -o stub32.o 
 
 OBJDIR = obj
 OBJ = $(SRC:.c=.o)

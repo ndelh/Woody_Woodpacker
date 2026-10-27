@@ -14,8 +14,11 @@
 #define STUB_H
 
 void	free_standing_stubbing(char *og_filename, char *new_filename, bool cypher);
-void    gather_fs_stub_data(t_bin_file *file);
 
+//fetching data
+void    gather_fs_stub_data(t_bin_file *file);
+void	fs_find_canaries_64(t_bin_file *stub, void *cursor, uint64_t size);
+void	fs_find_canaries_32(t_bin_file *stub, void *cursor, uint64_t size);
 void	compute_ep_offset(t_bin_file *file, t_bin_file *stub, uint64_t oep, uint64_t new_ep);
 
 //caving

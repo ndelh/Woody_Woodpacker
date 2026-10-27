@@ -34,8 +34,8 @@ pop edx
 sub edx, (compute_stub_eop - saving_frame) ;now edx contain the real stub entrypoint
 
 compute_current_eop:
-mov ecx, [offset_low] ; moving the offset between oep and stub ep
-sub edx, ecx ; now edx contain the true eop
+mov ecx, [offset] ; moving the offset between oep and stub ep
+sub edx, ecx ; now edx contain the true oep
 ret
 
 restauring_frame:
@@ -51,47 +51,36 @@ ret
 
 ; modifiable stub variable
 align 8
-offset_low: dd 0x11223344
-offset_up: dd 0x55667788
-positive_offset_low: dd 0x11223344
-positive_offset_up: dd 0x55667788
-original_eop_low: dd 0x11223344
-original_eop_up: dd 0x55667788
-key_1_low: dd 0x11223344
-key_1_up: dd 0x55667788
-key_2_low: dd 0x11223344
-key_2_up: dd 0x55667788
-key_3_low: dd 0x11223344
-key_3_up: dd 0x55667788
-key_4_low: dd 0x11223344
-key_4_up: dd 0x55667788
+offset: dd 0x11223344
+positive_offset: dd 0x11223344
+original_eop: dd 0x11223344
+
+key_1: dd 0x11223344
+key_2: dd 0x11223344
+key_3: dd 0x11223344
+key_4: dd 0x11223344
+key_5: dd 0x11223344
+key_6: dd 0x11223344
+key_7: dd 0x11223344
+key_8: dd 0x11223344
+
 
 phdr_table:
 
 ;segment 1
 
-phdr1_low: dd 0x11223344
-phdr1_up: dd 0x55667788 ; unused in 32
-phdr1_size_low: dd 0x11223344
-phdr1_size_up: dd 0x55667788 ; unused in 32
-phdr1_flags_low: dd 0x11223344
-phdr1_flags_up: dd 0x55667788 ; unused in 32
+phdr1: dd 0x11223344
+phdr1_size: dd 0x11223344
+phdr1_flags: dd 0x11223344
 
 ;segment2
-phdr2_low: dd 0x11223344
-phdr2_up: dd 0x55667788 ; unused in 32
-phdr2_size_low: dd 0x11223344
-phdr2_size_up: dd 0x55667788 ; unused in 32 
-phdr2_flags_low: dd 0x11223344
-phdr2_flags_up: dd 0x55667788 ; unused in 32
+phdr2: dd 0x11223344
+phdr2_size: dd 0x11223344
+phdr2_flags: dd 0x11223344
 
 ;segment3
-phdr3_low: dd 0x11223344
-phdr3_up: dd 0x55667788 ; unused in 32
-phdr3_size_low: dd 0x11223344
-phdr3_size_up: dd 0x55667788 ; unused in 32 
-phdr3_flags_low: dd 0x11223344
-phdr3_flags_up: dd 0x55667788 ; unused in 32
+phdr3: dd 0x11223344
+phdr3_size: dd 0x11223344
+phdr3_flags: dd 0x11223344
 
-place_holder_value_low: dd 0x11223344
-place_holder_value_up: dd 0x55667788
+place_holder_value: dd 0x11223344

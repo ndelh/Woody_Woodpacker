@@ -90,7 +90,8 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(Stub)stub_utils.c \
 	$(S_xor)single_xor_cypher.c \
 	$(Fs_stub)freestanding_stubbing.c \
-	$(Fs_stub)gather_freestanding_stub_data.c \
+	$(Fs_stub)gather_fs_stub.c \
+	$(Fs_stub)canaries_utils.c \
 	$(Fs_cave)caving_stub.c \
 	$(Fs_cave)find_cave.c \
 	$(End)free_file.c \

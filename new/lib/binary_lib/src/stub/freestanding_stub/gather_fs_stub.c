@@ -1,52 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_stub_data.c                                   :+:      :+:    :+:   */
+/*   gather_fs_stub_64.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/07 06:01:09 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/07 06:02:53 by ndelhota         ###   ########.fr       */
+/*   Updated: 2026/10/26 16:58:13 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_lib.h"
-
-void	canary_loop(void *cursor, uint64_t size, uint64_t *canaries_nb)
-{
-	uint64_t	canary_value;
-	
-	canary_value = CANARY_VALUE_64;
-	while (size >= 8 && (!ft_memcmp((uint64_t *)cursor, &canary_value, sizeof(uint64_t))))
-	{
-		cursor += 8;
-		--(*canaries_nb);
-		size -= 8;
-	}
-}
-
-void	fs_find_canaries(t_bin_file *stub, void *cursor, uint64_t size)
-{
-	uint64_t		canaries_nb;
-	uint64_t		canary_value;
-	
-	canary_value = CANARY_VALUE_64;
-	canaries_nb = CANARY_NB;
-	while (size >= 8)
-	{	
-		if (!ft_memcmp(cursor, &canary_value, sizeof(uint64_t)))
-		{
-			stub->stub_data->canaries_begin= cursor;
-			canary_loop(cursor, size, &canaries_nb);
-			break ;
-		}
-		++cursor;
-		--size;
-	}
-	if (canaries_nb)
-		register_error("too few canaries in stub", stub);
-	printf("canaries: %lu\n", canaries_nb);
-}
 
 
 void	fetch_stub_data(t_bin_file *stub)
@@ -68,7 +32,10 @@ void	fetch_stub_data(t_bin_file *stub)
 	content_offset = elf_caster->get_shoffset(cursor);
 	data->content_size = elf_caster->get_shsize(cursor);
 	data->content_begin = (unsigned char *)stub->map + content_offset;
-	fs_find_canaries(stub, data->content_begin, data->content_size);
+	if (get_byte_type(stub->map) == ELFCLASS64) 
+		fs_find_canaries_64(stub, data->content_begin, data->content_size);
+	else
+		fs_find_canaries_32(stub, data->content_begin, data->content_size);
 }
 
 void	gather_fs_stub_data(t_bin_file *file)

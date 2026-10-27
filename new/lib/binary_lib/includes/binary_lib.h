@@ -37,7 +37,8 @@
 # include "../src/32_factory/elf_32.h"
 
 # define PAGESIZE 4096
-# define CANARY_NB 17
+# define CANARY_NB_64 17
+# define CANARY_NB_32 21
 # define CANARY_VALUE_64 0x1122334455667788ULL
 # define CANARY_VALUE_32 UINT32_C(0x11223344)
 # define KEY_PLACE_HOLDER_BEGIN 3

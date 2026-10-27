@@ -6,7 +6,7 @@
 #    By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 17:08:53 by ndelhota          #+#    #+#              #
-#    Updated: 2026/10/26 11:51:30 by ndelhota         ###   ########.fr        #
+#    Updated: 2026/10/27 16:38:15 by ndelhota         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ fclean : clean
 	@rm -f $(NAME)
 	@if [ -f Woody ]; then rm Woody; fi
 	@if [ -f stub64.o ]; then rm stub64.o; fi
+	@if [ -f stub32.o ]; then rm stub32.o; fi
 	@make -C lib/binary_lib fclean
 
 re : fclean

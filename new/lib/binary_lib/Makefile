@@ -44,6 +44,7 @@ S_xor = $(Cypher)single_xor/
 32_Setter = $(32_F)setter/
 Autonomous = $(Src)autonomous_one/
 Report = $(Src)report/
+Autonomous_p = $(Src)/autonomous_prog
 
 
 C_SRC := $(Libft)ft_strlen.c \
@@ -115,6 +116,8 @@ C_SRC := $(Libft)ft_strlen.c \
 	$(Autonomous)barbarious_strip.c \
 	$(Report)report.c \
 
+BRUT_STRIPPER_SRC := $(Autonomous_p)
+
 ASM_SRC := $(S_xor)s_xor_cypher_s.s
 
 OBJDIR = obj
@@ -131,12 +134,16 @@ ASM_FLAGS := -f elf64
 
 NAME = binary_lib.a
 
+
 MLX_DIR := lib/minilibx-linux
 
 MLX := $(MLX_DIR)/libmlx.a
 
 
 all : $(NAME)
+
+brut_striper:
+	cc -
 
 $(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)

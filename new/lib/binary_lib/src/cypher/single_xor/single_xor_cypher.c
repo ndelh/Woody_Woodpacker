@@ -62,7 +62,7 @@ void	cypher_all_pt_load(t_bin_file *file, void *helper, void *cursor)
 	if (elf_caster->get_ptype(cursor) != PT_LOAD)
 		return ;
 	content_offset = elf_caster->get_poffsset(cursor);
-	if (!(elf_caster->get_pflags(cursor) & PF_X)) //this is temporarily zill uncypher the other later
+	if (!(elf_caster->get_pflags(cursor) & PF_X)) //this is temporarily will uncypher the other later
 		return ;
 	if (!content_offset)
 		return ;
@@ -74,7 +74,7 @@ void	cypher_all_pt_load(t_bin_file *file, void *helper, void *cursor)
 	load_phdr_intel_in_stub(helper, content_load_addr, content_size, current_perm);
 }
 
-void	cypher_pt_load(t_bin_file *target, t_bin_file *stub)
+void	cypher_pt_load_64(t_bin_file *target, t_bin_file *stub)
 {
 	t_simple_cypher	helper;
 	uint64_t	*related_place_holder;
@@ -90,3 +90,10 @@ void	cypher_pt_load(t_bin_file *target, t_bin_file *stub)
 	free(helper.key);
 }
 
+void	cypher_pt_load(t_bin_file *target, t_bin_file *stub)
+{
+	if (get_byte_type(target->map) == ELFCLASS64)
+		cypher_pt_load_64(target, stub);
+	else
+		printf("must create cypher for 32\n");
+}

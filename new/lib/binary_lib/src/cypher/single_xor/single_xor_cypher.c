@@ -32,9 +32,23 @@ uint64_t	convert_elf_perm_to_posix(uint64_t current_perm)
 	return converted;
 }
 
-void	load_phdr_intel_in_stub(void *helper, uint64_t content_load_addr, uint64_t content_size, uint64_t current_perm)
+void	load_phdr_intel_in_stub_64(void *helper, uint64_t content_load_addr, uint64_t content_size, uint64_t current_perm)
 {
 	uint64_t	*place_holder;
+
+	place_holder = ((t_simple_cypher *)helper)->place_holder;
+	*place_holder = content_load_addr;
+	++place_holder;
+	*place_holder = content_size;
+	++place_holder;
+	*place_holder = convert_elf_perm_to_posix(current_perm);
+	++place_holder;
+	((t_simple_cypher *)helper)->place_holder = place_holder;
+}
+
+void	load_phdr_intel_in_stub_32(void *helper, uint32_t content_load_addr, uint32_t content_size, uint32_t current_perm)
+{
+	uint32_t	*place_holder;
 
 	place_holder = ((t_simple_cypher *)helper)->place_holder;
 	*place_holder = content_load_addr;
@@ -71,29 +85,37 @@ void	cypher_all_pt_load(t_bin_file *file, void *helper, void *cursor)
 	current_perm = elf_caster->get_pflags(cursor);
 	content_load_addr = elf_caster->get_pvaddr(cursor);
 	s_xor_cypher_s(content_begin, content_size, s_cypher->key);
-	load_phdr_intel_in_stub(helper, content_load_addr, content_size, current_perm);
+	if (get_byte_type(file->map) == ELFCLASS32)
+		load_phdr_intel_in_stub_32(helper, content_load_addr, content_size, current_perm);
+	else
+		load_phdr_intel_in_stub_64(helper, content_load_addr, content_size, current_perm);
 }
 
-void	cypher_pt_load_64(t_bin_file *target, t_bin_file *stub)
+void	*go_to_key_32(void *cursor)
+{
+	uint32_t	*ret;
+
+	ret = (uint32_t *)cursor;
+	ret += KEY_PLACE_HOLDER_BEGIN;
+	return (ret);
+}
+
+void	cypher_pt_load(t_bin_file *target, t_bin_file *stub)
 {
 	t_simple_cypher	helper;
 	uint64_t	*related_place_holder;
 
 	ft_bzero(&helper, sizeof(t_simple_cypher));
 	related_place_holder = (uint64_t *)stub->stub_data->canaries_begin;
-	related_place_holder += KEY_PLACE_HOLDER_BEGIN;
+	if (get_byte_type(target->map) == 64)
+		related_place_holder += KEY_PLACE_HOLDER_BEGIN;
+	else
+		related_place_holder = go_to_key_32(related_place_holder);
 	helper.key = gen_random_key(32);
 	ft_memcpy(related_place_holder, helper.key, 32);
 	related_place_holder += 4;
 	helper.place_holder = related_place_holder;
-	iter_phdr(target, &helper, cypher_all_pt_load);
+	if (get_byte_type(target->map) == 64)
+		iter_phdr(target, &helper, cypher_all_pt_load);
 	free(helper.key);
-}
-
-void	cypher_pt_load(t_bin_file *target, t_bin_file *stub)
-{
-	if (get_byte_type(target->map) == ELFCLASS64)
-		cypher_pt_load_64(target, stub);
-	else
-		printf("must create cypher for 32\n");
 }

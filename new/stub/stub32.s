@@ -23,11 +23,18 @@ int 0x80
 add esp, 12
 
 call get_base
-compute_real_entry:
+compute_real_entry: 
 sub edx, (compute_real_entry - saving_frame)
-sub edx, [edx + (offset - saving_frame)]
+; from now on, edx will always be base till the label restauring frame
+
+uncypher:
+
+delock_loop:
+
+mprotect_wrapper:
 
 restauring_frame:
+sub edx, [edx + (offset - saving_frame)]
 mov eax, edx
 pop ebp
 pop edi

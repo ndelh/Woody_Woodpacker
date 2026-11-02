@@ -41,8 +41,10 @@ void	compute_ep_offset_32(t_bin_file *file, t_bin_file *stub, uint64_t oep, uint
 	const t_elf_ops	*elf_caster;
 	uint32_t		*place_holder;
 
+	printf("new ep: 0x:%lx  not hex:%lu\n",new_ep, new_ep);
 	elf_caster = file->elf_caster;
 	place_holder = (uint32_t *)stub->stub_data->canaries_begin;
+	*(place_holder) = new_ep  - oep;
 	*(place_holder + 2) = oep;
 	(void)new_ep;
 }

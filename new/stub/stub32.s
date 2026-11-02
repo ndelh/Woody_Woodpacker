@@ -1,12 +1,8 @@
 bits 32
-default rel
-
-;edx is used to compute_base
-
 global stub_32
 section .text
 
-saving_frame: 
+saving_frame:
 push eax
 push ebx
 push ecx
@@ -24,19 +20,12 @@ mov ebx, 1
 mov ecx, esp
 mov edx, 12
 int 0x80
-add esp, 12 
-computing_eop:
-call compute_stub_eop
-jmp restauring_frame
+add esp, 12
 
-compute_stub_eop:
-pop edx
-sub edx, (compute_stub_eop - saving_frame) ;now edx contain the real stub entrypoint
-
-compute_current_eop:
-mov ecx, [offset] ; moving the offset between oep and stub ep
-sub edx, ecx ; now edx contain the true oep
-ret
+call get_base
+compute_real_entry:
+sub edx, (compute_real_entry - saving_frame)
+sub edx, [edx + (offset - saving_frame)]
 
 restauring_frame:
 mov eax, edx
@@ -47,7 +36,11 @@ pop edx
 pop ecx
 pop ebx
 xchg eax, [esp]
-ret 
+ret
+
+get_base:
+mov edx, [esp]
+ret
 
 ; modifiable stub variable
 align 8

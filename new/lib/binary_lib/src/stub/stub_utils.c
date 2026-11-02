@@ -43,22 +43,6 @@ void	compute_ep_offset_32(t_bin_file *file, t_bin_file *stub, uint64_t oep, uint
 
 	elf_caster = file->elf_caster;
 	place_holder = (uint32_t *)stub->stub_data->canaries_begin;
-	// printf("old_oep %lx\n", oep);
-	// printf("new_eop %lx\n", new_ep );
-	// if (is_inf(oep, new_ep))
-	// {
-	// 	*place_holder = new_ep - oep;
-	// 	++place_holder;
-	// 	*place_holder = 0;
-	// }
-    // else
-	// {
-	// 	*place_holder = oep - new_ep;
-	// 	++place_holder;
-	// 	*place_holder = 1;
-    // }
-	// ++place_holder;
-	// *place_holder = oep;
 	*(place_holder + 2) = oep;
 	(void)new_ep;
 }

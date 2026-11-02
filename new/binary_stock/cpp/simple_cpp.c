@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_basic_cpy.c                                   :+:      :+:    :+:   */
+/*   simple_cpp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndelhota <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/06 22:56:05 by ndelhota          #+#    #+#             */
-/*   Updated: 2026/09/06 23:14:29 by ndelhota         ###   ########.fr       */
+/*   Created: 2026/10/27 17:50:37 by ndelhota          #+#    #+#             */
+/*   Updated: 2026/10/27 17:51:42 by ndelhota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "binary_lib.h"
+#include <iostream>
 
-void	open_basic_cpy(t_bin_data *data, char *s)
+int	main(void)
 {
-	if (data->stoppage)
-		return ;
-	if (!data->copy_size)
-		data->copy_size = data->core->map_size;
-	open_extend(data, s);
+	std::cout << "hello" << std::endl;
 }
